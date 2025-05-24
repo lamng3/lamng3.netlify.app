@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://lamng3.github.io/sitemap.xml
