@@ -24,7 +24,7 @@ announcements:
 latest_posts:
   enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
+  limit: # leave blank to include all the blog posts
 ---
 
 I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Science at CWRU](). Previously, I graduated Cum Laude Bachelor from the Department of [Computer Science at CWRU]().

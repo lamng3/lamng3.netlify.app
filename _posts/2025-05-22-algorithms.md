@@ -4,7 +4,7 @@ title: "Today's topic: Optimizing Permutation LCS to LIS in $O(N\log N)$"
 date: 2025-05-22 18:06:00
 description: Topics related to competitive programming and algorithms
 tags: algorithms
-categories: competitive programming
+categories: competitive-programming
 ---
 
 **2025-05-24:** [Optimizing Permutation LCS to LIS in $O(NlogN)$](https://usaco.guide/problems/cf-lcs-on-permutations/solution)
