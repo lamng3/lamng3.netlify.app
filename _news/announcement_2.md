@@ -1,9 +1,13 @@
 ---
 layout: post
-title: Topics related to competitive programming and algorithms
+title: Topics related to 
 date: 2025-05-18 08:00:00-0400
 inline: false
 related_posts: false
 ---
+# LLM System
+**2025-05-25**: [CMU Large Language Model Systems](https://llmsystem.github.io/llmsystem2025spring/)[notes]()
 
-**2025-05-24:** [Optimizing Permutation LCS to LIS in $O(NlogN)$](https://usaco.guide/problems/cf-lcs-on-permutations/solution)
+---
+# Competitive Programming & Algorithms
+**2025-05-24:** [Optimizing Permutation LCS to LIS in $O(NlogN)$](https://usaco.guide/problems/cf-lcs-on-permutations/solution)[notes]()
