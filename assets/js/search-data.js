@@ -21,15 +21,15 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-topics-i-am-exploring",
-          title: 'Topics I am exploring',
-          description: "",
-          section: "News",handler: () => {
-              window.location.href = "/news/announcement_2/";
             },},{id: "news-i-am-joining-microsoft-as-a-software-engineer-in-redmond-wa-sparkles-smile",
           title: 'I am joining Microsoft as a Software Engineer in Redmond, WA! :sparkles: :smile:...',
           description: "",
-          section: "News",},{id: "projects-project-1",
+          section: "News",},{id: "news-",
+          title: '',
+          description: "",
+          section: "News",handler: () => {
+              window.location.href = "/news/announcement_2/";
+            },},{id: "projects-project-1",
           title: 'project 1',
           description: "with background image",
           section: "Projects",handler: () => {
