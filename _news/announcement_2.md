@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Topics related to 
+title: Topics I am exploring
 date: 2025-05-18 08:00:00-0400
 inline: false
 related_posts: false
