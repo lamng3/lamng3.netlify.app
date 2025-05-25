@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Today's topic: Optimizing Permutation LCS to LIS in $O(N\log N)$"
-date: 2025-05-22 18:06:00
+date: 2025-03-26 14:24:00
 description: Topics related to competitive programming and algorithms
 tags: algorithms
 categories: competitive-programming
