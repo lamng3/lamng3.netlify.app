@@ -6,7 +6,7 @@ inline: false
 related_posts: false
 ---
 # LLM System
-**2025-05-25**: [CMU Large Language Model Systems](https://llmsystem.github.io/llmsystem2025spring/)[notes]()
+**2025-05-25**: [CMU Large Language Model Systems](https://llmsystem.github.io/llmsystem2025spring/)[notes](https://www.notion.so/CMU-LLM-System-1fe43ad8204680ca9fccd56937282a91?pvs=4)
 
 ---
 # Competitive Programming & Algorithms
