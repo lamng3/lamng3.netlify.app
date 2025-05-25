@@ -33,6 +33,6 @@ I am interested in *Language Models*, *Knowledge Engineering*, and *Efficient LL
 
 My research focuses on bridging **Large Language Models** and **Knowledge Graphs** to unlock structured reasoning and knowledge discovery. I am passionate about developing systems that fuse symbolic and neural methods, with applications to downstream tasks such as ontology alignment, text-to-query generation, and multi-agent reasoning. I also explore **LLMs optimization strategies**, such as **post-training quantization, model merging, and scalable inference**, to further improve and serve these language models.
 
-I study competitive programming topics in my spare time. Here’s what I’m diving into today: [Optimizing Permutation LCS to LIS in $O(NlogN)$](https://usaco.guide/problems/cf-lcs-on-permutations/solution)
+I study competitive programming topics in my spare time.
 
 Feel free to reach out at [ltn18 at case dot edu](mailto:ltn18@case.edu) if you are interested in connecting or exploring potential collaborations.
