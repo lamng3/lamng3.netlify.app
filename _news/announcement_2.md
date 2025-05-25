@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Topics I am exploring :astonished::rocket:
+title: See what topics I am exploring
 date: 2025-05-18 08:00:00-0400
 inline: false
 related_posts: false
