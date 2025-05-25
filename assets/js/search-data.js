@@ -21,8 +21,8 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-topics-related-to-competitive-programming-and-algorithms",
-          title: 'Topics related to competitive programming and algorithms',
+            },},{id: "news-topics-related-to",
+          title: 'Topics related to',
           description: "",
           section: "News",handler: () => {
               window.location.href = "/news/announcement_2/";
