@@ -22,7 +22,7 @@ announcements:
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: false
+  enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
@@ -32,5 +32,7 @@ I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Scien
 I am interested in *Language Models*, *Knowledge Engineering*, and *Efficient LLM*. I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io).
 
 My research focuses on bridging **Large Language Models** and **Knowledge Graphs** to unlock structured reasoning and knowledge discovery. I am passionate about developing systems that fuse symbolic and neural methods, with applications to downstream tasks such as ontology alignment, text-to-query generation, and multi-agent reasoning. I also explore **LLMs optimization strategies**, such as **post-training quantization, model merging, and scalable inference**, to further improve and serve these language models.
+
+I study competitive programming topics in my spare time. Here’s what I’m diving into today: [Optimizing Permutation LCS to LIS in $O(NlogN)$](https://usaco.guide/problems/cf-lcs-on-permutations/solution)
 
 Feel free to reach out at [ltn18 at case dot edu](mailto:ltn18@case.edu) if you are interested in connecting or exploring potential collaborations.
