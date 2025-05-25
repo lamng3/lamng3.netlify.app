@@ -16,18 +16,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
-        },{id: "post-",
-        
-          title: "",
-        
-        description: "",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2025/2025-03-26-algorithms/";
-          
-        },
-      },{id: "books-the-godfather",
+        },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
@@ -35,7 +24,12 @@ ninja.data = [{
             },},{id: "news-i-am-joining-microsoft-as-a-software-engineer-in-redmond-wa-sparkles-smile",
           title: 'I am joining Microsoft as a Software Engineer in Redmond, WA! :sparkles: :smile:...',
           description: "",
-          section: "News",},{id: "projects-project-1",
+          section: "News",},{id: "news-topics-related-to-competitive-programming-and-algorithms",
+          title: 'Topics related to competitive programming and algorithms',
+          description: "",
+          section: "News",handler: () => {
+              window.location.href = "/news/announcement_2/";
+            },},{id: "projects-project-1",
           title: 'project 1',
           description: "with background image",
           section: "Projects",handler: () => {
