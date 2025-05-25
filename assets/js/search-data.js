@@ -21,8 +21,8 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-topics-related-to",
-          title: 'Topics related to',
+            },},{id: "news-topics-i-am-exploring",
+          title: 'Topics I am exploring',
           description: "",
           section: "News",handler: () => {
               window.location.href = "/news/announcement_2/";
