@@ -27,7 +27,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Science at CWRU](). Previously, I graduated Cum Laude Bachelor from [Computer Science at CWRU]().
+I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Science at CWRU](). Previously, I graduated Cum Laude Bachelor from the Department of [Computer Science at CWRU]().
 
 I am interested in *Language Models*, *Knowledge Engineering*, and *Efficient LLM*. I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io).
 
