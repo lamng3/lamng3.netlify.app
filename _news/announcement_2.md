@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Topics related to competitive programming and algorithms
-date: 2025-05-24 18:06:00
+date: 2025-05-18 08:00:00-0400
 inline: false
 related_posts: false
 ---
