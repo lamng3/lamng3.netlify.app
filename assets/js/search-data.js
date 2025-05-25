@@ -24,7 +24,7 @@ ninja.data = [{
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/blog/2025/2025-03-26-plotly/";
+            window.location.href = "/blog/2025/2025-05-22-algorithms/";
           
         },
       },{id: "books-the-godfather",
