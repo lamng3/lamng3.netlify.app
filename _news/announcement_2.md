@@ -19,4 +19,5 @@ related_posts: false
 ---
 # Competitive Programming & Algorithms
 **2025.06.05:** [Bitmask DP](https://usaco.guide/gold/dp-bitmasks#bitmask-dp) [[notes]()]
+
 **2025.05.24:** [Optimizing Permutation LCS to LIS in $O(NlogN)$](https://usaco.guide/problems/cf-lcs-on-permutations/solution) [[notes]()]
