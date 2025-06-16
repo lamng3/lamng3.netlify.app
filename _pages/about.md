@@ -29,8 +29,8 @@ latest_posts:
 
 I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Science at CWRU](). Previously, I graduated Cum Laude Bachelor from the Department of [Computer Science at CWRU]().
 
-I am interested in *Large Language Models*, *Multi-Agent Systems*, *Efficient LLM*, *Understanding LLM*, and *Knowledge Engineering*,. I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io).
+I am interested in *Large Language Models* and *Information Retrieval*. I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io).
 
-My research bridges **Large Language Models** and **Knowledge Graphs** to enable structured reasoning and knowledge discovery. I build hybrid symbolic–neural systems for tasks like ontology alignment, text-to-query generation, and multi-agent reasoning. I also work on **Efficient LLM** (post-training quantization) and **Understanding LLM** (GRPO impact in RL-training). In my spare time, I study **competitive programming topics**.
+My research bridges **Large Language Models** and **Knowledge Retrieval** to enable structured reasoning and knowledge discovery. I build hybrid symbolic–neural systems for tasks like ontology alignment and multi-agent reasoning. I also work on **Efficient LLM** (post-training quantization) and **Understanding LLM** (GRPO impact in RL-training). In my spare time, I study **competitive programming topics**.
 
 Feel free to reach out at [ltn18 at case dot edu](mailto:ltn18@case.edu) if you are interested in connecting or exploring potential collaborations.

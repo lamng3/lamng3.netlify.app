@@ -7,6 +7,8 @@ related_posts: false
 ---
 
 # Understanding LLM
+**2025.06.16**: [Game Playing Agents and Large Models]() [[notes](https://www.notion.so/Game-Playing-Agents-and-Large-Models-21443ad820468019a575d0c22838323d?source=copy_link)]
+
 **2025.06.04**: [Understanding GRPO]() [[notes](https://www.notion.so/GRPO-20943ad8204680909941e5f6177ecce8?source=copy_link)]
 
 ---
