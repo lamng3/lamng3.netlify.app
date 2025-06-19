@@ -31,7 +31,7 @@ I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Scien
 
 I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), supported by [MDS3 Research Fellowship](https://mds3-coe.com/students/). 
 
-My research focuses on *Large Language Models* and *Information Retrieval*.
+My research focuses on *Large Language Models* and *Knowledge Retrieval*.
 
 Prior to grad school, I was a Software Engineer Intern at Amazon and Microsoft.
 
