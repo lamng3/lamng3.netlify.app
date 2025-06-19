@@ -35,4 +35,4 @@ My research focuses on *Large Language Models* and *Information Retrieval*.
 
 Prior to grad school, I was a Software Engineer Intern at Amazon and Microsoft.
 
-Feel free to reach out at [ltn18 at case dot edu](mailto:ltn18@case.edu) if you are interested in connecting or exploring potential collaborations.
+Feel free to reach out at [lamng3 dot work at gmail dot com](mailto:lamng3.work@gmail.com) if you are interested in connecting or exploring potential collaborations.
