@@ -27,11 +27,9 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I'm Lam "Nathan" Nguyen, a Master student from the Department of [Computer Science at CWRU]().
+I'm Lam "Nathan" Nguyen. My research focuses on *Large Language Models*, *Knowledge Management*, and *Multiagent Systems*.
 
 I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), supported by [MDS3 Research Fellowship](https://mds3-coe.com/students/). 
-
-My research focuses on *Large Language Models*, *Knowledge Management*, and *Multiagent Systems*.
 
 Prior to grad school, I was a Software Engineer Intern at Amazon and Microsoft.
 
