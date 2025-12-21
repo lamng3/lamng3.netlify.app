@@ -31,7 +31,7 @@ I build _Agent Infrastructure_ @ Microsoft by day and hack on _Distributed Servi
 
 ### Previous
 
-**@ Center for Materials Data Science**, I was a Research Engineer collaborating with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io). I developed deep reasoning agents for ontology matching [[ISWC 2025](https://arxiv.org/pdf/2507.14032)].
+**@ Center for Materials Data Science**, I was a Research Engineer collaborating with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io). I developed deep reasoning agents for ontology matching ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
 **@ Microsoft**, I interned on Copilot Security Agents, building automated investigation and incident response workflows.
 
