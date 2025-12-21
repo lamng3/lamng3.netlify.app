@@ -29,8 +29,6 @@ latest_posts:
 
 I build _Agent Infrastructure_ @ Microsoft by day and hack on _Distributed Serving_ @ SGLang by night.
 
-My work bridges high-level agent reasoning and inference efficiency through _Agent Orchestration_, _Semantic Routing_, and _AI Observability_. 
-
 ### Previous
 
 **@ Center for Materials Data Science**, I was a Machine Learning Research Engineer collaborating with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io). I developed reasoning agents for ontology matching, leveraging GPUs for inference optimization to ensure constraint-aware alignment [[ISWC 2025](https://arxiv.org/pdf/2507.14032)].
