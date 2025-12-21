@@ -27,9 +27,9 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I build *Agent Infrastructure* @ Microsoft.
+I build _Agent Infrastructure_ @ Microsoft.
 
-My work bridges the gap between high-level agent reasoning and low-level inference efficiency. I am currently focusing on *Agent Orchestration*, *Semantic Routing*, and *AI Observability*.
+My work bridges the gap between high-level agent reasoning and low-level inference efficiency. I am currently focusing on _Agent Orchestration_, _Semantic Routing_, and _AI Observability_.
 
 ### Previous
 
