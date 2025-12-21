@@ -17,7 +17,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 
 announcements:
-  enabled: true # includes a list of news items
+  enabled: false # includes a list of news items
   scrollable: true # adds a vertical scroll bar if there are more than 3 news items
   limit: 5 # leave blank to include all the news in the `_news` folder
 
@@ -27,12 +27,14 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I'm Nathan Nguyen. I build _Agent Infrastructure_ @ Microsoft.
+I build *Agent Infrastructure* @ Microsoft.
 
-My work bridges the gap between high-level agent reasoning and low-level inference efficiency. I am currently focusing on _Agent Orchestration_, _Semantic Routing_, and _AI Observability_.
+My work bridges the gap between high-level agent reasoning and low-level inference efficiency. I am currently focusing on *Agent Orchestration*, *Semantic Routing*, and *AI Observability*.
 
-I was a Machine Learning Research Engineer at [Center for Materials Data Science for Stockpile Stewardship](https://mds3-coe.com/), working with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io).
+### Previous
 
-I Intern at Amazon on Multimodal Shopping Agents for Alexa and at Microsoft on Copilot Security Agents.
+**@ Center for Materials Data Science**, I was a Machine Learning Research Engineer collaborating with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io). I developed reasoning agents for ontology matching, leveraging GPUs for inference optimization to ensure constraint-aware alignment [[ISWC 2025](https://arxiv.org/pdf/2507.14032)].
 
-Feel free to reach out at [lamng3 dot work at gmail dot com](mailto:lamng3.work@gmail.com) if you are interested in connecting or exploring potential collaborations.
+**@ Microsoft**, I interned on Copilot Security Agents, building automated investigation and incident response workflows.
+
+**@ Amazon**, I interned on Multimodal Shopping Agents for Alexa, integrating vision and LLM reasoning to enhance product understanding.

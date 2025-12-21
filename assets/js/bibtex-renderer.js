@@ -54,7 +54,7 @@
   }
 
   // Render a single publication entry
-  function renderPublication(entry, index) {
+  function renderPublication(entry, index, venues) {
     const title = entry.title || '';
     const authors = formatAuthors(entry.author);
     const journal = entry.journal || entry.booktitle || '';
@@ -67,7 +67,18 @@
     // Abbreviation/thumbnail column
     if (abbr) {
       html += '<div class="col col-sm-2 abbr">';
-      html += '<abbr class="badge rounded w-100">' + abbr + '</abbr>';
+      const venue = venues && venues[abbr] ? venues[abbr] : null;
+      let badgeStyle = '';
+      if (venue && venue.color) {
+        badgeStyle = 'style="background-color: ' + venue.color + '"';
+      }
+      html += '<abbr class="badge rounded w-100" ' + badgeStyle + '>';
+      if (venue && venue.url) {
+        html += '<a href="' + venue.url + '" style="color: inherit; text-decoration: none;">' + abbr + '</a>';
+      } else {
+        html += '<div>' + abbr + '</div>';
+      }
+      html += '</abbr>';
       html += '</div>';
     }
 
@@ -126,15 +137,15 @@
     const container = document.querySelector('.publications');
     if (!container) return;
 
-    // Fetch the publications JSON file
-    fetch('/assets/json/publications.json')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to load publications');
-        }
-        return response.json();
+    // Load venues and publications in parallel
+    Promise.all([
+      fetch('/assets/json/venues.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch('/assets/json/publications.json').then(r => {
+        if (!r.ok) throw new Error('Failed to load publications');
+        return r.json();
       })
-      .then((entries) => {
+    ])
+      .then(([venues, entries]) => {
         // Sort by year (descending)
         entries.sort((a, b) => {
           const yearA = parseInt(a.year) || 0;
@@ -145,7 +156,7 @@
         // Render publications
         let html = '';
         entries.forEach((entry, index) => {
-          html += renderPublication(entry, index);
+          html += renderPublication(entry, index, venues);
         });
 
         container.innerHTML = html;

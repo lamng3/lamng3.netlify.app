@@ -1,0 +1,17 @@
+{
+  "AJP": {
+    "url": "https://aapt.scitation.org/journal/ajp",
+    "color": "#00369f"
+  },
+  "PhysRev": {
+    "url": "https://journals.aps.org/"
+  },
+  "Vision": {
+    "color": "#009f36"
+  },
+  "ISWC 2025": {
+    "url": "https://iswc2025.semanticweb.org/",
+    "color": "#0076df"
+  }
+}
+
