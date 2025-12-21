@@ -27,10 +27,12 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I'm Lam "Nathan" Nguyen. My research focuses on _Multiagent Systems_, _Approximation Algorithms_, _Large Language Models_, and _Knowledge Management_.
+I'm Nathan Nguyen. I build _Agent Infrastructure_ @ Microsoft.
 
-I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), supported by [MDS3 Research Fellowship](https://mds3-coe.com/students/).
+My work bridges the gap between high-level agent reasoning and low-level inference efficiency. I am currently focusing on _Agent Orchestration_, _Semantic Routing_, and _AI Observability_.
 
-Prior to grad school, I was a Software Engineer Intern at Amazon and Microsoft.
+I was a Machine Learning Research Engineer at [Center for Materials Data Science for Stockpile Stewardship](https://mds3-coe.com/), working with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io).
+
+I Intern at Amazon on Multimodal Shopping Agents for Alexa and at Microsoft on Copilot Security Agents.
 
 Feel free to reach out at [lamng3 dot work at gmail dot com](mailto:lamng3.work@gmail.com) if you are interested in connecting or exploring potential collaborations.
