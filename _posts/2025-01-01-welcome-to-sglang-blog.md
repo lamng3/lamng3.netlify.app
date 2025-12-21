@@ -3,7 +3,7 @@ layout: post
 title: Welcome to My SGLang Blog
 description: An introduction to my technical blog covering SGLang and related topics
 date: 2025-01-01
-author: Lam Nguyen
+author: Nathan Nguyen
 categories: [SGLang, Technical]
 tags: [SGLang, LLM, Technical]
 ---

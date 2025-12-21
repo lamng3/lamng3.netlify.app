@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 
 title: blank # the website title (if blank, full name will be used instead)
-first_name: Lam
+first_name: Nathan
 middle_name:
 last_name: Nguyen
 contact_note: >
@@ -276,7 +276,7 @@ enable_scholar: false
 
 scholar:
   last_name: [Nguyen]
-  first_name: [Lam]
+  first_name: [Nathan]
 
   style: apa
   locale: en
