@@ -33,6 +33,6 @@ I build _Agent Infrastructure_ @ Microsoft by day and hack on _Distributed Servi
 
 **@ Center for Materials Data Science**, I was a Research Engineer working with [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io). I developed reasoning agents for ontology matching ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
-**@ Microsoft**, I interned on Copilot Security Agents, building automated investigation and incident response workflows.
+**@ Microsoft**, I interned on the Reasoning Agents team for Security Copilot, integrating tools and automated workflows for incident understanding.
 
-**@ Amazon**, I interned on Multimodal Shopping Agents for Alexa, integrating vision and LLM reasoning to enhance product understanding.
+**@ Amazon**, I interned on the Multimodal Agents team for Alexa Voice Shopping, integrating speech and LLM reasoning for product understanding.
