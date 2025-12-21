@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
-        },{id: "books-the-godfather",
+        },{id: "post-welcome-to-my-sglang-blog",
+        
+          title: "Welcome to My SGLang Blog",
+        
+        description: "An introduction to my technical blog covering SGLang and related topics",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/welcome-to-sglang-blog/";
+          
+        },
+      },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
