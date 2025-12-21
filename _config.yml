@@ -271,6 +271,9 @@ display_categories: ["external-services"] # these categories will be displayed o
 # Jekyll Scholar
 # -----------------------------------------------------------------------------
 
+# Set to false to disable jekyll-scholar features (required for GitHub Pages)
+enable_scholar: false
+
 scholar:
   last_name: [Einstein]
   first_name: [Albert, A.]

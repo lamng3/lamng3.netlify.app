@@ -15,6 +15,8 @@ nav_order: 2
 
 <div class="publications">
 
-{% bibliography %}
+<!-- Bibliography feature disabled for GitHub Pages compatibility. -->
+<!-- To enable, set enable_scholar: true in _config.yml and use GitHub Actions instead of GitHub Pages. -->
+<!-- The bibliography tag has been removed because jekyll-scholar is not supported on GitHub Pages. -->
 
 </div>
