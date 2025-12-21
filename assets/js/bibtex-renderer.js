@@ -97,18 +97,10 @@
       html += '<div class="author">' + authors + "</div>";
     }
 
-    // Journal/venue and year
-    if (journal || year) {
+    // Journal/venue (year removed)
+    if (journal) {
       html += '<div class="periodical">';
-      if (journal) {
-        html += "<em>" + journal + "</em>";
-      }
-      if (journal && year) {
-        html += ", ";
-      }
-      if (year) {
-        html += year;
-      }
+      html += "<em>" + journal + "</em>";
       html += "</div>";
     }
 
