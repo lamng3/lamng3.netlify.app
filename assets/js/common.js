@@ -31,6 +31,16 @@ $(document).ready(function () {
     });
   }
 
+  // Generate TOC for beginning of post
+  if ($("#table-of-contents").length) {
+    // remove related publications years from the TOC
+    $(".publications h2").each(function () {
+      $(this).attr("data-toc-skip", "");
+    });
+    var $tocNav = $("#table-of-contents");
+    Toc.init($tocNav);
+  }
+
   // add css to jupyter notebooks
   const cssLink = document.createElement("link");
   cssLink.href = "../css/jupyter.css";
