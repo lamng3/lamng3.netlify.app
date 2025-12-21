@@ -1,0 +1,19 @@
+0 verbose cli /Users/lamnguyen/.nvm/versions/node/v20.18.2/bin/node /Users/lamnguyen/.nvm/versions/node/v20.18.2/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.18.2
+3 silly config load:file:/Users/lamnguyen/.nvm/versions/node/v20.18.2/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/lamnguyen/Desktop/git/lamng3.github.io/.npmrc
+5 silly config load:file:/Users/lamnguyen/.npmrc
+6 silly config load:file:/Users/lamnguyen/.nvm/versions/node/v20.18.2/etc/npmrc
+7 verbose title npm exec prettier . --write
+8 verbose argv "exec" "--yes" "--" "prettier" "." "--write"
+9 verbose logfile logs-max:10 dir:/Users/lamnguyen/Desktop/git/lamng3.github.io/.npm-cache/_logs/2025-12-21T07_15_53_231Z-
+10 verbose logfile /Users/lamnguyen/Desktop/git/lamng3.github.io/.npm-cache/_logs/2025-12-21T07_15_53_231Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose cwd /Users/lamnguyen/Desktop/git/lamng3.github.io
+13 verbose os Darwin 23.0.0
+14 verbose node v20.18.2
+15 verbose npm  v10.8.2
+16 verbose exit 1
+17 verbose code 1
+18 error A complete log of this run can be found in: /Users/lamnguyen/Desktop/git/lamng3.github.io/.npm-cache/_logs/2025-12-21T07_15_53_231Z-debug-0.log

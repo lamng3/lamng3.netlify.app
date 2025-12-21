@@ -27,9 +27,9 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I'm Lam "Nathan" Nguyen. My research focuses on *Multiagent Systems*, *Approximation Algorithms*, *Large Language Models*, and *Knowledge Management*.
+I'm Lam "Nathan" Nguyen. My research focuses on _Multiagent Systems_, _Approximation Algorithms_, _Large Language Models_, and _Knowledge Management_.
 
-I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), supported by [MDS3 Research Fellowship](https://mds3-coe.com/students/). 
+I am fortunate to be advised by talented Professors [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), supported by [MDS3 Research Fellowship](https://mds3-coe.com/students/).
 
 Prior to grad school, I was a Software Engineer Intern at Amazon and Microsoft.
 

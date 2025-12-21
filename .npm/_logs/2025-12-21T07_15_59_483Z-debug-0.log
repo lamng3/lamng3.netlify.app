@@ -1,0 +1,18 @@
+0 verbose cli /Users/lamnguyen/.nvm/versions/node/v20.18.2/bin/node /Users/lamnguyen/.nvm/versions/node/v20.18.2/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.18.2
+3 silly config load:file:/Users/lamnguyen/.nvm/versions/node/v20.18.2/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/lamnguyen/Desktop/git/lamng3.github.io/.npmrc
+5 silly config load:file:/Users/lamnguyen/Desktop/git/lamng3.github.io/etc/npmrc
+6 verbose title npm install
+7 verbose argv "install" "--prefix" "."
+8 verbose logfile logs-max:10 dir:/Users/lamnguyen/Desktop/git/lamng3.github.io/.npm/_logs/2025-12-21T07_15_59_483Z-
+9 verbose logfile /Users/lamnguyen/Desktop/git/lamng3.github.io/.npm/_logs/2025-12-21T07_15_59_483Z-debug-0.log
+10 silly logfile done cleaning log files
+11 verbose cwd /Users/lamnguyen/Desktop/git/lamng3.github.io
+12 verbose os Darwin 23.0.0
+13 verbose node v20.18.2
+14 verbose npm  v10.8.2
+15 verbose exit 1
+16 verbose code 1
+17 error A complete log of this run can be found in: /Users/lamnguyen/Desktop/git/lamng3.github.io/.npm/_logs/2025-12-21T07_15_59_483Z-debug-0.log

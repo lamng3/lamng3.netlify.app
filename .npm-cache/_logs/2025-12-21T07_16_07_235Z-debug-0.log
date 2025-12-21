@@ -1,0 +1,57 @@
+0 verbose cli /Users/lamnguyen/.nvm/versions/node/v20.18.2/bin/node /Users/lamnguyen/.nvm/versions/node/v20.18.2/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.18.2
+3 silly config load:file:/Users/lamnguyen/.nvm/versions/node/v20.18.2/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/lamnguyen/Desktop/git/lamng3.github.io/.npmrc
+5 silly config load:file:/Users/lamnguyen/Desktop/git/lamng3.github.io/.home/.npmrc
+6 silly config load:file:/Users/lamnguyen/.nvm/versions/node/v20.18.2/etc/npmrc
+7 verbose title npm install
+8 verbose argv "install"
+9 verbose logfile logs-max:10 dir:/Users/lamnguyen/Desktop/git/lamng3.github.io/.npm-cache/_logs/2025-12-21T07_16_07_235Z-
+10 verbose logfile /Users/lamnguyen/Desktop/git/lamng3.github.io/.npm-cache/_logs/2025-12-21T07_16_07_235Z-debug-0.log
+11 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+12 silly logfile done cleaning log files
+13 silly idealTree buildDeps
+14 silly reify moves {}
+15 silly audit bulk request {
+15 silly audit   '@shopify/liquid-html-parser': [ '2.2.0' ],
+15 silly audit   '@shopify/prettier-plugin-liquid': [ '1.4.0' ],
+15 silly audit   'html-styles': [ '1.0.0' ],
+15 silly audit   isarray: [ '1.0.0' ],
+15 silly audit   isobject: [ '2.1.0' ],
+15 silly audit   'line-column': [ '1.0.2' ],
+15 silly audit   'ohm-js': [ '16.6.0' ],
+15 silly audit   prettier: [ '3.1.1' ]
+15 silly audit }
+16 silly tarball no local data for prettier@https://registry.npmjs.org/prettier/-/prettier-3.1.1.tgz. Extracting by manifest.
+17 silly tarball no local data for line-column@https://registry.npmjs.org/line-column/-/line-column-1.0.2.tgz. Extracting by manifest.
+18 silly tarball no local data for ohm-js@https://registry.npmjs.org/ohm-js/-/ohm-js-16.6.0.tgz. Extracting by manifest.
+19 silly tarball no local data for isarray@https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz. Extracting by manifest.
+20 silly tarball no local data for html-styles@https://registry.npmjs.org/html-styles/-/html-styles-1.0.0.tgz. Extracting by manifest.
+21 silly tarball no local data for isobject@https://registry.npmjs.org/isobject/-/isobject-2.1.0.tgz. Extracting by manifest.
+22 silly tarball no local data for @shopify/liquid-html-parser@https://registry.npmjs.org/@shopify/liquid-html-parser/-/liquid-html-parser-2.2.0.tgz. Extracting by manifest.
+23 silly tarball no local data for @shopify/prettier-plugin-liquid@https://registry.npmjs.org/@shopify/prettier-plugin-liquid/-/prettier-plugin-liquid-1.4.0.tgz. Extracting by manifest.
+24 http fetch GET 200 https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz 242ms (cache miss)
+25 http fetch GET 200 https://registry.npmjs.org/line-column/-/line-column-1.0.2.tgz 252ms (cache miss)
+26 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 495ms
+27 silly audit report {}
+28 http fetch GET 200 https://registry.npmjs.org/isobject/-/isobject-2.1.0.tgz 470ms (cache miss)
+29 http fetch GET 200 https://registry.npmjs.org/html-styles/-/html-styles-1.0.0.tgz 472ms (cache miss)
+30 http fetch GET 200 https://registry.npmjs.org/@shopify/liquid-html-parser/-/liquid-html-parser-2.2.0.tgz 480ms (cache miss)
+31 http fetch GET 200 https://registry.npmjs.org/@shopify/prettier-plugin-liquid/-/prettier-plugin-liquid-1.4.0.tgz 490ms (cache miss)
+32 http fetch GET 200 https://registry.npmjs.org/ohm-js/-/ohm-js-16.6.0.tgz 508ms (cache miss)
+33 http fetch GET 200 https://registry.npmjs.org/prettier/-/prettier-3.1.1.tgz 516ms (cache miss)
+34 silly ADD node_modules/prettier
+35 silly ADD node_modules/ohm-js
+36 silly ADD node_modules/line-column
+37 silly ADD node_modules/isobject
+38 silly ADD node_modules/isarray
+39 silly ADD node_modules/html-styles
+40 silly ADD node_modules/@shopify/prettier-plugin-liquid
+41 silly ADD node_modules/@shopify/liquid-html-parser
+42 verbose cwd /Users/lamnguyen/Desktop/git/lamng3.github.io
+43 verbose os Darwin 23.0.0
+44 verbose node v20.18.2
+45 verbose npm  v10.8.2
+46 verbose exit 0
+47 info ok
