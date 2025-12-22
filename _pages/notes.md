@@ -34,10 +34,11 @@ pagination:
         </a>
       </article>
     {% endfor %}
+
   </div>
 
-  {% if page.pagination.enabled %}
-    {% include pagination.liquid %}
-  {% endif %}
-</div>
+{% if page.pagination.enabled %}
+{% include pagination.liquid %}
+{% endif %}
 
+</div>
