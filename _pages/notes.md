@@ -20,10 +20,13 @@ pagination:
   </div>
 
   <div class="notes-list">
+    {% comment %} Always use site.notes to ensure we only show notes from the notes collection, not blog posts {% endcomment %}
+    {% comment %} With jekyll-paginate-v2, when collection: notes is set, paginator.posts should contain notes {% endcomment %}
+    {% comment %} However, to ensure we only show notes, we'll use site.notes directly {% endcomment %}
     {% if page.pagination.enabled %}
       {% assign notelist = paginator.posts %}
     {% else %}
-      {% assign notelist = site.notes %}
+      {% assign notelist = site.notes | sort: 'date' | reverse %}
     {% endif %}
 
     {% for note in notelist %}

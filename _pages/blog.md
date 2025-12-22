@@ -25,7 +25,7 @@ pagination:
     {% if page.pagination.enabled %}
       {% assign postlist = paginator.posts %}
     {% else %}
-      {% assign postlist = site.posts %}
+      {% assign postlist = site.posts | sort: 'date' | reverse %}
     {% endif %}
 
     {% for post in postlist %}
