@@ -23,6 +23,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
+        },{id: "nav-notes",
+          title: "notes",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/notes/index.html";
+          },
         },{id: "post-welcome-to-my-sglang-blog",
         
           title: "Welcome to My SGLang Blog",
@@ -47,7 +54,12 @@ ninja.data = [{
             },},{id: "news-i-am-joining-microsoft-as-a-software-engineer-in-redmond-wa-sparkles-smile",
           title: 'I am joining Microsoft as a Software Engineer in Redmond, WA! :sparkles: :smile:...',
           description: "",
-          section: "News",},{id: "projects-project-1",
+          section: "News",},{id: "notes-first-reflection",
+          title: 'First Reflection',
+          description: "",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/2025/first-reflection/";
+            },},{id: "projects-project-1",
           title: 'project 1',
           description: "with background image",
           section: "Projects",handler: () => {
