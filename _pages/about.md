@@ -27,7 +27,7 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I build _Agent Infrastructure_ @ Microsoft by day and hack on _Distributed Serving_ @ SGLang by night.
+I build _Agent Infrastructure_ @ Microsoft by day and hack on _Distributed & On-Device Serving_ by night.
 
 ### Previous
 
