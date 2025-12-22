@@ -1,0 +1,22 @@
+---
+layout: default
+---
+{% assign url_beginning = page.url | slice: 0, 7 %}
+
+{% if page._styles %}
+  <style type="text/css">
+    {{ page._styles }}
+  </style>
+{% endif %}
+
+<div class="note-post">
+  <header class="note-header">
+    <h1 class="note-title">{{ page.title }}</h1>
+    <time class="note-date">{{ page.date | date: '%B %d, %Y' }}</time>
+  </header>
+
+  <article class="note-content">
+    {{ content }}
+  </article>
+</div>
+

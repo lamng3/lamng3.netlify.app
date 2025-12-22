@@ -644,6 +644,242 @@ footer.sticky-bottom {
   }
 }
 
+// Blog page - minimal style like ekzhang
+.blog-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  .blog-header {
+    margin-bottom: 3rem;
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--global-text-color);
+    }
+
+    .blog-subtitle {
+      font-size: 1rem;
+      color: var(--global-text-color-light);
+      margin: 0;
+    }
+  }
+
+  .blog-list {
+    .blog-item {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--global-divider-color);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .blog-link {
+        text-decoration: none;
+        display: block;
+        transition: opacity 0.2s;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+
+      .blog-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin: 0 0 0.5rem 0;
+        color: var(--global-text-color);
+        line-height: 1.4;
+      }
+
+      .blog-date {
+        font-size: 0.875rem;
+        color: var(--global-text-color-light);
+        display: block;
+      }
+    }
+  }
+}
+
+// Notes page - aesthetic, novel-like style
+.notes-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+
+  .notes-header {
+    margin-bottom: 4rem;
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 0.75rem;
+      color: var(--global-text-color);
+      letter-spacing: 0.5px;
+    }
+
+    .notes-subtitle {
+      font-size: 1rem;
+      color: var(--global-text-color-light);
+      margin: 0;
+      font-style: italic;
+      font-weight: 300;
+    }
+  }
+
+  .notes-list {
+    .note-item {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--global-divider-color);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .note-link {
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s ease;
+
+        &:hover {
+          .note-title {
+            color: var(--global-theme-color);
+            transform: translateX(5px);
+          }
+        }
+      }
+
+      .note-title {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin: 0 0 0.75rem 0;
+        color: var(--global-text-color);
+        line-height: 1.6;
+        transition: all 0.3s ease;
+        letter-spacing: 0.3px;
+      }
+
+      .note-date {
+        font-size: 0.875rem;
+        color: var(--global-text-color-light);
+        display: block;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// Note post layout - novel-like reading experience
+.note-post {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+
+  .note-header {
+    margin-bottom: 3rem;
+    text-align: center;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--global-divider-color);
+
+    .note-title {
+      font-size: 2.25rem;
+      font-weight: 400;
+      margin: 0 0 1rem 0;
+      color: var(--global-text-color);
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+    }
+
+    .note-date {
+      font-size: 0.9rem;
+      color: var(--global-text-color-light);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .note-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--global-text-color);
+    font-weight: 300;
+
+    p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 400;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+      letter-spacing: 0.3px;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    a {
+      color: var(--global-theme-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+
+      &:hover {
+        border-bottom-color: var(--global-theme-color);
+      }
+    }
+
+    blockquote {
+      border-left: 3px solid var(--global-divider-color);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--global-text-color-light);
+    }
+
+    code {
+      font-size: 0.9em;
+      padding: 0.2em 0.4em;
+      background-color: var(--global-divider-color);
+      border-radius: 3px;
+    }
+
+    pre {
+      background-color: var(--global-divider-color);
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 2rem 0;
+      border-radius: 3px;
+    }
+  }
+}
+
 // Distill
 
 .distill {

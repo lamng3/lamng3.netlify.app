@@ -151,6 +151,14 @@ collections:
     output: true
   projects:
     output: true
+  notes:
+    output: true
+    permalink: /notes/:year/:title/
+    defaults:
+      - scope:
+          path: "_notes"
+        values:
+          layout: note
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
