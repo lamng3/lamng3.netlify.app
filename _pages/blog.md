@@ -24,18 +24,26 @@ pagination:
   <div class="blog-list">
     {% if page.pagination.enabled %}
       {% assign postlist = paginator.posts %}
+      {% comment %} Fallback: if paginator.posts is empty, use site.posts directly {% endcomment %}
+      {% if postlist.size == 0 %}
+        {% assign postlist = site.posts | sort: 'date' | reverse %}
+      {% endif %}
     {% else %}
       {% assign postlist = site.posts | sort: 'date' | reverse %}
     {% endif %}
 
-    {% for post in postlist %}
-      <article class="blog-item">
-        <a href="{{ post.url | relative_url }}" class="blog-link">
-          <h2 class="blog-title">{{ post.title }}</h2>
-          <time class="blog-date">{{ post.date | date: '%B %d, %Y' }}</time>
-        </a>
-      </article>
-    {% endfor %}
+    {% if postlist.size > 0 %}
+      {% for post in postlist %}
+        <article class="blog-item">
+          <a href="{{ post.url | relative_url }}" class="blog-link">
+            <h2 class="blog-title">{{ post.title }}</h2>
+            <time class="blog-date">{{ post.date | date: '%B %d, %Y' }}</time>
+          </a>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p>No posts yet. Check back soon!</p>
+    {% endif %}
 
   </div>
 
