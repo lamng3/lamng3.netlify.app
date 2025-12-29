@@ -1145,35 +1145,59 @@ html.transition *:after {
 
 // Extra Markdown style (post Customization)
 .post {
+  .post-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--global-divider-color);
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--global-text-color);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
   .post-meta {
     color: var(--global-text-color-light);
-    font-size: 0.875rem;
-    margin-bottom: 0;
+    font-size: 1rem;
+    margin-bottom: 1rem;
   }
 
   .post-tags {
     color: var(--global-text-color-light);
-    font-size: 0.875rem;
-    padding-top: 0.25rem;
-    padding-bottom: 1rem;
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0;
 
     a {
       color: var(--global-text-color-light);
       text-decoration: none;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      background-color: var(--global-code-bg-color);
+      transition: all 0.2s ease;
+      display: inline-block;
+      margin: 0 0.25rem;
 
       &:hover {
         color: var(--global-theme-color);
+        background-color: var(--global-theme-color);
+        color: white;
+        transform: translateY(-2px);
       }
     }
   }
 
   .post-content {
-    margin-top: 2rem;
+    margin-top: 3rem;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.8;
-    font-size: 1.1rem;
+    font-size: 1.125rem;
 
     p {
       margin-bottom: 1.5rem;
@@ -1186,107 +1210,197 @@ html.transition *:after {
     h4,
     h5,
     h6 {
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1.25rem;
+      font-weight: 700;
       color: var(--global-text-color);
       line-height: 1.3;
     }
 
     h2 {
-      font-size: 1.75rem;
-      border-bottom: 2px solid var(--global-divider-color);
-      padding-bottom: 0.5rem;
+      font-size: 2rem;
+      border-bottom: 3px solid var(--global-theme-color);
+      padding-bottom: 0.75rem;
+      margin-top: 3.5rem;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 60px;
+        height: 3px;
+        background-color: var(--global-theme-color);
+      }
     }
 
     h3 {
       font-size: 1.5rem;
+      color: var(--global-theme-color);
     }
 
     a {
       color: var(--global-theme-color);
-      text-decoration: underline;
-      text-decoration-color: var(--global-theme-color);
-      text-underline-offset: 3px;
+      text-decoration: none;
+      border-bottom: 2px solid var(--global-theme-color);
+      padding-bottom: 2px;
+      font-weight: 500;
       transition: all 0.2s ease;
 
       &:hover {
         color: var(--global-theme-color);
-        text-decoration-thickness: 2px;
-        opacity: 0.8;
+        border-bottom-color: transparent;
+        background: linear-gradient(to bottom, transparent 0%, transparent 90%, var(--global-theme-color) 90%, var(--global-theme-color) 100%);
       }
     }
 
     code {
       background-color: var(--global-code-bg-color);
-      padding: 0.2em 0.5em;
+      padding: 0.25em 0.6em;
       border-radius: 4px;
       font-size: 0.9em;
-      font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-      color: var(--global-text-color);
+      font-family: "Monaco", "Menlo", "Ubuntu Mono", "Courier New", monospace;
+      color: var(--global-theme-color);
+      font-weight: 600;
+      border: 1px solid var(--global-divider-color);
     }
 
     pre {
-      background-color: var(--global-code-bg-color);
-      padding: 1.25rem;
+      background-color: #1e1e1e;
+      padding: 1.5rem;
       border-radius: 8px;
       overflow-x: auto;
-      margin-bottom: 2rem;
+      margin: 2rem 0;
       border: 1px solid var(--global-divider-color);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+
+      &::before {
+        content: "bash";
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
 
       code {
         background-color: transparent;
         padding: 0;
         font-size: 0.9em;
+        color: #d4d4d4;
+        border: none;
+        font-weight: normal;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", "Courier New", monospace;
+      }
+    }
+
+    // Light mode code blocks
+    html[data-theme="light"] & {
+      pre {
+        background-color: #2d2d2d;
+        border: 1px solid #444;
+
+        code {
+          color: #f8f8f2;
+        }
+      }
+    }
+
+    // Dark mode code blocks
+    html[data-theme="dark"] & {
+      pre {
+        background-color: #1e1e1e;
+
+        code {
+          color: #d4d4d4;
+        }
       }
     }
 
     ul,
     ol {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       padding-left: 2.5rem;
 
       li {
-        margin-bottom: 0.75rem;
-        line-height: 1.7;
+        margin-bottom: 1rem;
+        line-height: 1.8;
+        position: relative;
+
+        &::marker {
+          color: var(--global-theme-color);
+        }
 
         p {
           margin-bottom: 0.5rem;
+        }
+
+        strong {
+          color: var(--global-theme-color);
         }
       }
     }
 
     table {
-      margin-bottom: 2rem;
+      margin: 2.5rem 0;
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       font-size: 0.95em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
 
       th,
       td {
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--global-divider-color);
+        padding: 1rem 1.25rem;
         text-align: left;
+        border-bottom: 1px solid var(--global-divider-color);
       }
 
       th {
-        background-color: var(--global-bg-color);
-        font-weight: 600;
-        color: var(--global-text-color);
+        background: linear-gradient(to bottom, var(--global-theme-color), var(--global-theme-color));
+        color: white;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.85em;
+        letter-spacing: 0.5px;
       }
 
-      tr:nth-child(even) {
+      tr {
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: var(--global-code-bg-color);
+        }
+
+        &:last-child td {
+          border-bottom: none;
+        }
+      }
+
+      td {
+        background-color: var(--global-bg-color);
+      }
+
+      tr:nth-child(even) td {
         background-color: var(--global-code-bg-color);
       }
     }
 
     blockquote {
-      margin: 2rem 0;
-      padding: 1rem 1.5rem;
+      margin: 2.5rem 0;
+      padding: 1.5rem 2rem;
       border-left: 4px solid var(--global-theme-color);
-      background-color: var(--global-code-bg-color);
+      background: linear-gradient(to right, var(--global-code-bg-color) 0%, transparent 100%);
       color: var(--global-text-color);
       font-style: italic;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
       p {
         margin-bottom: 0.5rem;
@@ -1294,18 +1408,20 @@ html.transition *:after {
     }
 
     strong {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--global-text-color);
     }
 
     em {
       font-style: italic;
+      color: var(--global-text-color-light);
     }
 
     hr {
-      margin: 2.5rem 0;
+      margin: 3rem 0;
       border: none;
-      border-top: 2px solid var(--global-divider-color);
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--global-theme-color), transparent);
     }
   }
 }
