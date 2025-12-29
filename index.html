@@ -32,10 +32,8 @@
       if (abbr) {
         html += '<div class="col col-sm-2 abbr">';
         const venue = venues && venues[abbr] ? venues[abbr] : null;
-        let badgeStyle = '';
-        if (venue && venue.color) {
-          badgeStyle = 'style="background-color: ' + venue.color + '"';
-        }
+        // Use CSS variable for theme color to match page styling
+        let badgeStyle = 'style="background-color: var(--global-theme-color)"';
         html += '<abbr class="badge rounded w-100" ' + badgeStyle + '>';
         if (venue && venue.url) {
           html += '<a href="' + venue.url + '" style="color: inherit; text-decoration: none;">' + abbr + '</a>';
