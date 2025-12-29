@@ -38,6 +38,17 @@ ninja.data = [{
         section: "Posts",
         handler: () => {
           
+            window.location.href = "/blog/2025/2025-12-28-qwen3-benchmark-modal-mlx/";
+          
+        },
+      },{id: "post-",
+        
+          title: "",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
             window.location.href = "/blog/2025/2025-12-27-qwen3-benchmark-modal-mlx/";
           
         },
