@@ -30,15 +30,15 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/notes/index.html";
           },
-        },{id: "post-welcome-to-my-sglang-blog",
+        },{id: "post-",
         
-          title: "Welcome to My SGLang Blog",
+          title: "",
         
-        description: "An introduction to my technical blog covering SGLang and related topics",
+        description: "",
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/blog/2025/welcome-to-sglang-blog/";
+            window.location.href = "/blog/2025/2025-12-27-qwen3-benchmark-modal-mlx/";
           
         },
       },{id: "books-the-godfather",
