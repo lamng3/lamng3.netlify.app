@@ -27,7 +27,7 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I am a Software Engineer @ Microsoft, passionate about Distributed Systems, Databases, and the Data Structures and Algorithms behind them. Every so often, I write about them.
+I am a Software Engineer @ Microsoft, passionate about Distributed Systems, Databases, and the Data Structures and Algorithms beneath them. Every so often, I write about what I learn.
 
 ### Previous
 
