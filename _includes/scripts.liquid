@@ -334,3 +334,8 @@
 {% if site.newsletter.enabled %}
   <script defer src="{{ '/assets/js/newsletter.js' | relative_url | bust_file_cache }}"></script>
 {% endif %}
+
+{% if page.toc and page.toc.sidebar %}
+  <!-- Right-side post table of contents -->
+  <script defer src="{{ '/assets/js/post-toc.js' | relative_url | bust_file_cache }}"></script>
+{% endif %}

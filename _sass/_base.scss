@@ -1911,3 +1911,74 @@ figure.cover {
     color: #23212d !important;
   }
 }
+
+// Dark mode is forced site-wide: hide the light/dark toggle.
+.toggle-container {
+  display: none !important;
+}
+
+// Smooth scrolling for in-page anchor links (used by the post TOC).
+html {
+  scroll-behavior: smooth;
+}
+
+// Right-side table of contents for blog posts. Only shown when there is room
+// beside the 800px-wide centered content column.
+.post-toc {
+  display: none;
+}
+
+@media (min-width: 1300px) {
+  .post-toc {
+    display: block;
+    position: fixed;
+    top: 6rem;
+    right: 2rem;
+    width: 12rem;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--global-divider-color);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    z-index: 5;
+
+    .post-toc-title {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--global-text-color-light);
+      margin-bottom: 0.6rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 0.3rem 0;
+    }
+
+    li.toc-h3 {
+      padding-left: 0.85rem;
+    }
+
+    a {
+      color: var(--global-text-color-light);
+      text-decoration: none;
+      transition: color 0.15s ease-in-out;
+
+      &:hover {
+        color: var(--global-theme-color);
+      }
+
+      &.active {
+        color: var(--global-theme-color);
+        font-weight: 600;
+      }
+    }
+  }
+}

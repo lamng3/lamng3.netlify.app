@@ -6,6 +6,8 @@ date: 2026-07-08
 author: Nathan Nguyen
 categories: [Data Structures, Algorithms]
 tags: [Persistency, Persistent Data Structures, Segment Tree, Snapshot Array, Databases, MVCC, Competitive Programming]
+toc:
+  sidebar: right
 ---
 
 Most data structures live only in the present. When you update an array or a tree, the old state is gone. A **persistent** data structure keeps the old versions around: every update makes a new version, and you can still query any of the old ones.
