@@ -23,15 +23,15 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-",
+        },{id: "post-persistency-keeping-old-versions-around",
         
-          title: "",
+          title: "Persistency: Keeping Old Versions Around",
         
-        description: "",
+        description: "A simple look at persistent data structures — the snapshot array, the persistent segment tree, and how the same idea shows up in databases as MVCC.",
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/blog/2026/2025-12-28-qwen3-benchmark-modal-mlx/";
+            window.location.href = "/blog/2026/persistency-data-structures-databases/";
           
         },
       },{id: "books-the-godfather",
