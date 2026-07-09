@@ -28,6 +28,8 @@ $(document).ready(function () {
     Toc.init($myNav);
     $("body").scrollspy({
       target: navSelector,
+      // Offset for the fixed navbar so the active section matches what's visible.
+      offset: 80,
     });
   }
 
