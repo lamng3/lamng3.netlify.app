@@ -1913,11 +1913,6 @@ figure.cover {
   }
 }
 
-// Smooth scrolling for in-page anchor links (used by the post TOC).
-html {
-  scroll-behavior: smooth;
-}
-
 // Sidebar table of contents, populated by assets/js/toc.js on posts that set
 // front matter `toc: { sidebar: right }`.
 #toc-sidebar {

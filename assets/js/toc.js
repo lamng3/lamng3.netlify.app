@@ -15,6 +15,26 @@ document.addEventListener("DOMContentLoaded", function () {
   // Offset (px) below the viewport top that counts as "current" — clears the navbar.
   const OFFSET = 90;
 
+  // Self-contained smooth scroll so it works regardless of CSS scroll-behavior
+  // or the OS "reduce motion" setting (which silently disables native smooth scroll).
+  const smoothScrollTo = (targetY, duration = 500) => {
+    const startY = window.pageYOffset;
+    const maxY = document.documentElement.scrollHeight - window.innerHeight;
+    const endY = Math.max(0, Math.min(targetY, maxY));
+    const diff = endY - startY;
+    if (Math.abs(diff) < 1) return;
+    let startTime = null;
+    const easeInOutQuad = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+    const step = (now) => {
+      if (startTime === null) startTime = now;
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + diff * easeInOutQuad(t));
+      if (elapsed < duration) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+  };
+
   const slugify = (text) =>
     text
       .toLowerCase()
@@ -43,8 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
     a.addEventListener("click", function (e) {
       e.preventDefault();
       const top = heading.getBoundingClientRect().top + window.pageYOffset - OFFSET;
-      window.scrollTo({ top, behavior: "smooth" });
+      smoothScrollTo(top);
       history.replaceState(null, "", "#" + heading.id);
+      links.forEach((l) => l.classList.remove("active"));
+      a.classList.add("active");
     });
     li.appendChild(a);
     list.appendChild(li);
