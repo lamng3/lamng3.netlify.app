@@ -23,13 +23,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "nav-notes",
-          title: "notes",
-          description: "",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/notes/index.html";
-          },
         },{id: "post-",
         
           title: "",
@@ -38,7 +31,7 @@ ninja.data = [{
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/blog/2025/2025-12-28-qwen3-benchmark-modal-mlx/";
+            window.location.href = "/blog/2026/2025-12-28-qwen3-benchmark-modal-mlx/";
           
         },
       },{id: "books-the-godfather",
@@ -70,6 +63,13 @@ ninja.data = [{
         section: 'Socials',
         handler: () => {
           window.open("https://github.com/lamng3", "_blank");
+        },
+      },{
+        id: 'social-leetcode',
+        title: 'LeetCode',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://leetcode.com/u/triplethread/", "_blank");
         },
       },{
         id: 'social-linkedin',
