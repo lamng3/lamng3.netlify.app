@@ -27,7 +27,7 @@ ninja.data = [{
         
           title: "Persistency: Keeping Old Versions Around",
         
-        description: "A simple look at persistent data structures — the snapshot array, the persistent segment tree, and how the same idea shows up in databases as MVCC.",
+        description: "A simple look at persistent data structures — the snapshot array, the persistent segment tree, persistent queues, and how the same idea shows up in databases as MVCC and copy-on-write B-trees.",
         section: "Posts",
         handler: () => {
           
@@ -85,30 +85,4 @@ ninja.data = [{
         handler: () => {
           window.open("https://scholar.google.com/citations?user=ws80Q0IAAAAJ", "_blank");
         },
-      },{
-      id: 'light-theme',
-      title: 'Change theme to light',
-      description: 'Change the theme of the site to Light',
-      section: 'Theme',
-      handler: () => {
-        setThemeSetting("light");
-      },
-    },
-    {
-      id: 'dark-theme',
-      title: 'Change theme to dark',
-      description: 'Change the theme of the site to Dark',
-      section: 'Theme',
-      handler: () => {
-        setThemeSetting("dark");
-      },
-    },
-    {
-      id: 'system-theme',
-      title: 'Use system default theme',
-      description: 'Change the theme of the site to System Default',
-      section: 'Theme',
-      handler: () => {
-        setThemeSetting("system");
-      },
-    },];
+      },];
