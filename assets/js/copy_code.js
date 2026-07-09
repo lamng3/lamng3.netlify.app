@@ -11,6 +11,13 @@ codeBlocks.forEach(function (codeBlock) {
     codeBlock.querySelector("code:not(.language-plotly)") &&
     codeBlock.querySelector("code:not(.language-vega_lite)")
   ) {
+    // label the block with its language (read from the rouge `language-xxx` wrapper)
+    var langWrapper = codeBlock.closest('[class*="language-"]');
+    if (langWrapper) {
+      var langMatch = langWrapper.className.match(/language-([\w+-]+)/);
+      if (langMatch) codeBlock.dataset.lang = langMatch[1];
+    }
+
     // create copy button
     var copyButton = document.createElement("button");
     copyButton.className = "copy";

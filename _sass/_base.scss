@@ -1267,7 +1267,7 @@ html.transition *:after {
     }
 
     pre {
-      background-color: #1e1e1e;
+      background-color: var(--global-code-bg-color);
       padding: 1.5rem;
       border-radius: 8px;
       overflow-x: auto;
@@ -1276,13 +1276,13 @@ html.transition *:after {
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       position: relative;
 
-      &::before {
-        content: "bash";
+      &[data-lang]::before {
+        content: attr(data-lang);
         position: absolute;
         top: 0.5rem;
         right: 1rem;
         font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--global-text-color-light);
         text-transform: uppercase;
         letter-spacing: 1px;
       }
@@ -1291,7 +1291,7 @@ html.transition *:after {
         background-color: transparent;
         padding: 0;
         font-size: 0.9em;
-        color: #d4d4d4;
+        color: var(--global-text-color);
         border: none;
         font-weight: normal;
         font-family: "Monaco", "Menlo", "Ubuntu Mono", "Courier New", monospace;
@@ -1912,73 +1912,51 @@ figure.cover {
   }
 }
 
-// Dark mode is forced site-wide: hide the light/dark toggle.
-.toggle-container {
-  display: none !important;
-}
-
 // Smooth scrolling for in-page anchor links (used by the post TOC).
 html {
   scroll-behavior: smooth;
 }
 
-// Right-side table of contents for blog posts. Only shown when there is room
-// beside the 800px-wide centered content column.
-.post-toc {
-  display: none;
-}
+// Compact styling for the built-in sidebar table of contents (bootstrap-toc)
+// used on posts via front matter `toc: { sidebar: right }`.
+#toc-sidebar {
+  top: 6rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  border-left: 1px solid var(--global-divider-color);
+  padding-left: 0.75rem;
 
-@media (min-width: 1300px) {
-  .post-toc {
+  .toc-title,
+  &::before {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--global-text-color-light);
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .nav-link {
     display: block;
-    position: fixed;
-    top: 6rem;
-    right: 2rem;
-    width: 12rem;
-    max-height: 75vh;
-    overflow-y: auto;
-    padding-left: 0.75rem;
-    border-left: 1px solid var(--global-divider-color);
-    font-size: 0.8rem;
-    line-height: 1.4;
-    z-index: 5;
+    padding: 0.2rem 0;
+    color: var(--global-text-color-light);
+    transition: color 0.15s ease-in-out;
 
-    .post-toc-title {
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-size: 0.7rem;
+    &:hover {
+      color: var(--global-theme-color);
+    }
+
+    &.active {
+      color: var(--global-theme-color);
       font-weight: 600;
-      color: var(--global-text-color-light);
-      margin-bottom: 0.6rem;
     }
+  }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
-      margin: 0.3rem 0;
-    }
-
-    li.toc-h3 {
-      padding-left: 0.85rem;
-    }
-
-    a {
-      color: var(--global-text-color-light);
-      text-decoration: none;
-      transition: color 0.15s ease-in-out;
-
-      &:hover {
-        color: var(--global-theme-color);
-      }
-
-      &.active {
-        color: var(--global-theme-color);
-        font-weight: 600;
-      }
-    }
+  ul ul .nav-link {
+    padding-left: 0.85rem;
   }
 }
