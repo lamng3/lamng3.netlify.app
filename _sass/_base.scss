@@ -1960,3 +1960,18 @@ html {
     padding-left: 0.85rem;
   }
 }
+
+// Keep wide code blocks from stretching the post column and shoving the
+// sidebar TOC off-screen (flexbox defaults to min-width:auto, so a wide <pre>
+// can overflow its column). Constrain the columns and let <pre> scroll.
+.container[role="main"] .row > [class*="col-"] {
+  min-width: 0;
+}
+
+.post .post-content {
+  min-width: 0;
+
+  pre {
+    max-width: 100%;
+  }
+}
