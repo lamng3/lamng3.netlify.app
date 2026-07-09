@@ -27,12 +27,12 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I am a Software Engineer @ Microsoft, passionate about Distributed Systems, Databases, and the Data Structures and Algorithms beneath them. Every so often, I write about what I learn.
+I am a Software Engineer @ Microsoft. My interest lies in Distributed Systems, Databases, and the Data Structures & Algorithms beneath them. A competitive programmer at heart, I like carrying that algorithmic intuition into the data structures that make databases fast. I write about what I learn.
 
 ### Previous
 
-**@ Center for Materials Data Science**, I was a Research Engineer advised by [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), where I built a retrieval engine over scientific knowledge graphs ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
+**@ Center for Materials Data Science**, I was a Research Engineer advised by [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), where I built an information retrieval engine for scientific agents ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
-**@ Microsoft**, I interned on the Microsoft Security team, building the data storage layer in Cosmos DB to sharpen agentic incident understanding.
+**@ Microsoft**, I interned on the Microsoft Security team, building the data storage layer that powers agentic incident understanding.
 
-**@ Amazon**, I interned on the Alexa Voice Shopping team, building data pipelines over DynamoDB to power reasoning agents for product recommendation.
+**@ Amazon**, I interned on the Alexa Voice Shopping team, building data pipelines that power reasoning agents for product recommendation.
