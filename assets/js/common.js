@@ -17,21 +17,8 @@ $(document).ready(function () {
   });
   $("a").removeClass("waves-effect waves-light");
 
-  // bootstrap-toc
-  if ($("#toc-sidebar").length) {
-    // remove related publications years from the TOC
-    $(".publications h2").each(function () {
-      $(this).attr("data-toc-skip", "");
-    });
-    var navSelector = "#toc-sidebar";
-    var $myNav = $(navSelector);
-    Toc.init($myNav);
-    $("body").scrollspy({
-      target: navSelector,
-      // Offset for the fixed navbar so the active section matches what's visible.
-      offset: 80,
-    });
-  }
+  // The sidebar TOC (#toc-sidebar) is built and tracked by assets/js/toc.js
+  // instead of bootstrap-toc's scrollspy, which mis-tracked under the fixed navbar.
 
   // Generate TOC for beginning of post
   if ($("#table-of-contents").length) {
