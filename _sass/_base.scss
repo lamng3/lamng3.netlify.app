@@ -1171,16 +1171,17 @@ html.transition *:after {
     font-size: 0.9rem;
     padding-top: 0.5rem;
     padding-bottom: 0;
+    line-height: 2.4;
 
     a {
       color: var(--global-text-color-light);
       text-decoration: none;
-      padding: 0.25rem 0.75rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 20px;
       background-color: var(--global-code-bg-color);
       transition: all 0.2s ease;
       display: inline-block;
-      margin: 0 0.25rem;
+      margin: 0.35rem 0.3rem;
 
       &:hover {
         color: var(--global-theme-color);
@@ -1922,9 +1923,9 @@ html {
 #toc-sidebar {
   top: 6rem;
   font-size: 0.8rem;
-  line-height: 1.4;
+  line-height: 1.5;
   border-left: 1px solid var(--global-divider-color);
-  padding-left: 0.75rem;
+  padding-left: 1rem;
 
   .toc-title,
   &::before {
@@ -1942,7 +1943,8 @@ html {
 
   .nav-link {
     display: block;
-    padding: 0.2rem 0;
+    padding: 0.5rem 0;
+    line-height: 1.5;
     color: var(--global-text-color-light);
     transition: color 0.15s ease-in-out;
 
@@ -1974,4 +1976,9 @@ html {
   pre {
     max-width: 100%;
   }
+}
+
+// Dark mode is the only theme site-wide; hide the light/dark toggle.
+.toggle-container {
+  display: none !important;
 }
