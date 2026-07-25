@@ -16,9 +16,9 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-inclusion-exclusion-counting-without-double-counting",
+        },{id: "post-pie-principle-of-inclusion-exclusion",
         
-          title: "Inclusion-Exclusion: Counting Without Double-Counting",
+          title: "PIE: Principle of Inclusion-Exclusion",
         
         description: "A gentle build-up to the Principle of Inclusion-Exclusion, followed by a clean proof that every element in the union is counted exactly once — the whole thing falling out of the binomial theorem applied to (1 - 1)^k.",
         section: "Posts",
