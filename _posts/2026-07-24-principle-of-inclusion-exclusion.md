@@ -266,6 +266,6 @@ The statement looks heavy, but the engine underneath is just one line of algebra
 
 ## Practice
 
-- [LeetCode 878 — Nth Magical Number](https://leetcode.com/problems/nth-magical-number/) (PIE with two sets + binary search, medium) — the gentlest warm-up: count multiples of $$a$$ **or** $$b$$ up to $$X$$ as $$\lfloor X/a \rfloor + \lfloor X/b \rfloor - \lfloor X/\text{lcm}(a,b) \rfloor$$.
-- [LeetCode 3116 — Kth Smallest Amount with Single Denomination Combination](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/) (bitmask PIE + binary search, rated 2387) — the same idea generalized to $$n$$ sets.
-- [LeetCode 3312 — Sorted GCD Pair Queries](https://leetcode.com/problems/sorted-gcd-pair-queries/) (PIE over multiples, rated 2532) — inclusion-exclusion on the divisibility lattice.
+- [LeetCode 878 — Nth Magical Number](https://leetcode.com/problems/nth-magical-number/)
+- [LeetCode 3116 — Kth Smallest Amount with Single Denomination Combination](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/)
+- [LeetCode 3312 — Sorted GCD Pair Queries](https://leetcode.com/problems/sorted-gcd-pair-queries/)
