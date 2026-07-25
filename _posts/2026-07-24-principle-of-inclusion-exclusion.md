@@ -26,64 +26,21 @@ The pattern — _add singles, subtract pairs, add triples, subtract quadruples_ 
 
 ## The general statement
 
-$$\left\vert \bigcup_{i=1}^n A_i \right\vert = \sum_{i=1}^n \vert A_i \vert - \sum_{i<j} \vert A_i \cap A_j \vert + \sum_{i<j<m} \vert A_i \cap A_j \cap A_m \vert - \dots + (-1)^{n-1} \vert A_1 \cap \dots \cap A_n \vert$$
+$$\left\vert \bigcup_{i=1}^n A_i \right\vert = \sum_{m=1}^{n} (-1)^{m-1} \sum_{i_1 < \dots < i_m} \vert A_{i_1} \cap \dots \cap A_{i_m} \vert$$
 
-It looks intimidating, but the proof is short and genuinely satisfying. The strategy is **counting the contribution of a single element**: if we can show that _every_ element of the union is counted exactly once on the right-hand side (RHS), then the two sides must be equal.
+The inner sum runs over all $$m$$-element subsets of the sets; odd sizes add, even sizes subtract.
 
 ## The proof
 
-### Goal
+Count the contribution of a single element. If every element of the union is counted exactly once on the right-hand side, the two sides are equal.
 
-Show that any element $$X$$ belonging to at least one set is counted **exactly once** on the RHS.
+Fix $$X$$ and let it lie in exactly $$k$$ of the sets, $$1 \le k \le n$$. An $$m$$-fold intersection contains $$X$$ only if all $$m$$ of its sets are among those $$k$$; there are $$\binom{k}{m}$$ such intersections, and every other term contributes $$0$$. With the alternating signs, the total count of $$X$$ is
 
-### Setup
+$$\sum_{m=1}^{k} (-1)^{m-1}\binom{k}{m} = \binom{k}{1} - \binom{k}{2} + \dots + (-1)^{k-1}\binom{k}{k}.$$
 
-Let $$X$$ be an element contained in exactly $$k$$ sets, where $$1 \le k \le n$$. Without loss of generality, call these sets $$A_1, A_2, \dots, A_k$$.
+By the binomial theorem, $$\sum_{m=0}^{k} (-1)^m \binom{k}{m} = (1-1)^k = 0$$. Splitting off the $$m=0$$ term $$\binom{k}{0}=1$$ and negating gives exactly the sum above, so it equals $$1$$. Every element is counted once, and the identity holds. $$\blacksquare$$
 
-Here is the key observation: for $$X$$ to belong to an intersection of $$m$$ sets, **all $$m$$ of those sets must come from $$\{A_1, \dots, A_k\}$$**. Any intersection that involves even one set outside this group cannot contain $$X$$, so it contributes $$0$$ to the count of $$X$$. This lets us ignore every set that $$X$$ is not in.
-
-### Counting the occurrences of $$X$$
-
-Now we tally how many times $$X$$ is counted in each layer of the RHS. Since $$X$$ sits inside all of $$A_1, \dots, A_k$$, the number of $$m$$-fold intersections that contain $$X$$ is exactly the number of ways to choose $$m$$ sets out of those $$k$$ — that is, $$\binom{k}{m}$$.
-
-1. **Singletons** $$\left(\sum \vert A_i \vert\right)$$: $$X$$ appears in $$\binom{k}{1}$$ sets.
-2. **Pairs** $$\left(\sum \vert A_i \cap A_j \vert\right)$$: $$X$$ appears in $$\binom{k}{2}$$ intersections.
-3. **Triplets** $$\left(\sum \vert A_i \cap A_j \cap A_m \vert\right)$$: $$X$$ appears in $$\binom{k}{3}$$ intersections.
-4. **$$m$$-fold intersections**: $$X$$ appears in $$\binom{k}{m}$$ intersections, for every $$m \le k$$.
-
-Because the signs on the RHS alternate, the total signed count of $$X$$ is:
-
-$$\text{Count}(X) = \binom{k}{1} - \binom{k}{2} + \binom{k}{3} - \dots + (-1)^{k-1}\binom{k}{k}$$
-
-(The sum stops at $$k$$, not $$n$$, because $$\binom{k}{m} = 0$$ for $$m > k$$ — there simply aren't enough sets containing $$X$$ to form a larger intersection.)
-
-### The binomial theorem finishes it
-
-The alternating sum of binomial coefficients has a beautiful closed form. Apply the binomial theorem to $$(1 - 1)^k$$:
-
-$$0 = (1 - 1)^k = \sum_{m=0}^k \binom{k}{m}(-1)^m = \binom{k}{0} - \binom{k}{1} + \binom{k}{2} - \dots + (-1)^k \binom{k}{k}$$
-
-Move the $$\binom{k}{0} = 1$$ term to the other side and negate:
-
-$$1 = \binom{k}{1} - \binom{k}{2} + \binom{k}{3} - \dots + (-1)^{k-1}\binom{k}{k}$$
-
-The right-hand side of this identity is exactly $$\text{Count}(X)$$. Therefore:
-
-$$\text{Count}(X) = 1$$
-
-Every element in the union is counted **exactly once** on the RHS, no matter how many sets it belongs to. Since this holds for each element, the two sides count the same thing, and the principle is proved. $$\blacksquare$$
-
-## Why the binomial trick is the heart of it
-
-It's worth pausing on why $$(1-1)^k = 0$$ is doing all the work. PIE alternates signs precisely so that the over- and under-counting cancels, and $$(1-1)^k$$ is the algebraic embodiment of that cancellation: an element in $$k$$ sets gets pulled in and pushed out across the layers until exactly one "unit" of it survives. The alternating signs aren't a lucky guess — they are forced by the requirement that this sum collapse to $$1$$.
-
-## A quick sanity check
-
-Take $$k = 3$$ — an element in three sets. It's counted $$\binom{3}{1} = 3$$ times among the singletons, subtracted $$\binom{3}{2} = 3$$ times among the pairs, and added back $$\binom{3}{3} = 1$$ time in the triple intersection:
-
-$$3 - 3 + 1 = 1 \checkmark$$
-
-Counted three times, removed three times, restored once. Exactly once, as promised.
+The alternating signs are not a guess: they are precisely what forces $$(1-1)^k$$ to collapse an element in $$k$$ sets down to a single unit. As a check, $$k=3$$ gives $$\binom{3}{1} - \binom{3}{2} + \binom{3}{3} = 3 - 3 + 1 = 1$$.
 
 ## A worked example: GCD pair queries
 
