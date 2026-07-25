@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-persistency-keeping-old-versions-around",
+        },{id: "post-inclusion-exclusion-counting-without-double-counting",
+        
+          title: "Inclusion-Exclusion: Counting Without Double-Counting",
+        
+        description: "A gentle build-up to the Principle of Inclusion-Exclusion, followed by a clean proof that every element in the union is counted exactly once — the whole thing falling out of the binomial theorem applied to (1 - 1)^k.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/principle-of-inclusion-exclusion/";
+          
+        },
+      },{id: "post-persistency-keeping-old-versions-around",
         
           title: "Persistency: Keeping Old Versions Around",
         
@@ -69,7 +80,7 @@ ninja.data = [{
         title: 'LinkedIn',
         section: 'Socials',
         handler: () => {
-          window.open("https://www.linkedin.com/in/ltn18", "_blank");
+          window.open("https://www.linkedin.com/in/lamng3", "_blank");
         },
       },{
         id: 'social-scholar',
