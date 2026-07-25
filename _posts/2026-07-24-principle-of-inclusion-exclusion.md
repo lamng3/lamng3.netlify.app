@@ -99,9 +99,9 @@ The cleanest way to _feel_ inclusion-exclusion is to use it. [LeetCode 3312 — 
 
 3. **`exact[g]` — the inclusion-exclusion step.** Here `tot[g]` over-counts: it includes pairs whose gcd is $$2g, 3g, 4g, \dots$$, not just exactly $$g$$. To get pairs with gcd _exactly_ $$g$$, subtract off the ones already accounted for at every proper multiple:
 
-    $$\text{exact}[g] = \text{tot}[g] - \sum_{k \ge 2} \text{exact}[k g]$$
+   $$\text{exact}[g] = \text{tot}[g] - \sum_{k \ge 2} \text{exact}[k g]$$
 
-    This is inclusion-exclusion over the divisibility lattice. Processing $$g$$ from large to small guarantees every $$\text{exact}[kg]$$ is finalized before we use it. (It's the same "subtract what you've already counted" move as the two-set formula — just indexed by multiples instead of set overlaps.)
+   This is inclusion-exclusion over the divisibility lattice. Processing $$g$$ from large to small guarantees every $$\text{exact}[kg]$$ is finalized before we use it. (It's the same "subtract what you've already counted" move as the two-set formula — just indexed by multiples instead of set overlaps.)
 
 4. **Prefix sums + binary search.** Build `pref[g] = pref[g-1] + exact[g]`, the number of pairs with gcd $$\le g$$. Each query is then a binary search: the smallest $$g$$ whose prefix count exceeds $$q$$ is the answer.
 
