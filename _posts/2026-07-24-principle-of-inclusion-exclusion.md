@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Inclusion-Exclusion: Counting Without Double-Counting"
+title: "PIE: Principle of Inclusion-Exclusion"
 description: A gentle build-up to the Principle of Inclusion-Exclusion, followed by a clean proof that every element in the union is counted exactly once — the whole thing falling out of the binomial theorem applied to (1 - 1)^k.
 date: 2026-07-24
 author: Nathan Nguyen
