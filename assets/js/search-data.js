@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-pie-principle-of-inclusion-exclusion",
+        },{id: "post-segment-trees-one-node-at-a-time",
+        
+          title: "Segment Trees, One Node at a Time",
+        
+        description: "A different way to think about segment trees — as a tree of nodes, each holding a small summary that merges from its children. Once you see it that way, the &quot;store more per node&quot; trick and the dynamic/sparse segment tree over a billion-wide range both fall out naturally.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/segment-tree-nodes-dynamic-sparse/";
+          
+        },
+      },{id: "post-pie-principle-of-inclusion-exclusion",
         
           title: "PIE: Principle of Inclusion-Exclusion",
         
