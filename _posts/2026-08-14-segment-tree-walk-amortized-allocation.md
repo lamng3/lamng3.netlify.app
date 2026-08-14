@@ -243,8 +243,8 @@ public:
 ## Docs worth reading
 
 - [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html), especially the "Searching for the first element greater than a given amount" section — that is the segment tree walk in its purest form.
-- [USACO Guide — Segment Tree Descent](https://usaco.guide/plat/seg-tree-descent?lang=cpp) for more walk variants.
-- [CP-Algorithms — Amortized / potential method](https://cp-algorithms.com/) framing: the `head` pointer here is the same aggregate-analysis pattern as the two-pointer sweep.
+- [USACO Guide — More Applications of Segment Tree](https://usaco.guide/plat/segtree-ext?lang=cpp), whose "Walking on a Segment Tree" section covers exactly this descent and several variants.
+- [Potential method (Wikipedia)](https://en.wikipedia.org/wiki/Potential_method) for the amortized-analysis framing behind the `head` pointer — the same telescoping argument as the multi-pop stack and dynamic array.
 
 ## Takeaways
 
