@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-segment-trees-one-node-at-a-time",
+        },{id: "post-segment-tree-walk-and-amortized-allocation",
+        
+          title: "Segment Tree Walk and Amortized Allocation",
+        
+        description: "A cp-algorithms-style deep dive into Booking Concert Tickets in Groups — modeling seat allocation as a sum/max monoid on a segment tree, replacing a binary-searched range-max with an O(log n) descent (the &quot;segment tree walk&quot;), and proving the greedy scatter is O(log n) amortized via a potential argument on a monotone head pointer.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/segment-tree-walk-amortized-allocation/";
+          
+        },
+      },{id: "post-segment-trees-one-node-at-a-time",
         
           title: "Segment Trees, One Node at a Time",
         
