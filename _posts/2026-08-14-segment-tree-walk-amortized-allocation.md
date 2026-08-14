@@ -10,9 +10,9 @@ toc:
   sidebar: right
 ---
 
-Range querying combined with a stateful greedy is a recurring olympiad motif. A naive scan answers each operation in $$O(n)$$; the lazy reflex — binary search wrapped around a logarithmic range query — gives $$O(\log^2 n)$$. Both leave performance on the table. By pairing a **segment tree walk** (descending the tree to find a boundary in one pass) with an **amortized potential argument**, we get $$O(\log n)$$ worst-case for one operation and $$O(\log n)$$ amortized for the other.
+Range queries mixed with a stateful greedy are a recurring olympiad motif. A naive scan handles each operation in $$O(n)$$, and the reflexive fix — a binary search wrapped around a logarithmic range query — only reaches $$O(\log^2 n)$$. We can do better on both fronts. Pairing a **segment tree walk** (a single descent that locates a boundary in one pass) with an **amortized potential argument** brings one operation to $$O(\log n)$$ worst case and the other to $$O(\log n)$$ amortized.
 
-The vehicle is [LeetCode 2286 — Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups/), a genuinely instructive problem. If segment trees as _nodes-holding-summaries_ are new to you, my earlier post [Segment Trees, One Node at a Time]({% post_url 2026-08-12-segment-tree-nodes-dynamic-sparse %}) sets up the mental model this one leans on.
+Our example is [LeetCode 2286 — Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups/), an unusually instructive problem. If you think of segment trees as _nodes that hold summaries_, my earlier post [Segment Trees, One Node at a Time]({% post_url 2026-08-12-segment-tree-nodes-dynamic-sparse %}) builds the mental model this one relies on.
 
 ## Formal problem statement
 
@@ -34,17 +34,17 @@ Build a segment tree over the row domain $$[0, n-1]$$. Each segment $$[l, r]$$ s
 
 $$\mathcal{N}_{[l,r]} = \bigl(S_{[l,r]},\; M_{[l,r]}\bigr), \qquad S_{[l,r]} = \sum_{i=l}^{r} r_i, \quad M_{[l,r]} = \max_{i=l}^{r} r_i.$$
 
-The sum $$S$$ answers "are there enough seats total?" for `scatter`; the max $$M$$ answers "does any single row fit the group?" for `gather`. Their merge is the componentwise monoid on $$\mathcal{U} = \mathbb{Z}_{\ge 0} \times \mathbb{Z}_{\ge 0}$$:
+The sum $$S$$ answers "are there enough seats in total?" for `scatter`, and the max $$M$$ answers "does any single row fit the whole group?" for `gather`. The two merge componentwise, forming a monoid on $$\mathcal{U} = \mathbb{Z}_{\ge 0} \times \mathbb{Z}_{\ge 0}$$:
 
 $$(S_L, M_L) \oplus (S_R, M_R) = \bigl(S_L + S_R,\; \max(M_L, M_R)\bigr),$$
 
-with identity $$e = (0, 0)$$. Associativity is inherited from $$+$$ and $$\max$$, so $$(\mathcal{U}, \oplus)$$ is a monoid and the tree supports point update and range query in $$O(\log n)$$. Both operations here are **point** updates (one row changes at a time), so no lazy propagation is needed — a pleasant simplification.
+with identity $$e = (0, 0)$$. Associativity carries over from $$+$$ and $$\max$$, so $$(\mathcal{U}, \oplus)$$ is a monoid and the tree supports point updates and range queries in $$O(\log n)$$. Every change here touches a single row, so all updates are **point** updates — no lazy propagation, a welcome simplification.
 
 ## `gather`: the segment tree walk
 
-The obvious route to the smallest valid row is to binary search the answer $$i^\*$$ and test each candidate prefix with a range-max query — $$O(\log n)$$ tests, each $$O(\log n)$$, giving $$O(\log^2 n)$$. We can do better by folding the search _into_ the tree descent. This technique goes by several names: **segment tree walk**, **descent**, or **binary search on the segment tree**.
+The obvious route to the smallest valid row is to binary search the answer $$i^\*$$, testing each candidate prefix with a range-max query — $$O(\log n)$$ tests of $$O(\log n)$$ each, so $$O(\log^2 n)$$. We can fold that search directly _into_ the tree descent instead. The technique goes by several names: the **segment tree walk**, **descent**, or **binary search on the segment tree**.
 
-The idea: the max stored at each node already tells us which half can contain a feasible row, so we never need a separate search. Starting at the root, at a node $$v$$ over $$[tl, tr]$$ with $$tm = tl + \lfloor (tr - tl)/2 \rfloor$$:
+The insight is that the max stored at each node already tells us which half could contain a feasible row, so no separate search is needed. Starting from the root, at a node $$v$$ over $$[tl, tr]$$ with midpoint $$tm = tl + \lfloor (tr - tl)/2 \rfloor$$:
 
 1. **Prune.** If $$tl > \text{maxRow}$$ or $$M_{[tl,tr]} < k$$, no leaf in this subtree qualifies — return $$-1$$.
 2. **Base.** If $$tl = tr$$, this leaf is the answer — return $$tl$$.
@@ -65,7 +65,7 @@ Each step drops one level, so the walk touches exactly one node per level: $$O(\
 
 ### On the `maxRow` bound
 
-One subtlety: the pruning check `tl > maxRow` only rejects a subtree when its _entire_ range starts past `maxRow`. A node straddling `maxRow` is still entered, and the descent may walk into its right child — potentially returning a leaf index $$> \text{maxRow}$$. In this problem that never produces a wrong answer, because the branch rule only goes right when the left child has no row with $$r_i \ge k$$; if a valid row $$\le \text{maxRow}$$ existed, the walk would already have committed left before ever crossing the boundary. The clean mental model: _the walk finds the global smallest row with $$r_i \ge k$$, and `maxRow` only has to gate the final answer._ If the returned leaf exceeds `maxRow`, treat it as failure. (For a stricter variant, carry `maxRow` into the recursion and clamp the right-child call.)
+One subtlety deserves care. The prune `tl > maxRow` rejects a subtree only when its _entire_ range starts past `maxRow`, so a node straddling the boundary is still entered, and the descent can slip into its right child and return a leaf index $$> \text{maxRow}$$. Here that never yields a wrong answer: the branch rule turns right only when the left child holds no row with $$r_i \ge k$$, so if a valid row $$\le \text{maxRow}$$ existed, the walk would have committed left before ever reaching the boundary. The mental model to keep: _the walk finds the global smallest row with $$r_i \ge k$$, and `maxRow` only gates the final answer_ — if the returned leaf exceeds it, treat that as failure. (For a stricter version, carry `maxRow` into the recursion and clamp the right-child call.)
 
 ## `scatter`: greedy consumption, amortized
 
@@ -96,7 +96,7 @@ Define the potential $$\Phi$$ as the number of non-empty rows,
 
 $$\Phi = \sum_{i=0}^{n-1} [\, r_i > 0 \,], \qquad \Phi_0 = n, \qquad \Phi \ge 0.$$
 
-Consider one `scatter` that spreads across $$t$$ rows. Exactly $$t - 1$$ of them are drained to $$r_i = 0$$ (each fully saturated row advances `head` by one and drops $$\Phi$$ by one), and at most one row is left partially full. Since `head` is non-decreasing and bounded above by $$n$$, the total number of saturating steps across the _entire_ run of queries telescopes:
+Take one `scatter` that spreads across $$t$$ rows. Exactly $$t - 1$$ of them are drained to $$r_i = 0$$ — each saturated row advances `head` by one and drops $$\Phi$$ by one — while at most one row is left partially full. Because `head` never moves backward and is bounded above by $$n$$, the saturating steps summed over the _entire_ run of queries telescope:
 
 $$\sum_{\text{all calls}} (t - 1) \;\le\; \Phi_0 \;=\; n.$$
 
@@ -104,7 +104,7 @@ Each saturating step costs one $$O(\log n)$$ point update, and each call indepen
 
 $$\mathcal{T}_{\text{total}} = O\!\Bigl(Q \log n + \textstyle\sum (t-1)\,\log n\Bigr) = O\bigl((Q + n)\log n\bigr),$$
 
-so `scatter` is $$O(\log n)$$ **amortized**. The `head` pointer is doing exactly the work a potential function is meant to bill: expensive multi-row calls are paid for by the rows they permanently retire.
+so `scatter` runs in $$O(\log n)$$ **amortized**. The `head` pointer does exactly the work a potential function is meant to bill: an expensive multi-row call is paid for by the rows it retires for good.
 
 ## Complexity summary
 
@@ -117,7 +117,7 @@ so `scatter` is $$O(\log n)$$ **amortized**. The `head` pointer is doing exactly
 
 ### A 64-bit warning
 
-The largest possible range sum is $$n \cdot m = 5\cdot10^4 \times 10^9 = 5 \cdot 10^{13}$$, well past $$2^{31} - 1$$. Every sum aggregate, feasibility total, and `take`/`rem` counter must be 64-bit (`long long`). The per-row maximum stays within $$m \le 10^9$$, but keeping the whole node in `long long` avoids a class of overflow bugs for free.
+The largest possible range sum is $$n \cdot m = 5\cdot10^4 \times 10^9 = 5 \cdot 10^{13}$$, far beyond $$2^{31} - 1$$. Every sum aggregate, feasibility total, and `take`/`rem` counter must therefore be 64-bit (`long long`). The per-row maximum never exceeds $$m \le 10^9$$, but storing the whole node in `long long` rules out an entire class of overflow bugs for free.
 
 ## Implementation
 
@@ -242,9 +242,9 @@ public:
 
 ## Docs worth reading
 
-- [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html), especially the "Searching for the first element greater than a given amount" section — that is the segment tree walk in its purest form.
-- [USACO Guide — More Applications of Segment Tree](https://usaco.guide/plat/segtree-ext?lang=cpp), whose "Walking on a Segment Tree" section covers exactly this descent and several variants.
-- [Potential method (Wikipedia)](https://en.wikipedia.org/wiki/Potential_method) for the amortized-analysis framing behind the `head` pointer — the same telescoping argument as the multi-pop stack and dynamic array.
+- [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html) — see "Searching for the first element greater than a given amount."
+- [USACO Guide — More Applications of Segment Tree](https://usaco.guide/plat/segtree-ext?lang=cpp) — the "Walking on a Segment Tree" section.
+- [Potential method (Wikipedia)](https://en.wikipedia.org/wiki/Potential_method) — the amortized-analysis framing behind the `head` pointer.
 
 ## Takeaways
 
