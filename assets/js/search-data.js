@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-segment-tree-walk-and-amortized-allocation",
+        },{id: "post-increasing-frequency-a-maximum-subarray-in-disguise",
+        
+          title: "Increasing Frequency: A Maximum Subarray in Disguise",
+        
+        description: "Codeforces 1082E asks you to add k to one segment of an array to maximize how many elements equal c. The trick is to see the operation&#39;s net effect as a +1/-1 balance, turning the whole thing into a maximum-subarray (Kadane) problem — and then a prefix-count idea lets us solve it for every value in O(n) total.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/increasing-frequency-maximum-subarray/";
+          
+        },
+      },{id: "post-segment-tree-walk-and-amortized-allocation",
         
           title: "Segment Tree Walk and Amortized Allocation",
         
