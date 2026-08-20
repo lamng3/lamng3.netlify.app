@@ -26,7 +26,8 @@ toc:
 
 ### Structure & voice
 
-- Open with intuition/motivation before formalism.
+- **Raw, direct, technical voice.** This is a math / CP / algorithms / database-CS blog. No cringy or clickbait headlines, no narrative/story openings, no cutesy metaphors ("in disguise", "wearing a costume", "quietly collapses", "a nice side effect"). Plain descriptive titles — e.g. `Increasing Frequency (Codeforces 1082E)`, not `A Maximum Subarray in Disguise`.
+- State the result or reduction up front, then derive it. Motivation is fine; framing gimmicks are not.
 - Short, descriptive section headers.
 - Use `$$...$$` for MathJax (display and inline).
 - Put C++ solutions in collapsible blocks:
@@ -36,7 +37,8 @@ toc:
   ...code...
   </details>
   ```
-  Use my competitive-programming template (`#include <bits/stdc++.h>` + `REP`/`ll`/`vi` macros). Strip any scratch/comment blocks out of pasted code before publishing.
+  Use my competitive-programming template (`#include <bits/stdc++.h>` + `REP`/`ll`/`vi` macros; the `preprocess()`/`solve()`/`main()` with `int tt = 1` structure).
+- **Keep my implementation as-written.** When I supply code, preserve its structure, helper functions (e.g. a `kadane()` lambda), variable names, and inline `//` comments. Only strip top-of-function scratch `/* ... */` blocks — don't rewrite or inline my code into a "cleaner" version.
 - Keep it light and readable by default. Heavy, formal cp-algorithms-style math (monoid formalism, potential-method proofs, etc.) is **opt-in** — only when I ask for that register.
 - End with a **Practice** section: a bare list of problem links, no ratings or spoilers inline unless I ask.
 - **Docs / references sections stay short** — terse one-line pointers, not sentence-long descriptions.

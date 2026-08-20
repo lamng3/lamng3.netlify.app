@@ -16,11 +16,11 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-increasing-frequency-a-maximum-subarray-in-disguise",
+        },{id: "post-increasing-frequency-codeforces-1082e",
         
-          title: "Increasing Frequency: A Maximum Subarray in Disguise",
+          title: "Increasing Frequency (Codeforces 1082E)",
         
-        description: "Codeforces 1082E asks you to add k to one segment of an array to maximize how many elements equal c. The trick is to see the operation&#39;s net effect as a +1/-1 balance, turning the whole thing into a maximum-subarray (Kadane) problem — and then a prefix-count idea lets us solve it for every value in O(n) total.",
+        description: "Add k to one segment of an array to maximize how many elements equal c. The operation&#39;s net effect is a +1/-1 balance, which reduces the problem to a maximum subarray (Kadane), and a prefix count of c solves it for every value in O(n) total.",
         section: "Posts",
         handler: () => {
           
