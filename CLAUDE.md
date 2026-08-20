@@ -26,7 +26,8 @@ toc:
 
 ### Structure & voice
 
-- **Raw, direct, technical voice.** This is a math / CP / algorithms / database-CS blog. No cringy or clickbait headlines, no narrative/story openings, no cutesy metaphors ("in disguise", "wearing a costume", "quietly collapses", "a nice side effect"). Plain descriptive titles — e.g. `Increasing Frequency (Codeforces 1082E)`, not `A Maximum Subarray in Disguise`.
+- **Raw, direct, technical voice.** This is a math / CP / algorithms / database-CS blog. No cringy or clickbait headlines, no narrative/story openings, no cutesy metaphors ("in disguise", "wearing a costume", "quietly collapses", "a nice side effect").
+- **Titles name the technique/idea, not the problem source.** The reusable, searchable thing is the concept — nobody searches "Codeforces 1082E". Use e.g. `From Range Update to Maximum Subarray`, not `Increasing Frequency (Codeforces 1082E)` and not `A Maximum Subarray in Disguise`. Put the specific problem name/number in the description and intro, not the title.
 - State the result or reduction up front, then derive it. Motivation is fine; framing gimmicks are not.
 - Short, descriptive section headers.
 - Use `$$...$$` for MathJax (display and inline).
