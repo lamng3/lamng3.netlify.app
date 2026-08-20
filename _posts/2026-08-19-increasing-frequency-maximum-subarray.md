@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Increasing Frequency: A Maximum Subarray in Disguise"
-description: Codeforces 1082E asks you to add k to one segment of an array to maximize how many elements equal c. The trick is to see the operation's net effect as a +1/-1 balance, turning the whole thing into a maximum-subarray (Kadane) problem — and then a prefix-count idea lets us solve it for every value in O(n) total.
+title: "Increasing Frequency (Codeforces 1082E)"
+description: Add k to one segment of an array to maximize how many elements equal c. The operation's net effect is a +1/-1 balance, which reduces the problem to a maximum subarray (Kadane), and a prefix count of c solves it for every value in O(n) total.
 date: 2026-08-19
 author: Nathan Nguyen
 categories: [Algorithms]
@@ -10,15 +10,13 @@ toc:
   sidebar: right
 ---
 
-Some problems look like they need a heavy data structure and then quietly collapse into something you already know. [Codeforces 1082E — Increasing Frequency](https://codeforces.com/contest/1082/problem/E) (rated **2000**) is one of those: it dresses up as a range-update optimization, but underneath it is just a **maximum subarray** problem wearing a costume.
+[Codeforces 1082E — Increasing Frequency](https://codeforces.com/contest/1082/problem/E) (rated **2000**) reduces to a maximum subarray problem. This writeup derives that reduction and the $$O(n)$$ implementation.
 
 ## The problem
 
-You are given an array $$a$$ of length $$n$$. You pick one segment $$[l, r]$$ and one integer $$k$$ (positive, negative, or zero) and add $$k$$ to every element in that segment. After this single operation, how many elements can equal a fixed target $$c$$ at most?
+Given an array $$a$$ of length $$n$$, pick one segment $$[l, r]$$ and one integer $$k$$ (positive, negative, or zero) and add $$k$$ to every element in that segment. Maximize the number of elements equal to a fixed target $$c$$ after the operation. Constraints: $$n \le 5 \cdot 10^5$$, so we want $$O(n)$$ or $$O(n \log n)$$.
 
-With $$n \le 5 \cdot 10^5$$, we need something close to linear.
-
-## What one operation actually does
+## The effect of one operation
 
 Fix the segment $$[l, r]$$ and the shift $$k$$, and split the array into "inside the segment" and "outside."
 
@@ -29,15 +27,15 @@ So if `tot` is the number of $$c$$'s in the whole array, the count after the ope
 
 $$\text{tot} \;-\; \underbrace{(\#\,c \text{ inside } [l,r])}_{\text{shifted away}} \;+\; \underbrace{(\#\,(c-k) \text{ inside } [l,r])}_{\text{shifted onto } c}.$$
 
-Everything outside the segment is already baked into `tot`. All the operation can do is, _within the chosen window_, trade the $$c$$'s it destroys for the $$(c-k)$$'s it creates.
+Everything outside the segment is already counted in `tot`. Within the chosen window, the operation trades the $$c$$'s it destroys for the $$(c-k)$$'s it creates.
 
-## A maximum subarray appears
+## Reducing to a maximum subarray
 
-Here is the key move: **fix the value we want to convert**, $$v = c - k$$. Once $$v$$ is fixed, choosing $$k$$ is fixed too, and we only need the best window. Give each position a weight:
+Fix the value to convert, $$v = c - k$$. Once $$v$$ is fixed, $$k$$ is fixed too, and only the window remains to be chosen. Assign each position a weight:
 
 $$w_i = \begin{cases} +1 & a_i = v \quad(\text{becomes } c) \\ -1 & a_i = c \quad(\text{was } c, \text{ now lost}) \\ \phantom{+}0 & \text{otherwise} \end{cases}$$
 
-The quantity we add to `tot` is exactly the sum of $$w_i$$ over the window $$[l, r]$$. Maximizing it over all windows is the textbook **maximum-subarray problem** — Kadane's algorithm — and the empty gain $$0$$ (take $$k = 0$$, change nothing) is always available, so the answer is never worse than `tot`.
+The amount added to `tot` is the sum of $$w_i$$ over the window $$[l, r]$$. Maximizing it over all windows is the maximum-subarray problem (Kadane), and the empty gain $$0$$ (take $$k = 0$$) is always available, so the answer is never below `tot`.
 
 $$\text{answer} = \text{tot} + \max_{v \ne c}\Bigl(\text{best subarray sum of the } {+}1/{-}1 \text{ weights for } v\Bigr).$$
 
@@ -47,13 +45,13 @@ Running Kadane once per distinct value would be $$O(n)$$ per value, or $$O(n \cd
 
 The rescue is that for a fixed $$v$$, almost every weight is $$0$$. Only the positions where $$a_i = v$$ (the $$+1$$'s) and where $$a_i = c$$ (the $$-1$$'s) matter, and an optimal window would never _start_ or _end_ on a $$-1$$ or a $$0$$ — you'd just trim it. So the window can always begin and end on an occurrence of $$v$$.
 
-That lets us walk only the occurrences of $$v$$. Let `pref[i]` be the number of $$c$$'s in $$a[0..i]$$, and let $$v$$ occur at positions $$p_0 < p_1 < \dots < p_{m-1}$$. Extending a window from occurrence $$p_{i-1}$$ to the next occurrence $$p_i$$ adds one fresh $$+1$$ (for the new $$v$$) and subtracts however many $$c$$'s sit strictly between them:
+That lets us walk only the occurrences of $$v$$. Let `pref[i]` be the number of $$c$$'s in $$a[0..i]$$, and let $$v$$ occur at positions $$p_0 < p_1 < \dots < p_{m-1}$$. Extending a window from occurrence $$p_{i-1}$$ to the next occurrence $$p_i$$ adds one fresh $$+1$$ (for the new $$v$$) and subtracts however many $$c$$'s sit strictly between them. This is the `add[]` array in the code:
 
-$$\text{step}_i = 1 - \bigl(\text{pref}[p_i] - \text{pref}[p_{i-1}]\bigr),$$
+$$\text{add}[i] = 1 - \bigl(\text{pref}[p_i] - \text{pref}[p_{i-1}]\bigr), \qquad \text{add}[0] = 1.$$
 
-with $$\text{step}_0 = 1$$ (a window starting at the first occurrence). Run Kadane over these per-occurrence steps — restarting a window at occurrence $$i$$ is worth $$1$$, not $$\text{step}_i$$, since a fresh start doesn't pay for the $$c$$'s before it, which is why the update clamps to `max(1, ...)`.
+`kadane` runs the standard scan over `add[]`, with one twist: restarting a window at occurrence $$i$$ is worth $$1$$, not $$\text{add}[i]$$, since a fresh start doesn't pay for the $$c$$'s before it — hence `z = max(1, z + add[i])` instead of the usual `max(0, ...)`.
 
-Because the occurrence lists across all values partition the array, the total work over every value is $$\sum_v m_v = O(n)$$.
+Because the occurrence lists across all values partition the non-$$c$$ elements, the total work over every value is $$\sum_v m_v = O(n)$$.
 
 ## Implementation
 
@@ -92,25 +90,35 @@ void solve() {
     int n, c; cin >> n >> c;
     vi a(n);
     REP(i, n) cin >> a[i];
+    if (n == 1) { cout << 1 << '\n'; return; }
 
-    // pref[i] = number of c's in a[0..i]
+    // prefix count of c
     vi pref(n, 0);
     REP(i, n) pref[i] = (i > 0 ? pref[i-1] : 0) + (a[i] == c);
 
-    // occurrence positions of every value != c
+    // position mapping for c-k
     map<int, vi> pos;
     REP(i, n) if (a[i] != c) pos[a[i]].pb(i);
 
-    int tot = pref[n-1], ans = tot;
-    for (auto& [v, p] : pos) {
-        // best (#v - #c) over a window that starts and ends on an occurrence of v
-        int best = 0, cur = 0;
-        REP(i, sz(p)) {
-            int step = (i == 0) ? 1 : 1 - (pref[p[i]] - pref[p[i-1]]);
-            cur = max(1, cur + step);   // restart is worth 1 (this v alone)
-            best = max(best, cur);
+    auto kadane = [&](const vi& add) {
+        // try extend (..v[i]] to (v[i+1]..v[i+2]]
+        int best = 0, z = 0;
+        REP(i, sz(add)) {
+            // extend or start new from v[i]
+            z = max(1, z + add[i]);
+            best = max(best, z);
         }
-        ans = max(ans, tot + best);
+        return best;
+    };
+
+    int tot = pref[n-1], ans = tot;
+    for (auto& [x, v] : pos) {
+        // if include range [v[i]..v[i+1]], we gain 1 - (pref[v[i+1]] - pref[v[i]])
+        vi add(sz(v), 1); // add[0] = [-oo,0] = 1
+        REP(i, sz(v)-1) add[i+1] = 1 - (pref[v[i+1]] - pref[v[i]]);
+
+        int gain = kadane(add);
+        ans = max(ans, tot + gain);
     }
     cout << ans << '\n';
 }
@@ -129,8 +137,6 @@ int main() {
 ```
 
 </details>
-
-A nice side effect of the framing: the $$n = 1$$ edge case needs no special handling. If that single element is $$c$$, `tot = 1` and there are no other values, so the answer is $$1$$; if it isn't, `tot = 0` but its own occurrence contributes a gain of $$1$$, again giving $$1$$.
 
 ## Complexity
 
