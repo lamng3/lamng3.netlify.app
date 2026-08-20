@@ -42,7 +42,7 @@ with identity $$e = (0, 0)$$. Associativity carries over from $$+$$ and $$\max$$
 
 ## `gather`: the segment tree walk
 
-The obvious route to the smallest valid row is to binary search the answer $$i^\*$$, testing each candidate prefix with a range-max query — $$O(\log n)$$ tests of $$O(\log n)$$ each, so $$O(\log^2 n)$$. We can fold that search directly _into_ the tree descent instead. The technique goes by several names: the **segment tree walk**, **descent**, or **binary search on the segment tree**.
+The obvious route to the smallest valid row is to binary search the answer $$i^{*}$$, testing each candidate prefix with a range-max query — $$O(\log n)$$ tests of $$O(\log n)$$ each, so $$O(\log^2 n)$$. We can fold that search directly _into_ the tree descent instead. The technique goes by several names: the **segment tree walk**, **descent**, or **binary search on the segment tree**.
 
 The insight is that the max stored at each node already tells us which half could contain a feasible row, so no separate search is needed. Starting from the root, at a node $$v$$ over $$[tl, tr]$$ with midpoint $$tm = tl + \lfloor (tr - tl)/2 \rfloor$$:
 
