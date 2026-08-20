@@ -16,9 +16,9 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-increasing-frequency-codeforces-1082e",
+        },{id: "post-from-range-update-to-maximum-subarray",
         
-          title: "Increasing Frequency (Codeforces 1082E)",
+          title: "From Range Update to Maximum Subarray",
         
         description: "Add k to one segment of an array to maximize how many elements equal c. The operation&#39;s net effect is a +1/-1 balance, which reduces the problem to a maximum subarray (Kadane), and a prefix count of c solves it for every value in O(n) total.",
         section: "Posts",
