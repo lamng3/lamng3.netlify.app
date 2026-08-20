@@ -10,7 +10,7 @@ toc:
   sidebar: right
 ---
 
-Most people meet the segment tree as an array of size `4 * n` with some `2*v+1` / `2*v+2` index arithmetic, and never quite shake the feeling that it's a magic incantation. This post takes a different angle: think of a segment tree as **a tree of nodes**, where each node owns an interval and stores a small _summary_ of that interval. Everything else — storing richer data per node, or letting the tree span a billion indices — is just a variation on what a node holds and when it gets created.
+The segment tree is usually introduced as an array of size `4 * n` with `2*v+1` / `2*v+2` index arithmetic. A more useful view is a **tree of nodes**, where each node owns an interval and stores a small _summary_ of it. Everything else — storing richer data per node, or spanning a billion indices — is a variation on what a node holds and when it is created.
 
 ## The core idea: a node is a summary of its range
 
@@ -25,7 +25,7 @@ The whole design reduces to answering one question: **what does a node store, an
 
 ## When a node stores more than a number
 
-The merge function doesn't have to combine numbers. It can combine _structured_ summaries — and that's where segment trees get genuinely interesting.
+The merge function doesn't have to combine numbers. It can combine _structured_ summaries, which is where segment trees become more powerful.
 
 Take [LeetCode 2213 — Longest Substring of One Repeating Character](https://leetcode.com/problems/longest-substring-of-one-repeating-character/). You have a string, you repeatedly overwrite one character, and after each update you must report the length of the longest run of a single repeated character. The runs can straddle any boundary, so a plain "max over a range" node isn't enough — merging two halves might _create_ a longer run across the seam.
 
@@ -131,7 +131,7 @@ Notice we never even query a range here — the answer is always the root's `mx`
 
 The other axis you can push is the _range_. So far the tree has a leaf per index, which is fine for $$n = 10^5$$ but hopeless when indices run up to $$10^9$$ — allocating $$4 \times 10^9$$ nodes is out of the question.
 
-But here's the thing: most of that range is empty. If you only ever touch a few thousand positions, you only need the handful of nodes on the paths to them. That's the **dynamic** (a.k.a. **sparse**) segment tree: don't pre-build anything; create a child node only the first time you descend into it.
+Most of that range is empty, though. If you only ever touch a few thousand positions, you only need the handful of nodes on the paths to them. That's the **dynamic** (a.k.a. **sparse**) segment tree: don't pre-build anything; create a child node only the first time you descend into it.
 
 Instead of `2*v+1` index arithmetic, each node stores explicit `left` and `right` child pointers (indices into a pool), initialized to `-1` for "doesn't exist yet." When a traversal needs a child that isn't there, we allocate it on the spot. The tree conceptually spans $$[0, 10^9]$$ but only ever materializes $$O(q \log C)$$ nodes for $$q$$ operations over a coordinate range of size $$C$$.
 

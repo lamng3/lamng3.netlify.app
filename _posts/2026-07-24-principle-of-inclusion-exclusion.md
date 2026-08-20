@@ -12,7 +12,7 @@ toc:
 
 Counting is easy until sets start to overlap. If you want to know how many people ordered coffee _or_ tea, you can't just add the two counts — the people who ordered **both** get counted twice. The **Principle of Inclusion-Exclusion (PIE)** is the bookkeeping rule that fixes this, at any number of sets.
 
-## Two sets: the whole idea in miniature
+## The two-set case
 
 For two sets, the correction is obvious once you draw the Venn diagram:
 

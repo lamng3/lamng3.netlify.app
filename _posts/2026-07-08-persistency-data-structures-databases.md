@@ -10,9 +10,9 @@ toc:
   sidebar: right
 ---
 
-Most data structures live only in the present. When you update an array or a tree, the old state is gone. A **persistent** data structure keeps the old versions around: every update makes a new version, and you can still query any of the old ones.
+A **persistent** data structure keeps its old versions: every update produces a new version, and every earlier version stays queryable. An ordinary structure overwrites in place, so its past states are lost.
 
-Think of it like `git` for a data structure — each change is a commit, and nothing is ever overwritten.
+The mechanism is copy-on-write — each update creates new nodes instead of mutating existing ones, so earlier versions stay intact, the same principle as a `git` commit.
 
 ## The trick: don't copy everything
 
@@ -20,11 +20,11 @@ The naive way to keep old versions is to copy the whole structure on every updat
 
 The real trick is **path copying**: when you change one element, you only copy the nodes on the path from the root to that element, and _reuse_ everything else. In a balanced tree of height $$O(\log n)$$, that's only $$O(\log n)$$ new nodes per update. Each version is just a different root pointing into a mostly-shared tree.
 
-That single idea — _share what didn't change, copy only what did_ — is the whole story.
+That single idea — _share what didn't change, copy only what did_ — is the core of every persistent structure below.
 
 ## Snapshot Array
 
-[LeetCode 1146 — Snapshot Array](https://leetcode.com/problems/snapshot-array/) is the friendliest place to meet persistence. You have an array with three operations: `set(i, val)`, `snap()` (freeze the current state and return an id), and `get(i, snap_id)` (read an old snapshot).
+[LeetCode 1146 — Snapshot Array](https://leetcode.com/problems/snapshot-array/) is the simplest example of persistence. You have an array with three operations: `set(i, val)`, `snap()` (freeze the current state and return an id), and `get(i, snap_id)` (read an old snapshot).
 
 You don't need a fancy tree here. Just keep, for each index, a list of `(snap_id, value)` events. `set` appends to the list; `get` binary-searches for the right snapshot. Old snapshots stay valid because you never erase past events.
 
@@ -249,7 +249,7 @@ The trick is a classic: represent the queue as two stacks, a `front` and a `back
 
 ## The same idea in databases: MVCC and copy-on-write B-trees
 
-Here's the fun part — persistence isn't just a contest trick. Your database does it every day.
+Persistence isn't only a competitive-programming technique; databases rely on it constantly.
 
 When many transactions read and write at once, a database can't just overwrite a row: a reader might be halfway through a query that expects the old value. So instead of overwriting, the database _keeps the old version_ and writes a new one. Each version is tagged with the transaction that created it, and every reader sees the version that was current when its transaction began.
 

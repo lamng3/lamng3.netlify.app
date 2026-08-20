@@ -38,7 +38,7 @@ The sum $$S$$ answers "are there enough seats in total?" for `scatter`, and the 
 
 $$(S_L, M_L) \oplus (S_R, M_R) = \bigl(S_L + S_R,\; \max(M_L, M_R)\bigr),$$
 
-with identity $$e = (0, 0)$$. Associativity carries over from $$+$$ and $$\max$$, so $$(\mathcal{U}, \oplus)$$ is a monoid and the tree supports point updates and range queries in $$O(\log n)$$. Every change here touches a single row, so all updates are **point** updates — no lazy propagation, a welcome simplification.
+with identity $$e = (0, 0)$$. Associativity carries over from $$+$$ and $$\max$$, so $$(\mathcal{U}, \oplus)$$ is a monoid and the tree supports point updates and range queries in $$O(\log n)$$. Every change here touches a single row, so all updates are **point** updates — no lazy propagation is needed.
 
 ## `gather`: the segment tree walk
 
@@ -117,7 +117,7 @@ so `scatter` runs in $$O(\log n)$$ **amortized**. The `head` pointer does exactl
 
 ### A 64-bit warning
 
-The largest possible range sum is $$n \cdot m = 5\cdot10^4 \times 10^9 = 5 \cdot 10^{13}$$, far beyond $$2^{31} - 1$$. Every sum aggregate, feasibility total, and `take`/`rem` counter must therefore be 64-bit (`long long`). The per-row maximum never exceeds $$m \le 10^9$$, but storing the whole node in `long long` rules out an entire class of overflow bugs for free.
+The largest possible range sum is $$n \cdot m = 5\cdot10^4 \times 10^9 = 5 \cdot 10^{13}$$, far beyond $$2^{31} - 1$$. Every sum aggregate, feasibility total, and `take`/`rem` counter must therefore be 64-bit (`long long`). The per-row maximum never exceeds $$m \le 10^9$$, but storing the whole node in `long long` avoids overflow bugs entirely.
 
 ## Implementation
 
