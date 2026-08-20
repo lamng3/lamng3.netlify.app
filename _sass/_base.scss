@@ -1170,6 +1170,15 @@ html.transition *:after {
     margin-bottom: 1rem;
   }
 
+  .post-last-updated {
+    max-width: 800px;
+    margin: 2.5rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--global-divider-color);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
   .post-tags {
     color: var(--global-text-color-light);
     font-size: 0.9rem;
