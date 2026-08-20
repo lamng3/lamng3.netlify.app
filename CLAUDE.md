@@ -57,6 +57,12 @@ toc:
 4. **Commit and push by default** after writing or editing a post (I want this without being asked each time).
 5. Netlify auto-deploys on push; a new post takes a couple minutes to appear at the top of `/blog/` (it sorts newest-first). If it seems missing, it's almost always the deploy lag, not the post.
 
+### Last updated
+
+- `date:` in the front matter is the creation date (shown as "Created on …" in the header) and drives the file name and blog ordering — **never change it** on an edit.
+- To show a "Last updated on …" line at the end of a post, add `last_updated: YYYY-MM-DD` to its front matter. The layout (`_layouts/post.liquid`) renders it after the article body; if the field is absent, nothing shows.
+- When making a **substantive** edit to an already-published post, set/bump `last_updated` to today. Skip it for trivial fixes (typos, a broken link) unless asked.
+
 ## Git
 
 - Commit messages end with the `Co-Authored-By: Claude` trailer.
