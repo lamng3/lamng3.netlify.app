@@ -3,6 +3,7 @@ layout: post
 title: "PIE: Principle of Inclusion-Exclusion"
 description: A gentle build-up to the Principle of Inclusion-Exclusion, followed by a clean proof that every element in the union is counted exactly once — the whole thing falling out of the binomial theorem applied to (1 - 1)^k.
 date: 2026-07-24
+last_updated: 2026-08-20
 author: Nathan Nguyen
 categories: [Mathematics, Combinatorics]
 tags: [Inclusion-Exclusion, PIE, Combinatorics, Counting, Binomial Theorem, Proof, Competitive Programming]

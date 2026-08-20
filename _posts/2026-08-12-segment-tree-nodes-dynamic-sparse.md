@@ -3,6 +3,7 @@ layout: post
 title: "Segment Trees, One Node at a Time"
 description: A different way to think about segment trees — as a tree of nodes, each holding a small summary that merges from its children. Once you see it that way, the "store more per node" trick and the dynamic/sparse segment tree over a billion-wide range both fall out naturally.
 date: 2026-08-12
+last_updated: 2026-08-20
 author: Nathan Nguyen
 categories: [Data Structures, Algorithms]
 tags: [Segment Tree, Dynamic Segment Tree, Sparse Segment Tree, Lazy Propagation, Range Queries, Competitive Programming]
