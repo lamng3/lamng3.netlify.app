@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-from-range-update-to-maximum-subarray",
+        },{id: "post-the-möbius-function",
+        
+          title: "The Möbius Function",
+        
+        description: "The Möbius function mu(n) from the ground up — the sign flip that gives (-1)^k for k distinct primes, why a single squared prime forces mu(n) = 0, and a sieve that computes it for all n up to N in O(N log N) by propagating each value to its multiples.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/mobius-function/";
+          
+        },
+      },{id: "post-from-range-update-to-maximum-subarray",
         
           title: "From Range Update to Maximum Subarray",
         
