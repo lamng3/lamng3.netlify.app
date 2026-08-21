@@ -60,8 +60,10 @@ toc:
 ### Last updated
 
 - `date:` in the front matter is the creation date (shown as "Created on …" in the header) and drives the file name and blog ordering — **never change it** on an edit.
-- To show a "Last updated on …" line at the end of a post, add `last_updated: YYYY-MM-DD` to its front matter. The layout (`_layouts/post.liquid`) renders it after the article body; if the field is absent, nothing shows.
-- When making a **substantive** edit to an already-published post, set/bump `last_updated` to today. Skip it for trivial fixes (typos, a broken link) unless asked.
+- To show a "Last updated on …" line at the end of a post, add `last_updated` to its front matter. The layout (`_layouts/post.liquid`) renders it after the article body; if the field is absent, nothing shows.
+- **Date only** (`last_updated: 2026-08-21`) renders just the date. **Date + time** (`last_updated: 2026-08-21 14:05:00`) also renders the clock time and timezone, e.g. "Last updated on August 21, 2026 at 2:05 PM PDT". The layout shows the time only when it isn't midnight. Prefer the timestamped form on edits.
+- The timezone label comes from `timezone: America/Los_Angeles` in `_config.yml`; write the `last_updated` time as a naive local time and it renders in that zone (PDT/PST). Get the current time with `date "+%Y-%m-%d %H:%M:%S"`.
+- When making a **substantive** edit to an already-published post, set/bump `last_updated` to the current date-time. Skip it for trivial fixes (typos, a broken link) unless asked.
 
 ## Git
 
