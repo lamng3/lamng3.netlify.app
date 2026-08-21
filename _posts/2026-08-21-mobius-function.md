@@ -3,6 +3,7 @@ layout: post
 title: "The Möbius Function"
 description: The Möbius function mu(n) from the ground up — the sign flip that gives (-1)^k for k distinct primes, why a single squared prime forces mu(n) = 0, and a sieve that computes it for all n up to N in O(N log N) by propagating each value to its multiples.
 date: 2026-08-21
+last_updated: 2026-08-21 01:17:00
 author: Nathan Nguyen
 categories: [Mathematics, Number Theory]
 tags: [Mobius Function, Number Theory, Sieve, Squarefree, Inclusion-Exclusion, Competitive Programming]
@@ -145,6 +146,132 @@ exactly what the squared factor $$2^2$$ predicts. Meanwhile $$\mu(6) = +1$$ (two
 ### Complexity
 
 The inner loop runs $$\sum_i N/i = O(N \log N)$$. Skipping the zeros (non-squarefree indices, a $$1 - 6/\pi^2 \approx 39\%$$ share) trims the constant but not the bound. A smallest-prime-factor linear sieve computes the same values in $$O(N)$$ if you need it, but this divisor-propagation version is shorter and maps directly onto the identity.
+
+## Example: counting coprime pairs (CSES 2417)
+
+[CSES — Counting Coprime Pairs](https://cses.fi/problemset/task/2417/) asks: given $$n$$ integers $$A_1, \dots, A_n$$ (up to $$10^6$$), how many pairs $$i < j$$ have $$\gcd(A_i, A_j) = 1$$? Checking every pair is $$O(n^2)$$; Möbius turns it into a sieve.
+
+Start from the divisor identity, this time with $$m = \gcd(A_i, A_j)$$, so that $$[\gcd(A_i, A_j) = 1] = \sum_{d \mid \gcd(A_i, A_j)} \mu(d)$$:
+
+$$
+\text{Ans} = \sum_{i < j} [\gcd(A_i, A_j) = 1] = \sum_{i < j} \sum_{d \mid \gcd(A_i, A_j)} \mu(d).
+$$
+
+Swap the order of summation and iterate over the divisor $$d$$ first. Since $$d \mid \gcd(A_i, A_j)$$ means $$d$$ divides _both_ $$A_i$$ and $$A_j$$, the inner count is the number of pairs whose elements are both multiples of $$d$$. Let $$\text{cnt}[d]$$ be the number of array elements divisible by $$d$$; then that count is $$\binom{\text{cnt}[d]}{2}$$:
+
+$$
+\text{Ans} = \sum_{d = 1}^{\max A} \mu(d) \binom{\text{cnt}[d]}{2} = \sum_{d = 1}^{\max A} \mu(d)\,\frac{\text{cnt}[d]\,(\text{cnt}[d] - 1)}{2}.
+$$
+
+This is inclusion-exclusion: $$\binom{\text{cnt}[d]}{2}$$ counts pairs sharing the common factor $$d$$ (a superset of what we want), and $$\mu(d)$$ sifts those overcounts down to gcd exactly $$1$$ with alternating signs.
+
+Everything now hinges on computing $$\text{cnt}[d]$$ fast.
+
+### First attempt: divisors per element (TLE)
+
+The direct route is to take each $$A_i$$, enumerate its divisors in $$O(\sqrt{A_i})$$, and bump a counter for each. It's correct, but $$O(n \sqrt{\max A})$$ divisor work funneled through a `std::map` is too slow for $$n, \max A$$ up to the CSES limits.
+
+<details markdown="1">
+<summary>C++ implementation (TLE)</summary>
+
+```cpp
+    // count frequencies of divisors
+    map<int,int> f;
+    REP(i, n) {
+        for (int p = 1; p * p <= x[i]; p++) {
+            if (x[i] % p == 0) {
+                f[p]++;
+                if (x[i]/p != p) f[x[i]/p]++;
+            }
+        }
+    }
+
+    ll ans = 0;
+    FOR(g, 1, mxx) ans += (ll)mu[g] * ((ll)f[g] * (f[g]-1) / 2);
+```
+
+</details>
+
+### Optimized: frequency array + harmonic sieve
+
+Flip it around. Instead of finding the divisors of each element, count how many elements land on each _value_, then sweep multiples: $$\text{cnt}[d] = \sum_{d \mid v} \text{freq}[v]$$. That inner sweep is the same harmonic sum $$\sum_d \max A / d = O(\max A \log \max A)$$ as the Möbius sieve itself — the two computations share the exact same shape, just accumulating different things. No `map`, no per-element $$\sqrt{A}$$.
+
+<details markdown="1">
+<summary>C++ implementation</summary>
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+void solve() {
+    int n; cin >> n;
+    vi x(n);
+    int mxx = 0;
+    REP(i, n) {
+        cin >> x[i];
+        mxx = max(mxx, x[i]);
+    }
+
+    // construct mobius function
+    vi mu(mxx+5);
+    mu[1] = -1;
+    FOR(i, 1, mxx) {
+        if (mu[i]) {
+            mu[i] = -mu[i];
+            for (int j = 2*i; j <= mxx; j+=i) mu[j] += mu[i];
+        }
+    }
+
+    // frequency of each value
+    vi f(mxx+5, 0);
+    REP(i, n) f[x[i]]++;
+
+    // cnt[d] = number of elements divisible by d
+    vi cnt(mxx+5, 0);
+    FOR(g, 1, mxx) {
+        if (mu[g] == 0) continue;
+        for (int j = g; j <= mxx; j+=g) cnt[g] += f[j];
+    }
+
+    ll ans = 0;
+    FOR(g, 1, mxx) {
+        if (mu[g] == 0 || cnt[g] < 2) continue;
+        ans += (ll)mu[g] * ((ll)cnt[g] * (cnt[g]-1) / 2);
+    }
+    cout << ans << '\n';
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    solve();
+    return 0;
+}
+```
+
+</details>
+
+Both the Möbius values and $$\text{cnt}[d]$$ come out of the same "loop over multiples of each $$d$$" sieve, which is why they pair so naturally: build $$\mu$$ once, count divisible elements the same way, and the answer is a single weighted sum. Factoring each $$A_i$$ into its prime factors and running inclusion-exclusion per element also works, but the sieve is simpler here and reuses machinery you already have.
 
 ## Where it shows up
 

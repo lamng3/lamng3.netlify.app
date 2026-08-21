@@ -66,7 +66,11 @@ layout: default
   </article>
 
   {% if page.last_updated %}
-    <p class="post-meta post-last-updated">Last updated on {{ page.last_updated | date: '%B %d, %Y' }}</p>
+    {% assign lu_time = page.last_updated | date: '%H%M%S' %}
+    <p class="post-meta post-last-updated">
+      Last updated on {{ page.last_updated | date: '%B %d, %Y' -}}
+      {%- if lu_time != '000000' %} at {{ page.last_updated | date: '%-I:%M %p %Z' }}{% endif %}
+    </p>
   {% endif %}
 
   {% if page.citation %}
