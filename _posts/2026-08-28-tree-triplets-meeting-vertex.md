@@ -30,7 +30,18 @@ Fix a triplet $$\{u, v, w\}$$ and look at how many of the three paths $$P(u,v)$$
 
 **Everyone else is on $$0$$ or $$2$$.** Take $$x \ne c$$ and delete it; the tree breaks into components. If $$u, v, w$$ all land in one component, no pairwise path uses $$x$$, so $$x$$ is on $$0$$ paths. If they split across exactly two components, exactly two of the three pairs are separated by $$x$$, so $$x$$ is on $$2$$. If they split across three components, $$x$$ would separate all three pairs and hence lie on all three paths — making $$x$$ the unique common vertex, contradicting $$x \ne c$$. $$\blacksquare$$
 
-That vertex $$c$$ is the Steiner point of the triplet — equivalently, the value shared by at least two of the three pairwise LCAs.
+That vertex $$c$$ is the Steiner point of the triplet.
+
+## An LCA restatement: two of the three pairwise LCAs coincide
+
+The $$O(n)$$ solution never computes an LCA — it deletes $$c$$ and counts components — but the meeting vertex has a clean rooted-tree description worth keeping in your pocket.
+
+Root the tree anywhere. The highest vertex on a path $$P(x, y)$$ is $$\operatorname{lca}(x, y)$$, so the three pairwise LCAs are the topmost points of the three paths. Let $$L = \operatorname{lca}(u, v, w)$$ be the shallowest common ancestor of all three. Two cases:
+
+- The three vertices descend into three different child-subtrees of $$L$$ (or one of them _is_ $$L$$). Then every pairwise path climbs all the way to $$L$$, so $$\operatorname{lca}(u,v) = \operatorname{lca}(v,w) = \operatorname{lca}(w,u) = L$$, and the meeting vertex is $$c = L$$.
+- Otherwise two of them, say $$u$$ and $$v$$, share a child-subtree of $$L$$ while $$w$$ does not. Then $$\operatorname{lca}(u, v)$$ sits strictly below $$L$$ and equals the meeting vertex $$c$$, while $$\operatorname{lca}(v, w) = \operatorname{lca}(w, u) = L$$.
+
+Either way, **at least two of the three pairwise LCAs are equal, and the deepest of them is the meeting vertex $$c$$.** This is the same $$c$$ as before, seen from the root instead of by deletion.
 
 ## Why only $$a_c$$ matters
 
