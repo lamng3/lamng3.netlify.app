@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-the-möbius-function",
+        },{id: "post-counting-tree-triplets-by-their-meeting-vertex",
+        
+          title: "Counting Tree Triplets by Their Meeting Vertex",
+        
+        description: "In a tree, the three pairwise paths of a triplet {u,v,w} share exactly one vertex, and every other vertex lies on either zero or two of them. That parity fact collapses Codeforces 2241E to a per-vertex count, which an online elementary-symmetric-polynomial scan finishes in O(n).",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/tree-triplets-meeting-vertex/";
+          
+        },
+      },{id: "post-the-möbius-function",
         
           title: "The Möbius Function",
         
