@@ -27,6 +27,17 @@ ninja.data = [{
             window.location.href = "/blog/2026/tree-triplets-meeting-vertex/";
           
         },
+      },{id: "post-finding-the-n-th-digit-of-a-concatenated-sequence",
+        
+          title: "Finding the N-th Digit of a Concatenated Sequence",
+        
+        description: "Write the positive integers back to back — 123456789101112… — and locate the n-th digit without materializing the string. Count digits in blocks by number length, jump to the block that contains position n, then read off the exact number and digit in O(log n).",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/nth-digit-concatenated-sequence/";
+          
+        },
       },{id: "post-the-möbius-function",
         
           title: "The Möbius Function",
