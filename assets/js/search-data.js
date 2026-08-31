@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-permutations-parenthesizations-and-precision",
+        },{id: "post-rolling-hashes-and-xor-hashes",
+        
+          title: "Rolling Hashes and XOR Hashes",
+        
+        description: "Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring&#39;s hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can&#39;t force collisions.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/rolling-and-xor-hashing/";
+          
+        },
+      },{id: "post-permutations-parenthesizations-and-precision",
         
           title: "Permutations, Parenthesizations, and Precision",
         
