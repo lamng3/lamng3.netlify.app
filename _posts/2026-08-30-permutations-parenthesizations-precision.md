@@ -74,7 +74,7 @@ For the 24 Game the check is just `fabs(x - 24) < eps` over every reachable valu
 
 ### The exact way: rational arithmetic
 
-The robust competitive-programming habit is to sidestep floating point entirely: when a problem is about exact values, **compute in integers or fractions, not doubles.** Carry each value as a reduced fraction $$\frac{p}{q}$$ with $$q > 0$$ and $$\gcd(|p|, q) = 1$$, and do every operation with integer arithmetic:
+The robust competitive-programming habit is to sidestep floating point entirely: when a problem is about exact values, **compute in integers or fractions, not doubles.** Carry each value as a reduced fraction $$\frac{p}{q}$$ with $$q > 0$$ and $$\gcd(\lvert p \rvert, q) = 1$$, and do every operation with integer arithmetic:
 
 $$
 \frac{p_1}{q_1} \pm \frac{p_2}{q_2} = \frac{p_1 q_2 \pm p_2 q_1}{q_1 q_2}, \quad

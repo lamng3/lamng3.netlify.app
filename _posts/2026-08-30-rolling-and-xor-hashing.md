@@ -173,7 +173,7 @@ public:
 
 </details>
 
-Each `check` scans $$n$$ chunks, so this is about $$O(|s| \cdot n)$$. It passes the constraints; the standard speedup is to group starts by `start % m` into `m` independent sliding windows and slide by one chunk each step, reusing the count map, which brings it to $$O(|s|)$$.
+Each `check` scans $$n$$ chunks, so this is about $$O(\lvert s \rvert \cdot n)$$. It passes the constraints; the standard speedup is to group starts by `start % m` into `m` independent sliding windows and slide by one chunk each step, reusing the count map, which brings it to $$O(\lvert s \rvert)$$.
 
 ## Scrambling keys against adversaries
 
