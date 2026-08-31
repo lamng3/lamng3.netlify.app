@@ -173,7 +173,7 @@ public:
 
 </details>
 
-Each `check` scans $$n$$ chunks, so this is about $$O(\lvert s \rvert \cdot n)$$. It passes the constraints; the standard speedup is to group starts by `start % m` into `m` independent sliding windows and slide by one chunk each step, reusing the count map, which brings it to $$O(\lvert s \rvert)$$.
+Each `check` scans $$n$$ chunks, so this is about $$O(\vert s \vert \cdot n)$$. It passes the constraints; the standard speedup is to group starts by `start % m` into `m` independent sliding windows and slide by one chunk each step, reusing the count map, which brings it to $$O(\vert s \vert)$$.
 
 ## Scrambling keys against adversaries
 
@@ -184,10 +184,10 @@ The defense is to **mix the key through a random-seeded scrambler** before use. 
 ```cpp
 const int MOD = 5e6 - 1;                       // prime
 const ll MAX_VALUE = 1e18 + 2;
-const ll GSPVHCUTE = 2207199722071997LL;       // fixed scramble constant
+const ll SALT = 2207199722071997LL;            // fixed scramble constant
 
 int getHash(ll x) {                            // x in [-1e18, 1e18]
-    x = (x + MAX_VALUE) ^ GSPVHCUTE;           // shift out of negatives, flip bits
+    x = (x + MAX_VALUE) ^ SALT;                // shift out of negatives, flip bits
     int res = x % MOD;
     return res < 0 ? res + MOD : res;
 }

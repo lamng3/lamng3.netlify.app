@@ -30,7 +30,10 @@ toc:
 - **Titles name the technique/idea, not the problem source.** The reusable, searchable thing is the concept — nobody searches "Codeforces 1082E". Use e.g. `From Range Update to Maximum Subarray`, not `Increasing Frequency (Codeforces 1082E)` and not `A Maximum Subarray in Disguise`. Put the specific problem name/number in the description and intro, not the title.
 - State the result or reduction up front, then derive it. Motivation is fine; framing gimmicks are not.
 - Short, descriptive section headers.
-- Use `$$...$$` for MathJax (display and inline). **Never put a raw pipe `|` inside math** — kramdown reads it as a table delimiter and the formula renders broken. Use `\lvert x \rvert` / `\vert` for bars and cardinality. Likewise avoid a bare `\*`; write `^{*}` for a star superscript so prettier doesn't escape it.
+- Use `$$...$$` for MathJax (display and inline). Two confirmed gotchas on this site's MathJax:
+  - **Never put a raw pipe `|` inside math** — kramdown reads it as a table delimiter and the formula renders broken.
+  - **Use `\vert` for bars/cardinality, NOT `\lvert` / `\rvert`** — the latter are undefined in this site's MathJax config and error out the whole span. `\vert p \vert`, `\vert s \vert`, etc. (`\left\vert … \right\vert` for tall bars.)
+  - Also avoid a bare `\*`; write `^{*}` for a star superscript so prettier doesn't escape it.
 - Put C++ solutions in collapsible blocks:
   ```
   <details markdown="1">
