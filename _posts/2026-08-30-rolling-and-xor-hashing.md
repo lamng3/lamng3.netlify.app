@@ -3,7 +3,7 @@ layout: post
 title: "Rolling Hashes and XOR Hashes"
 description: Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring's hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can't force collisions.
 date: 2026-08-30
-last_updated: 2026-08-30 23:30:00
+last_updated: 2026-08-30 23:39:00
 author: Nathan Nguyen
 categories: [Algorithms, Strings]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Zobrist Hashing, XOR Hashing, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
@@ -298,7 +298,57 @@ auto is_permutation = [&](int l, int r) {
 
 **Why it works, and its limit.** A genuine permutation holds each of $$1, \dots, \text{len}$$ exactly once, so its XOR is exactly $$T_{\text{len}}$$ — no permutation is ever rejected. A non-permutation passes only if its odd-occurrence values XOR to $$T_{\text{len}}$$, i.e. some nonempty set of random keys cancels, which happens with probability $$\approx 2^{-64}$$ per query. The one blind spot is again multiplicity: XOR cannot on its own catch a repeat like $$\{1, 2, 2, 3\}$$. Comparing to $$T_{\text{len}}$$ (which pins the length) already rules out most of these; to close the gap cheaply, also check that the range maximum equals $$\text{len}$$ — a permutation of $$1 \dots \text{len}$$ must contain $$\text{len}$$ — which a sparse table answers in $$O(1)$$.
 
-This is the right shape when the elements are **distinct**. The sibling questions "does this window contain a permutation / anagram of a pattern" ([LeetCode 567](https://leetcode.com/problems/permutation-in-string/), [LeetCode 438](https://leetcode.com/problems/find-all-anagrams-in-a-string/)) are _multiset_ problems — letters repeat — so XOR is the wrong hash there (two equal letters cancel); use an additive fingerprint $$\sum r[c]$$ or a plain frequency window instead.
+This is the right shape when the elements are **distinct**.
+
+### When counts matter: permutation in a string
+
+[LeetCode 567](https://leetcode.com/problems/permutation-in-string/) asks whether some window of `s2` is a permutation of `s1`: a fixed-length window whose _multiset_ of letters matches `s1`. A first XOR attempt walks into two traps.
+
+1. **Keys must be shared.** If `key_of` builds a fresh random table on every call, the same letter gets a different key each time it is hashed, and no two fingerprints are comparable. The table must be `static` — generated once, shared across every call and every instance.
+2. **XOR is multiplicity-blind.** Even with shared keys, XOR fingerprints a set: since $$r[c] \oplus r[c] = 0$$, both `"aa"` and `"bb"` fingerprint to $$0$$ and compare equal, though neither is a permutation of the other. Anagram matching needs counts, so switch to the **additive** fingerprint — sum the keys, difference the prefix sums — which respects multiplicity.
+
+<details markdown="1">
+<summary>C++ implementation</summary>
+
+```cpp
+class SumHash {
+private:
+    // shared, generated once: same letter -> same key everywhere
+    static u64 key_of(char c) {
+        static map<char, u64> key;
+        static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+        auto it = key.find(c);
+        if (it != key.end()) return it->second;
+        return key[c] = rng();
+    }
+    vector<u64> pref; // pref[0] = 0, pref[i+1] = pref[i] + key_of(a[i])
+public:
+    SumHash() { pref.pb(0); }
+    void init(const string& a) { for (char c : a) push_back(c); }
+    void push_back(char c) { pref.pb(pref.back() + key_of(c)); }   // + not ^
+    u64 get_hash() { return pref.back(); }
+    u64 get_hash(int L, int R) { return pref[R+1] - pref[L]; }     // - not ^
+};
+
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        if (sz(s2) < sz(s1)) return false;
+        SumHash a; a.init(s1);
+        SumHash b; b.init(s2);
+        u64 target = a.get_hash();
+        REP(i, sz(s2) - sz(s1) + 1) {
+            int L = i, R = L + sz(s1) - 1;
+            if (b.get_hash(L, R) == target) return true;
+        }
+        return false;
+    }
+};
+```
+
+</details>
+
+Now `"aa"` sums to $$2\,r[\texttt{a}]$$ and `"bb"` to $$2\,r[\texttt{b}]$$, so they differ, and the fixed-length window comparison is a genuine multiset test (with the usual $$\approx 2^{-64}$$ collision odds). [LeetCode 438](https://leetcode.com/problems/find-all-anagrams-in-a-string/) is the same solution that collects every matching start instead of returning on the first. A plain 26-letter frequency window is the non-hash alternative.
 
 ## Docs worth reading
 
