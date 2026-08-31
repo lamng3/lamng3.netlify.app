@@ -20,7 +20,7 @@ $$
 9 \cdot 10^{L-1} \text{ numbers, contributing } L \cdot 9 \cdot 10^{L-1} \text{ digits},
 $$
 
-because the $$L$$-digit numbers run from $$10^{L-1}$$ to $$10^{L}-1$$. So the sequence splits into blocks: $$9$$ digits from the 1-digit numbers, $$180$$ from the 2-digit numbers, $$2700$$ from the 3-digit ones, and so on. These grow geometrically, so only $$O(\log n)$$ blocks precede position $$n$$.
+because the $$L$$-digit numbers run from $$10^{L-1}$$ to $$10^{L}-1$$. So the sequence splits into blocks: $$9$$ digits from the 1-digit numbers, $$180$$ from the 2-digit numbers, $$2700$$ from the 3-digit ones, and so on. Each block is more than ten times the previous, so only $$O(\log n)$$ of them precede position $$n$$.
 
 Finding the $$n$$-th digit is then three steps:
 
