@@ -3,7 +3,7 @@ layout: post
 title: "Rolling Hashes and XOR Hashes"
 description: Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring's hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can't force collisions.
 date: 2026-08-30
-last_updated: 2026-08-30 23:27:00
+last_updated: 2026-08-30 23:30:00
 author: Nathan Nguyen
 categories: [Algorithms, Strings]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Zobrist Hashing, XOR Hashing, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
@@ -237,6 +237,37 @@ because the shared prefix cancels itself. Your instinct was right: prefix XOR _i
 The one thing to watch: **plain XOR fingerprints a set, not a multiset.** Since $$r[v] \oplus r[v] = 0$$, a value appearing twice vanishes — XOR only sees each value's _parity_ of occurrences. That is perfect for "does every value occur an even number of times in this range?" (test XOR $$= 0$$), but wrong for anagram-style questions where counts matter. When multiplicity matters, either add the keys instead of XOR-ing (a sum respects counts, with natural `uint64_t` overflow as the modulus), or give the $$j$$-th occurrence of a value its own random key — the trick behind counting subarrays where every value appears exactly three times.
 
 So, back to strings: XOR hashing does **not** replace a rolling hash for ordered substring matching — it is blind to order by design. It shines on the complementary question — _is this window the same (multi)set of characters or words, in any order?_ — where the rolling hash is the wrong tool. In the concatenation problem above, for instance, the words may appear in any order, so a Zobrist fingerprint over the word-hashes (summed, since words can repeat) is a natural alternative to the frequency map.
+
+Packaged as a reusable class, it mirrors the rolling-hash API: append values, then query any range's set-fingerprint in $$O(1)$$. The random key table is **static**, so two `XorHash` objects assign the same key to the same value — that is what makes a subarray's fingerprint comparable against a separately-built reference set.
+
+<details markdown="1">
+<summary>C++ XorHash template</summary>
+
+```cpp
+class XorHash {
+private:
+    // shared random key per distinct value, so fingerprints are comparable
+    // across instances (generated lazily, seeded once)
+    static u64 key_of(ll v) {
+        static map<ll, u64> key;
+        static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+        auto it = key.find(v);
+        if (it != key.end()) return it->second;
+        return key[v] = rng();
+    }
+    vector<u64> pref; // pref[0] = 0, pref[i+1] = pref[i] ^ key_of(a[i])
+public:
+    XorHash() { pref.pb(0); }
+    void push_back(ll v) { pref.pb(pref.back() ^ key_of(v)); }
+    void init(const vector<ll>& a) { for (ll v : a) push_back(v); }
+    u64 get_hash() { return pref.back(); }                       // whole prefix
+    u64 get_hash(int L, int R) { return pref[R+1] ^ pref[L]; }   // set of a[L..R], inclusive
+};
+```
+
+</details>
+
+Swap the two `^` operators for `+` and you get the **additive** variant, which fingerprints a _multiset_ (counts respected, `u64` overflow as the modulus) instead of a set — the version to reach for on anagram-style problems.
 
 ### A worked example: is a subarray a permutation?
 
