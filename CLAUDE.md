@@ -46,6 +46,7 @@ toc:
 
 ### Quality bar
 
+- **Technically sound and written for students.** Every claim, formula, complexity bound, and code path must be correct — check them, don't hand-wave. Prefer precise statements over loose ones ("more than ten times the previous", not "grows geometrically"). Define terms on first use, spell out edge cases (e.g. the $$L=1$$ / block-0 case), and make sure any worked example actually computes to the stated result. Assume a motivated student reader: rigorous but approachable, no unexplained jumps.
 - After drafting, do a **prose-polish pass** for smooth, natural English. I care about this.
 - **Verify every external URL** (fetch it) before including it. Don't guess plausible-looking slugs — I've caught fabricated links before.
 
