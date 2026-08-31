@@ -3,6 +3,7 @@ layout: post
 title: "Rolling Hashes and XOR Hashes"
 description: Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring's hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can't force collisions.
 date: 2026-08-30
+last_updated: 2026-08-30 23:27:00
 author: Nathan Nguyen
 categories: [Algorithms, Strings]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Zobrist Hashing, XOR Hashing, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
@@ -237,6 +238,37 @@ The one thing to watch: **plain XOR fingerprints a set, not a multiset.** Since 
 
 So, back to strings: XOR hashing does **not** replace a rolling hash for ordered substring matching — it is blind to order by design. It shines on the complementary question — _is this window the same (multi)set of characters or words, in any order?_ — where the rolling hash is the wrong tool. In the concatenation problem above, for instance, the words may appear in any order, so a Zobrist fingerprint over the word-hashes (summed, since words can repeat) is a natural alternative to the frequency map.
 
+### A worked example: is a subarray a permutation?
+
+A common query ([Codeforces note](https://codeforces.com/blog/entry/85900)): given an array $$A$$ and many pairs $$(l, r)$$, decide whether $$A_l, \dots, A_r$$ is a permutation of $$1, 2, \dots, \text{len}$$, where $$\text{len} = r - l + 1$$. Order is irrelevant — you are asking whether the subarray's values are exactly the set $$\{1, \dots, \text{len}\}$$, each once. That is a set-equality question, so XOR hashing answers it in $$O(1)$$ per query after $$O(n)$$ preprocessing.
+
+Give each value $$v$$ a random key $$r[v]$$, take prefix XORs $$P_i = r[A_1] \oplus \dots \oplus r[A_i]$$, and precompute the reference fingerprints $$T_k = r[1] \oplus \dots \oplus r[k]$$ of the target sets $$\{1, \dots, k\}$$. Then
+
+$$
+A_l \dots A_r \text{ is a permutation of } 1 \dots \text{len} \iff P_r \oplus P_{l-1} = T_{\text{len}},
+$$
+
+the subarray's set-fingerprint on the left, the target set's on the right.
+
+```cpp
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+// values are in [1, n]; A is 1-indexed
+vector<u64> key(n+1), P(n+1, 0), T(n+1, 0);
+FOR(v, 1, n) key[v] = rng();
+FOR(v, 1, n) T[v] = T[v-1] ^ key[v];      // fingerprint of {1..v}
+FOR(i, 1, n) P[i] = P[i-1] ^ key[A[i]];   // prefix xor over A
+
+auto is_permutation = [&](int l, int r) {
+    int len = r - l + 1;
+    return (P[r] ^ P[l-1]) == T[len];
+};
+```
+
+**Why it works, and its limit.** A genuine permutation holds each of $$1, \dots, \text{len}$$ exactly once, so its XOR is exactly $$T_{\text{len}}$$ — no permutation is ever rejected. A non-permutation passes only if its odd-occurrence values XOR to $$T_{\text{len}}$$, i.e. some nonempty set of random keys cancels, which happens with probability $$\approx 2^{-64}$$ per query. The one blind spot is again multiplicity: XOR cannot on its own catch a repeat like $$\{1, 2, 2, 3\}$$. Comparing to $$T_{\text{len}}$$ (which pins the length) already rules out most of these; to close the gap cheaply, also check that the range maximum equals $$\text{len}$$ — a permutation of $$1 \dots \text{len}$$ must contain $$\text{len}$$ — which a sparse table answers in $$O(1)$$.
+
+This is the right shape when the elements are **distinct**. The sibling questions "does this window contain a permutation / anagram of a pattern" ([LeetCode 567](https://leetcode.com/problems/permutation-in-string/), [LeetCode 438](https://leetcode.com/problems/find-all-anagrams-in-a-string/)) are _multiset_ problems — letters repeat — so XOR is the wrong hash there (two equal letters cancel); use an additive fingerprint $$\sum r[c]$$ or a plain frequency window instead.
+
 ## Docs worth reading
 
 - [USACO Guide — Hashing](https://usaco.guide/gold/hashing?lang=cpp), including the XOR / Zobrist section.
@@ -246,4 +278,6 @@ So, back to strings: XOR hashing does **not** replace a rolling hash for ordered
 - [LeetCode 30 — Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
 - [LeetCode 187 — Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
 - [LeetCode 1044 — Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
+- [LeetCode 567 — Permutation in String](https://leetcode.com/problems/permutation-in-string/) (multiset fingerprint — use a sum, not XOR)
+- [LeetCode 438 — Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/) (multiset fingerprint)
 - [Codeforces 1418G — Three Occurrences](https://codeforces.com/problemset/problem/1418/G)
