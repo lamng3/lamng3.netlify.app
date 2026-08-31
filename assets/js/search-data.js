@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-counting-tree-triplets-by-their-meeting-vertex",
+        },{id: "post-permutations-parenthesizations-and-precision",
+        
+          title: "Permutations, Parenthesizations, and Precision",
+        
+        description: "Working through LeetCode 679 (the 24 Game) — generate operand orders by backtracking with a bitmask, enumerate every parenthesization by splitting a range instead of placing brackets (the range-DP idea), and handle real division either with an epsilon or, exactly, with rational arithmetic.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/permutations-parenthesizations-precision/";
+          
+        },
+      },{id: "post-counting-tree-triplets-by-their-meeting-vertex",
         
           title: "Counting Tree Triplets by Their Meeting Vertex",
         
