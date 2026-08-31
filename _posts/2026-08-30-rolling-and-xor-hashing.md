@@ -3,7 +3,7 @@ layout: post
 title: "Rolling Hashes and XOR Hashes"
 description: Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring's hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can't force collisions.
 date: 2026-08-30
-last_updated: 2026-08-30 23:39:00
+last_updated: 2026-08-30 23:48:00
 author: Nathan Nguyen
 categories: [Algorithms, Strings]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Zobrist Hashing, XOR Hashing, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
@@ -238,36 +238,57 @@ The one thing to watch: **plain XOR fingerprints a set, not a multiset.** Since 
 
 So, back to strings: XOR hashing does **not** replace a rolling hash for ordered substring matching — it is blind to order by design. It shines on the complementary question — _is this window the same (multi)set of characters or words, in any order?_ — where the rolling hash is the wrong tool. In the concatenation problem above, for instance, the words may appear in any order, so a Zobrist fingerprint over the word-hashes (summed, since words can repeat) is a natural alternative to the frequency map.
 
-Packaged as a reusable class, it mirrors the rolling-hash API: append values, then query any range's set-fingerprint in $$O(1)$$. The random key table is **static**, so two `XorHash` objects assign the same key to the same value — that is what makes a subarray's fingerprint comparable against a separately-built reference set.
+The recipe underneath never changes: **give each distinct value a random key, then summarize a collection by aggregating its keys.** The choice of aggregator is the only knob:
+
+- **XOR** summarizes a _set_ — each value contributes by parity, so a repeat cancels ($$r[v] \oplus r[v] = 0$$).
+- **sum** summarizes a _multiset_ — each value contributes once per occurrence, so counts survive (`u64` overflow is the modulus).
+
+Two collections then share a fingerprint iff they are equal, up to the usual $$\approx 2^{-64}$$ accident.
+
+Keep the randomness in one place: seed a single generator once and hand out one key per distinct value from a shared table. Every hash object reads the same keys, so their fingerprints are comparable. A function-`static` table also works and is common for one-off use (neal's `custom_hash` seeds a `static` this way), but a global generator with an explicit `keyOf` is easier to reason about, lets you precompute keys into a flat array for speed, and lets you build a second independent key family for double hashing.
 
 <details markdown="1">
-<summary>C++ XorHash template</summary>
+<summary>C++ XorHash / SumHash templates</summary>
 
 ```cpp
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+// one random key per distinct value, shared by every hash object
+map<ll, u64> key_table;
+u64 keyOf(ll v) {
+    auto it = key_table.find(v);
+    if (it != key_table.end()) return it->second;
+    return key_table[v] = rng();
+}
+
+// set fingerprint (multiplicity-blind): use when elements are distinct
 class XorHash {
-private:
-    // shared random key per distinct value, so fingerprints are comparable
-    // across instances (generated lazily, seeded once)
-    static u64 key_of(ll v) {
-        static map<ll, u64> key;
-        static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-        auto it = key.find(v);
-        if (it != key.end()) return it->second;
-        return key[v] = rng();
-    }
-    vector<u64> pref; // pref[0] = 0, pref[i+1] = pref[i] ^ key_of(a[i])
+    vector<u64> pref; // pref[0] = 0, pref[i+1] = pref[i] ^ keyOf(a[i])
 public:
     XorHash() { pref.pb(0); }
-    void push_back(ll v) { pref.pb(pref.back() ^ key_of(v)); }
+    void push_back(ll v) { pref.pb(pref.back() ^ keyOf(v)); }
     void init(const vector<ll>& a) { for (ll v : a) push_back(v); }
+    void init(const string& s) { for (char c : s) push_back(c); }
     u64 get_hash() { return pref.back(); }                       // whole prefix
-    u64 get_hash(int L, int R) { return pref[R+1] ^ pref[L]; }   // set of a[L..R], inclusive
+    u64 get_hash(int L, int R) { return pref[R+1] ^ pref[L]; }   // a[L..R], inclusive
+};
+
+// multiset fingerprint (counts respected): the additive twin, ^ becomes + / -
+class SumHash {
+    vector<u64> pref; // pref[0] = 0, pref[i+1] = pref[i] + keyOf(a[i])
+public:
+    SumHash() { pref.pb(0); }
+    void push_back(ll v) { pref.pb(pref.back() + keyOf(v)); }
+    void init(const vector<ll>& a) { for (ll v : a) push_back(v); }
+    void init(const string& s) { for (char c : s) push_back(c); }
+    u64 get_hash() { return pref.back(); }
+    u64 get_hash(int L, int R) { return pref[R+1] - pref[L]; }
 };
 ```
 
 </details>
 
-Swap the two `^` operators for `+` and you get the **additive** variant, which fingerprints a _multiset_ (counts respected, `u64` overflow as the modulus) instead of a set — the version to reach for on anagram-style problems.
+Reach for `XorHash` when the elements are distinct or you only care about presence; reach for `SumHash` when repeats must be counted. For bounded values, swap the `map` for a precomputed `u64 key[MAXV]` filled once from `rng()` — a flat array is faster, and the `map` only earns its keep when values are large or sparse (which is also exactly the array form the permutation example below uses inline).
 
 ### A worked example: is a subarray a permutation?
 
@@ -304,38 +325,20 @@ This is the right shape when the elements are **distinct**.
 
 [LeetCode 567](https://leetcode.com/problems/permutation-in-string/) asks whether some window of `s2` is a permutation of `s1`: a fixed-length window whose _multiset_ of letters matches `s1`. A first XOR attempt walks into two traps.
 
-1. **Keys must be shared.** If `key_of` builds a fresh random table on every call, the same letter gets a different key each time it is hashed, and no two fingerprints are comparable. The table must be `static` — generated once, shared across every call and every instance.
-2. **XOR is multiplicity-blind.** Even with shared keys, XOR fingerprints a set: since $$r[c] \oplus r[c] = 0$$, both `"aa"` and `"bb"` fingerprint to $$0$$ and compare equal, though neither is a permutation of the other. Anagram matching needs counts, so switch to the **additive** fingerprint — sum the keys, difference the prefix sums — which respects multiplicity.
+1. **Keys must be shared.** If the key table is rebuilt on every call, the same letter gets a different key each time it is hashed, and no two fingerprints are comparable. It has to be generated once and shared — the global `keyOf` above does exactly that.
+2. **XOR is multiplicity-blind.** Even with shared keys, XOR fingerprints a set: since $$r[c] \oplus r[c] = 0$$, both `"aa"` and `"bb"` fingerprint to $$0$$ and compare equal, though neither is a permutation of the other. Anagram matching needs counts, so switch to `SumHash` — the additive fingerprint respects multiplicity.
 
 <details markdown="1">
 <summary>C++ implementation</summary>
 
 ```cpp
-class SumHash {
-private:
-    // shared, generated once: same letter -> same key everywhere
-    static u64 key_of(char c) {
-        static map<char, u64> key;
-        static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-        auto it = key.find(c);
-        if (it != key.end()) return it->second;
-        return key[c] = rng();
-    }
-    vector<u64> pref; // pref[0] = 0, pref[i+1] = pref[i] + key_of(a[i])
-public:
-    SumHash() { pref.pb(0); }
-    void init(const string& a) { for (char c : a) push_back(c); }
-    void push_back(char c) { pref.pb(pref.back() + key_of(c)); }   // + not ^
-    u64 get_hash() { return pref.back(); }
-    u64 get_hash(int L, int R) { return pref[R+1] - pref[L]; }     // - not ^
-};
-
+// rng, keyOf, and SumHash as defined above
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
         if (sz(s2) < sz(s1)) return false;
-        SumHash a; a.init(s1);
-        SumHash b; b.init(s2);
+        SumHash a; a.init(s1);       // fingerprint of the whole pattern
+        SumHash b; b.init(s2);       // prefix sums over the text
         u64 target = a.get_hash();
         REP(i, sz(s2) - sz(s1) + 1) {
             int L = i, R = L + sz(s1) - 1;
