@@ -3,7 +3,7 @@ layout: post
 title: "Rolling Hashes and XOR Hashes"
 description: Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring's hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can't force collisions.
 date: 2026-08-30
-last_updated: 2026-08-30 23:48:00
+last_updated: 2026-09-05 19:16:00
 author: Nathan Nguyen
 categories: [Algorithms, Strings]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Zobrist Hashing, XOR Hashing, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
@@ -175,6 +175,47 @@ public:
 </details>
 
 Each `check` scans $$n$$ chunks, so this is about $$O(\vert s \vert \cdot n)$$. It passes the constraints; the standard speedup is to group starts by `start % m` into `m` independent sliding windows and slide by one chunk each step, reusing the count map, which brings it to $$O(\vert s \vert)$$.
+
+## Example: shortest palindrome
+
+[LeetCode 214 — Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome/) asks for the shortest palindrome you can make by adding characters **in front** of `s`. Since only a prefix is prepended, write `s = head + tail` where `head` is the longest prefix of `s` that is already a palindrome; the answer is then `reverse(tail) + s`. The whole task reduces to **finding the longest palindromic prefix.**
+
+A rolling hash finds it in one pass by carrying two hashes of the growing prefix — one read forward, one read backward — and noting when they agree. As we append $$s_i$$ (base $$b$$, modulus $$M$$):
+
+$$
+\text{fwd} \leftarrow \text{fwd}\cdot b + s_i, \qquad \text{rev} \leftarrow \text{rev} + s_i \cdot b^{\,i}.
+$$
+
+Here `fwd` is the hash of $$s_0 \dots s_i$$ with $$s_0$$ most significant, and `rev` is the hash of the _reversed_ prefix $$s_i \dots s_0$$ with $$s_i$$ most significant. The prefix equals its reverse — i.e. it is a palindrome — exactly when $$\text{fwd} = \text{rev}$$. Keep the largest index $$i$$ where that holds.
+
+<details markdown="1">
+<summary>C++ implementation</summary>
+
+```cpp
+class Solution {
+public:
+    string shortestPalindrome(string s) {
+        int n = sz(s);
+        const u128 b = 313, M = ((1ULL << 61) - 1ULL);
+        u128 fwd = 0, rev = 0, p = 1;   // p = b^i
+        int best = -1;                  // longest palindromic prefix ends here
+        REP(i, n) {
+            u128 c = (unsigned char)s[i];
+            fwd = (fwd * b + c) % M;     // s[0..i], s[0] most significant
+            rev = (rev + c * p) % M;     // reversed prefix, s[i] most significant
+            p   = p * b % M;
+            if (fwd == rev) best = i;    // s[0..i] is a palindrome
+        }
+        string tail = s.substr(best + 1);
+        reverse(all(tail));
+        return tail + s;
+    }
+};
+```
+
+</details>
+
+Each step is $$O(1)$$, so the scan is $$O(n)$$. It is a single hash, so a hostile test could in principle force a false palindrome; a random base with double hashing makes that negligible, and if you want a deterministic route, the KMP failure function of `reverse(s) + '#' + s` gives the same longest palindromic prefix.
 
 ## Scrambling keys against adversaries
 
@@ -360,6 +401,7 @@ Now `"aa"` sums to $$2\,r[\texttt{a}]$$ and `"bb"` to $$2\,r[\texttt{b}]$$, so t
 ## Practice
 
 - [LeetCode 30 — Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
+- [LeetCode 214 — Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome/)
 - [LeetCode 187 — Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
 - [LeetCode 1044 — Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
 - [LeetCode 567 — Permutation in String](https://leetcode.com/problems/permutation-in-string/) (multiset fingerprint — use a sum, not XOR)
