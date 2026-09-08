@@ -74,7 +74,7 @@ Either way the cell is known before we need it. The bottom-right corner is the o
 
 Which cells end up forced? Exactly the bottom-right corners. As the top-left corner $$(i,j)$$ sweeps its range, the bottom-right corner $$(i+r-1,\, j+c-1)$$ sweeps **rows $$r \dots n$$ and columns $$c \dots m$$** — the whole bottom-right rectangle. And the map $$(i,j) \mapsto (i+r-1,\, j+c-1)$$ is just a shift, so it is a bijection: distinct windows force distinct cells, one each.
 
-Everything else — the **first $$r-1$$ rows together with the first $$c-1$$ columns**, an L-shaped border — is never forced. Those are the free cells.
+Everything else — the **first $$r-1$$ rows together with the first $$c-1$$ columns** — is never forced. Those are the free cells. (Why those exactly? A forced cell is a bottom-right corner, so its row is $$\ge r$$ and its column is $$\ge c$$; a cell that is never forced must therefore have row $$< r$$ _or_ column $$< c$$.)
 
 ```
 n = 3, m = 3, r = 2, c = 2   (windows = 2·2 = 4)
@@ -87,6 +87,19 @@ n = 3, m = 3, r = 2, c = 2   (windows = 2·2 = 4)
 F = free  (first r−1 = 1 row, plus first c−1 = 1 column)
 . = forced (bottom-right r..n × c..m rectangle, one per window)
 ```
+
+One caution before the count: this free region is $$r-1$$ **whole** rows and $$c-1$$ **whole** columns — a band that can be many cells thick, not a one-cell-wide frame, and _not_ $$r+c-1$$ cells. The picture above looks thin only because $$r-1 = c-1 = 1$$. With $$r = 2, c = 3$$ the first two columns are free:
+
+```
+n = 3, m = 4, r = 2, c = 3   (windows = 2·2 = 4)
+
+   col:  1 2 3 4
+   row1: F F F F
+   row2: F F . .
+   row3: F F . .
+```
+
+Here one whole row ($$r-1 = 1$$) and two whole columns ($$c-1 = 2$$) are free — eight cells, with the bottom-right $$2\times2$$ block forced.
 
 ## Following the sweep on the 3×3 example
 
