@@ -61,49 +61,40 @@ So think of each window not as a filter on grids, but as a _rule that fills in i
 
 ## Which cells are free, which are forced
 
-Now sweep the windows in reading order — top-left corners row by row, left to right — and let each window fill in its bottom-right cell as we reach it.
-
-**Claim.** When the sweep reaches a window, the only cell of that window not already decided is its bottom-right corner. So that corner is forced right then, with no missing information.
-
-Here is why nothing is missing. Take any cell of the window other than its bottom-right corner. Either
-
-- it lies in the **first $$r-1$$ rows or the first $$c-1$$ columns** — the top/left border, which we will choose up front — or
-- it lies in row $$\ge r$$ and column $$\ge c$$, which makes it the bottom-right corner of an _earlier_ window (shift its position back by $$r-1$$ rows and $$c-1$$ columns), and earlier windows have already been filled.
-
-Either way the cell is known before we need it. The bottom-right corner is the one genuinely new cell, and the constraint sets it.
-
-Which cells end up forced? Exactly the bottom-right corners. As the top-left corner $$(i,j)$$ sweeps its range, the bottom-right corner $$(i+r-1,\, j+c-1)$$ sweeps **rows $$r \dots n$$ and columns $$c \dots m$$** — the whole bottom-right rectangle. And the map $$(i,j) \mapsto (i+r-1,\, j+c-1)$$ is just a shift, so it is a bijection: distinct windows force distinct cells, one each.
-
-Everything else — the **first $$r-1$$ rows together with the first $$c-1$$ columns** — is never forced. Those are the free cells. (Why those exactly? A forced cell is a bottom-right corner, so its row is $$\ge r$$ and its column is $$\ge c$$; a cell that is never forced must therefore have row $$< r$$ _or_ column $$< c$$.)
+One picture carries the whole argument. Draw the line between rows $$r-1$$ and $$r$$, and the line between columns $$c-1$$ and $$c$$; together they cut the grid into four blocks.
 
 ```
-n = 3, m = 3, r = 2, c = 2   (windows = 2·2 = 4)
+               columns 1 … c-1      columns c … m
+             +--------------------+--------------------+
+  rows       |        FREE        |        FREE        |
+  1 … r-1    |     (r-1)(c-1)     |    (r-1)(m-c+1)    |
+             +--------------------+--------------------+
+  rows       |        FREE        |       FORCED       |
+  r … n      |    (n-r+1)(c-1)    |   (n-r+1)(m-c+1)   |
+             |                    |   one per window   |
+             +--------------------+--------------------+
+```
 
-   col: 1 2 3
+The **bottom-right block** — rows $$r \dots n$$, columns $$c \dots m$$ — is exactly the set of window bottom-right corners. As a window's top-left corner $$(i,j)$$ ranges over all $$(n-r+1)(m-c+1)$$ positions, its bottom-right corner $$(i+r-1,\, j+c-1)$$ sweeps this block, one cell per window — the map is a shift by $$(r-1,\, c-1)$$, so it is a bijection. Every cell in this block is **forced**.
+
+The other three blocks — the first $$r-1$$ rows and the first $$c-1$$ columns — are **free**. These are _whole_ rows and _whole_ columns, so the free region is a band that can be many cells thick; it only looks like a thin frame when $$r-1 = c-1 = 1$$, and it is never a fixed $$r + c - 1$$ cells.
+
+**Why the forced block can always be filled.** Process the windows in reading order — corners top to bottom, then left to right. When we reach a window, every cell it covers except its bottom-right corner is either in a free block or is the bottom-right corner of an _earlier_ window; either way it is already set. So only the corner is new, and the window's equation computes it from the rest.
+
+## Following the sweep on a small grid
+
+Take $$n = m = 3$$, $$r = c = 2$$ — the smallest interesting case, where the free band is a thin L: the first row and the first column (five cells), with the bottom-right $$2\times2$$ block forced (four cells, one per window).
+
+```
+   col:  1 2 3
    row1: F F F
    row2: F . .
    row3: F . .
 
-F = free  (first r−1 = 1 row, plus first c−1 = 1 column)
-. = forced (bottom-right r..n × c..m rectangle, one per window)
+F = free    . = forced
 ```
 
-One caution before the count: this free region is $$r-1$$ **whole** rows and $$c-1$$ **whole** columns — a band that can be many cells thick, not a one-cell-wide frame, and _not_ $$r+c-1$$ cells. The picture above looks thin only because $$r-1 = c-1 = 1$$. With $$r = 2, c = 3$$ the first two columns are free:
-
-```
-n = 3, m = 4, r = 2, c = 3   (windows = 2·2 = 4)
-
-   col:  1 2 3 4
-   row1: F F F F
-   row2: F F . .
-   row3: F F . .
-```
-
-Here one whole row ($$r-1 = 1$$) and two whole columns ($$c-1 = 2$$) are free — eight cells, with the bottom-right $$2\times2$$ block forced.
-
-## Following the sweep on the 3×3 example
-
-Choose the five `F` cells however you like. Then process the four windows in order; each fills one `.`:
+Choose the five `F` cells however you like, then process the four windows in order; each fills one `.`:
 
 1. window at $$(1,1)$$ covers $$(1,1),(1,2),(2,1)$$ — all free — and forces $$(2,2)$$.
 2. window at $$(1,2)$$ covers $$(1,2),(1,3),(2,2)$$ — the last just got set — and forces $$(2,3)$$.
@@ -123,19 +114,25 @@ So clean grids and border fillings are in one-to-one correspondence. The number 
 
 ## Counting the free cells
 
-The free region is the union of the first $$r-1$$ rows and the first $$c-1$$ columns. Count it with [inclusion-exclusion]({% post_url 2026-07-24-principle-of-inclusion-exclusion %}), since those two parts overlap in the top-left $$(r-1)\times(c-1)$$ block:
+Straight off the four blocks, the free cells are everything except the forced block:
+
+$$
+\text{free cells} = nm - (n-r+1)(m-c+1).
+$$
+
+You can also add the three free blocks up directly. Together they are the first $$r-1$$ rows plus the first $$c-1$$ columns, and those two overlap in the top-left $$(r-1)\times(c-1)$$ block — so [inclusion-exclusion]({% post_url 2026-07-24-principle-of-inclusion-exclusion %}) says add both and subtract the overlap once:
 
 $$
 \underbrace{(r-1)\,m}_{\text{first } r-1 \text{ rows}} + \underbrace{n\,(c-1)}_{\text{first } c-1 \text{ cols}} - \underbrace{(r-1)(c-1)}_{\text{counted twice}}.
 $$
 
-A line of algebra turns this into the cleaner form
+A line of algebra confirms the two counts agree,
 
 $$
 (r-1)m + n(c-1) - (r-1)(c-1) = nm - (n-r+1)(m-c+1),
 $$
 
-which reads exactly as **"all cells minus the forced ones"** — and the forced ones are the windows, so this is just $$nm$$ minus the number of windows, as it must be. Hence
+so the exponent is simply $$nm$$ minus the number of windows. Hence
 
 $$
 \boxed{\ \text{clean grids} = 2^{\,nm - (n-r+1)(m-c+1)} \bmod 998244353.\ }
