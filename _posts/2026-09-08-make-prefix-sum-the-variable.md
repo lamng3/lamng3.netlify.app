@@ -10,7 +10,7 @@ toc:
   sidebar: right
 ---
 
-Here is a compact Codeforces problem, **Signs of Prefix Sums**, that is worth pulling apart slowly, because it stacks two patterns that recur everywhere.
+[Codeforces 2260D — Signs of Prefix Sums](https://codeforces.com/contest/2260/problem/D) is a compact problem worth pulling apart slowly, because it stacks two patterns that recur everywhere.
 
 Take an array $$a_1, \dots, a_n$$ of **nonzero** integers and its prefix sums $$p_i = a_1 + \dots + a_i$$. Record only the sign of each prefix sum as a character: `+` if $$p_i > 0$$, `-` if $$p_i < 0$$, `0` if $$p_i = 0$$. That gives a string $$s$$ of length $$n$$. The **cost** of the array is $$\max_i \vert a_i \vert$$. Given $$s$$, find the minimum possible cost of a nonzero array that produces it, or $$-1$$ if none exists.
 
@@ -210,7 +210,7 @@ So the outline to reach for, when an optimization that is secretly a max-or-min 
 
 ## Practice
 
-- Codeforces — Signs of Prefix Sums (the problem above)
+- [Codeforces 2260D — Signs of Prefix Sums](https://codeforces.com/contest/2260/problem/D) (the problem above)
 - [LeetCode 416 — Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/) (boolean reachability DP — carry the set of reachable sums)
 - [LeetCode 494 — Target Sum](https://leetcode.com/problems/target-sum/) (the counting sibling: OR becomes +)
 - [LeetCode 926 — Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/) (per-position feasibility DP)
