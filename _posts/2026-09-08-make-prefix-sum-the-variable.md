@@ -190,9 +190,17 @@ int main() {
 
 The first layer uses $$\vert v \vert \le x$$ because $$p_1 = a_1$$; later layers only bound the _step_ $$\vert w - v \vert \le x$$, with values clamped to $$[-(x+2),\, x+2]$$ by the domination argument. `cur`/`nxt` are the rolling frontier, indexed by $$v + k$$ so negative values fit in an array. If a layer's frontier ever empties, the budget is infeasible.
 
-## The takeaway pattern
+## Recognizing the same two moves next time
 
-When a problem couples all its variables through a **running aggregate** — a prefix sum, a running max, a prefix XOR — try making that aggregate the variable. Global constraints often turn local, local constraints turn into a layered graph, and "is it feasible" becomes "is there a path," which a small reachability DP answers directly.
+Both layers travel well beyond this problem, and each has a trigger you can watch for.
+
+The first is a reflex for any objective phrased as **minimize the maximum** or **maximize the minimum**. Stop optimizing the quantity and ask a yes/no question about a budget instead: "is a valid object achievable with everything bounded by $$x$$?" Feasibility is monotone in the budget, so the answer is a boundary you can locate — by binary search in general, or, as here, by checking a couple of candidates once the range is pinned down. Whenever the thing you are minimizing is itself a maximum (or vice versa), this conversion is available.
+
+The second move is the one that made the problem tractable. When a rule couples all the variables through a **running aggregate** — a prefix sum here, but equally a running maximum, a prefix XOR, a running gcd, or a balance counter — make that aggregate the variable rather than the raw array. What changes is the _reach_ of the constraints. Stated on the array, "the sign of $$a_1 + \dots + a_i$$" looks back across the entire prefix. Stated on the aggregate, "the sign of $$p_i$$, with $$p_i - p_{i-1}$$ nonzero and bounded" touches only two neighbors. Global constraints collapse to local ones, and a chain of local constraints is a layered graph.
+
+Once you are on that graph the finish writes itself: "does a valid object exist" is "is there a path from the source to the last layer." A reachability DP walks it by keeping, at each position, the entire set of values still consistent with everything seen so far — committing to none, letting the constraints prune the rest — and a domination argument keeps that set small enough to be linear. Replace the boolean OR with a sum and the very same walk counts the objects instead of merely detecting one.
+
+So the outline to reach for, when an optimization that is secretly a max-or-min sits on top of a constraint that couples everything through a running total: peel the optimization into a feasibility search, promote the running total to the variable so the constraints go local, then walk the resulting graph. It is the same instinct — carry a compressed running total and let it drive the transitions — behind [digit DP]({% post_url 2026-09-07-digit-dp-choosing-state %}), where the running total is the value taken $$\bmod\ k$$, and behind [prefix XOR hashing]({% post_url 2026-08-30-rolling-and-xor-hashing %}), where it is the XOR of a prefix. Three aggregates, one habit.
 
 ## Docs worth reading
 
