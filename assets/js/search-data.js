@@ -175,6 +175,13 @@ ninja.data = [{
           window.open("https://leetcode.com/u/triplethread/", "_blank");
         },
       },{
+        id: 'social-chess_username',
+        title: 'Chess_username',
+        section: 'Socials',
+        handler: () => {
+          window.open("", "_blank");
+        },
+      },{
         id: 'social-linkedin',
         title: 'LinkedIn',
         section: 'Socials',
