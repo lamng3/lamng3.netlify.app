@@ -29,6 +29,8 @@ latest_posts:
 
 I am a Software Engineer @ Microsoft. My interest lies in Distributed Systems, Databases, and the Data Structures & Algorithms beneath them. A competitive programmer at heart, I like carrying that algorithmic intuition into the data structures that make databases fast. I write about what I learn.
 
+On the side, the competitive itch never fully left — [top 2% on LeetCode](https://leetcode.com/u/triplethread/) and [top 2% worldwide on Chess.com puzzles](https://www.chess.com/member/3thread/stats/puzzles).
+
 ### Previous
 
 **@ Center for Materials Data Science**, I was a Research Engineer advised by [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), where I built an information retrieval engine for scientific agents ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
