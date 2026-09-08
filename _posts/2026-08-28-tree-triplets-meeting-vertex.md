@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Counting Tree Triplets by Their Meeting Vertex"
+title: "Tree Counting: The Meeting Vertex"
 description: In a tree, the three pairwise paths of a triplet {u,v,w} share exactly one vertex, and every other vertex lies on either zero or two of them. That parity fact collapses Codeforces 2241E to a per-vertex count, which an online elementary-symmetric-polynomial scan finishes in O(n).
 date: 2026-08-28
 author: Nathan Nguyen

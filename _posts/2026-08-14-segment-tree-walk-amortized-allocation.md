@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Segment Tree Walk and Amortized Allocation"
+title: "Segment Tree Walk: Descending to the Answer"
 description: A cp-algorithms-style deep dive into Booking Concert Tickets in Groups — modeling seat allocation as a sum/max monoid on a segment tree, replacing a binary-searched range-max with an O(log n) descent (the "segment tree walk"), and proving the greedy scatter is O(log n) amortized via a potential argument on a monotone head pointer.
 date: 2026-08-14
 last_updated: 2026-08-20
@@ -13,7 +13,7 @@ toc:
 
 Range queries mixed with a stateful greedy are a recurring olympiad motif. A naive scan handles each operation in $$O(n)$$, and the reflexive fix — a binary search wrapped around a logarithmic range query — only reaches $$O(\log^2 n)$$. We can do better on both fronts. Pairing a **segment tree walk** (a single descent that locates a boundary in one pass) with an **amortized potential argument** brings one operation to $$O(\log n)$$ worst case and the other to $$O(\log n)$$ amortized.
 
-Our example is [LeetCode 2286 — Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups/), an unusually instructive problem. If you think of segment trees as _nodes that hold summaries_, my earlier post [Segment Trees, One Node at a Time]({% post_url 2026-08-12-segment-tree-nodes-dynamic-sparse %}) builds the mental model this one relies on.
+Our example is [LeetCode 2286 — Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups/), an unusually instructive problem. If you think of segment trees as _nodes that hold summaries_, my earlier post [Segment Tree: One Node at a Time]({% post_url 2026-08-12-segment-tree-nodes-dynamic-sparse %}) builds the mental model this one relies on.
 
 ## Formal problem statement
 

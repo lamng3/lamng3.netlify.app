@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Counting a Grid by Its Degrees of Freedom"
+title: "Degrees of Freedom: Counting Binary Grids"
 description: Count the binary matrices whose every r×c window has an even number of ones (Codeforces 2240B). Each window is one XOR equation that forces a single cell, so the free cells form an L-shaped border and the answer is just 2 raised to the number of free cells.
 date: 2026-09-07
 author: Nathan Nguyen

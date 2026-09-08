@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Rolling Hashes and XOR Hashes"
+title: "Hashing: Rolling and XOR"
 description: Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring's hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can't force collisions.
 date: 2026-08-30
 last_updated: 2026-09-05 19:16:00

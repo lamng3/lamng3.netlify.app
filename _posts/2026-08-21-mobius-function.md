@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Möbius Function"
+title: "Möbius Function: The Sign Flip and Its Sieve"
 description: The Möbius function mu(n) from the ground up — the sign flip that gives (-1)^k for k distinct primes, why a single squared prime forces mu(n) = 0, and a sieve that computes it for all n up to N in O(N log N) by propagating each value to its multiples.
 date: 2026-08-21
 last_updated: 2026-08-21 01:17:00

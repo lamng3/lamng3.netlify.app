@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Segment Trees, One Node at a Time"
+title: "Segment Tree: One Node at a Time"
 description: A different way to think about segment trees — as a tree of nodes, each holding a small summary that merges from its children. Once you see it that way, the "store more per node" trick and the dynamic/sparse segment tree over a billion-wide range both fall out naturally.
 date: 2026-08-12
 last_updated: 2026-08-20

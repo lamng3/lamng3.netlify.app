@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Persistency: Keeping Old Versions Around"
+title: "Persistence: Keeping Old Versions Around"
 description: A simple look at persistent data structures — the snapshot array, the persistent segment tree, persistent queues, and how the same idea shows up in databases as MVCC and copy-on-write B-trees.
 date: 2026-07-08
 last_updated: 2026-08-20
