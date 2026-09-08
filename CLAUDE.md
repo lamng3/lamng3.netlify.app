@@ -26,6 +26,7 @@ toc:
 
 ### Structure & voice
 
+- **Two request flavors.** I'll either (a) hand you a specific problem to write up, or (b) name a **topic** to explain — a data structure, algorithm, layout, or concept (e.g. "write about Compressed Sparse Row"). For a topic, write an accessible explainer at the same bar: what it is, how it works step by step, why it beats the naive alternative, a worked usage, and the reusable pattern. If I paste template/library code, _study it_ and present a clean, easy-to-follow version **in my macro style** (`REP`/`FOR`/`vi`/`pb`/`sz`, not a foreign library's `vc`/`eb`/`len`), and it's fine to simplify a clever-but-cryptic step into a plainer one (say so).
 - **Raw, direct, technical voice.** This is a math / CP / algorithms / database-CS blog. No cringy or clickbait headlines, no narrative/story openings, no cutesy metaphors ("in disguise", "wearing a costume", "quietly collapses", "a nice side effect").
 - **Titles name the technique/idea, not the problem source.** The reusable, searchable thing is the concept — nobody searches "Codeforces 1082E". Use e.g. `From Range Update to Maximum Subarray`, not `Increasing Frequency (Codeforces 1082E)` and not `A Maximum Subarray in Disguise`. Put the specific problem name/number in the description and intro, not the title.
 - State the result or reduction up front, then derive it. Motivation is fine; framing gimmicks are not.
