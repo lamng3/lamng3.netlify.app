@@ -29,7 +29,7 @@ latest_posts:
 
 I am a Software Engineer @ Microsoft. My interest lies in Distributed Systems, Databases, and the Data Structures & Algorithms beneath them. A competitive programmer at heart, I like carrying that algorithmic intuition into the data structures that make databases fast. I write about what I learn.
 
-On the side, the competitive itch never fully left — [top 2% on LeetCode](https://leetcode.com/u/triplethread/) and [top 2% worldwide on Chess.com puzzles](https://www.chess.com/member/3thread/stats/puzzles).
+On the side, the competitive itch never fully left: [top 2% on LeetCode](https://leetcode.com/u/triplethread/) and [top 2% worldwide on Chess.com puzzles](https://www.chess.com/member/3thread/stats/puzzles).
 
 ### Previous
 
