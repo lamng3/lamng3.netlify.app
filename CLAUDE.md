@@ -4,7 +4,7 @@ This is Nathan Nguyen's personal blog (Jekyll + al-folio theme, hosted on Netlif
 
 ## Blog posts (`_posts/`)
 
-Goal: **clean, clear, quality writing for interested readers.** Match the style of the existing posts; don't drift into dense or over-formal prose unless I explicitly ask for it.
+Goal: **clean, clear, quality writing for interested readers who like math.** Match the style of the existing posts: mathematically rigorous and derivation-first, but always clearly motivated and readable — depth is welcome, gratuitous notation-density is not.
 
 ### Front matter
 
