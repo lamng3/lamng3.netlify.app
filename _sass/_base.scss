@@ -650,12 +650,12 @@ footer.sticky-bottom {
 
 // Blog page - minimal style like ekzhang
 .blog-page {
-  max-width: 700px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1rem;
 
   .blog-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     text-align: center;
 
     h1 {
@@ -669,6 +669,117 @@ footer.sticky-bottom {
       font-size: 1rem;
       color: var(--global-text-color-light);
       margin: 0;
+    }
+  }
+
+  // category filter chips
+  .blog-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+
+    .cat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--global-text-color-light);
+      background-color: var(--global-code-bg-color);
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: white;
+        background-color: var(--global-theme-color);
+        transform: translateY(-1px);
+      }
+
+      .cat-count {
+        font-size: 0.7rem;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  // two-column layout: post list + sticky month index
+  .blog-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+
+  .blog-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 700px;
+  }
+
+  .blog-month-heading {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--global-text-color-light);
+    margin: 2.5rem 0 1.25rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--global-divider-color);
+    scroll-margin-top: 5rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .blog-months-sidebar {
+    flex: 0 0 170px;
+    position: sticky;
+    top: 5rem;
+
+    .blog-months-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--global-text-color-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-months-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      border-left: 1px solid var(--global-divider-color);
+
+      a {
+        font-size: 0.85rem;
+        color: var(--global-text-color-light);
+        text-decoration: none;
+        padding: 0.1rem 0 0.1rem 0.85rem;
+        margin-left: -1px;
+        border-left: 2px solid transparent;
+        transition: all 0.15s ease;
+
+        &:hover {
+          color: var(--global-theme-color);
+          border-left-color: var(--global-theme-color);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 800px) {
+    max-width: 700px;
+
+    .blog-layout {
+      gap: 0;
+    }
+
+    .blog-months-sidebar {
+      display: none;
     }
   }
 
