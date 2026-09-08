@@ -43,7 +43,8 @@ toc:
   ```
   Use my competitive-programming template (`#include <bits/stdc++.h>` + `REP`/`ll`/`vi` macros; the `preprocess()`/`solve()`/`main()` with `int tt = 1` structure).
 - **Keep my implementation as-written.** When I supply code, preserve its structure, helper functions (e.g. a `kadane()` lambda), variable names, and inline `//` comments. Only strip top-of-function scratch `/* ... */` blocks — don't rewrite or inline my code into a "cleaner" version.
-- Keep it light and readable by default. Heavy, formal cp-algorithms-style math (monoid formalism, potential-method proofs, etc.) is **opt-in** — only when I ask for that register.
+- **I like math — lean into it.** Rigorous, derivation-first exposition is the default, not something to water down: prove the claims (bijections, degrees-of-freedom / counting arguments, inclusion-exclusion, invariants), _derive_ the formula rather than stating it, and back it with a concrete worked numeric example and a sanity check (e.g. an edge case that the formula must satisfy). Math is a feature of this blog.
+- The above is not a license for gratuitous formalism. Very notation-dense cp-algorithms register (monoid algebra, potential-method proofs written out in full) stays **opt-in** — reach for it only when I ask. Default: mathematically rigorous but clearly motivated and readable.
 - End with a **Practice** section: a bare list of problem links, no ratings or spoilers inline unless I ask.
 - **Docs / references sections stay short** — terse one-line pointers, not sentence-long descriptions.
 
