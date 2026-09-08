@@ -10,7 +10,13 @@ toc:
   sidebar: right
 ---
 
-CSR — Compressed Sparse Row — is not really an algorithm; it is a **data layout**. It stores a bucketed collection compactly: $$n$$ groups, each holding a variable number of values of type `T`, all in one contiguous block of memory. In competitive programming its most common use is an **adjacency list**, a drop-in replacement for `vector<vector<int>>` that is smaller and faster.
+Almost every graph problem opens the same way: read the edges, and store for each vertex the list of its neighbors. The reflex in C++ is `vector<vector<int>>` — one inner vector per vertex, `g[u].push_back(v)` for each edge. It is correct, and it is what everyone writes first.
+
+It also quietly does a lot of work. Each of the $$n$$ inner vectors is its own heap allocation that reallocates as you push into it, and those vectors end up scattered across memory. Later, when you walk a vertex's neighbors — which a traversal does constantly — you follow a pointer to some far-off block, take a cache miss, read a few integers, then jump somewhere else for the next vertex. On a graph with millions of edges and a tight time limit, that pointer-chasing is often the whole difference between passing and timing out.
+
+The nagging part is that we do not actually _need_ $$n$$ separate containers. The neighbor lists never change once the graph is read; we only ever scan them. So the question is: **can we store "a variable-length list per vertex" in a way that is compact and streams through memory in order?**
+
+**Compressed Sparse Row (CSR)** is the answer. It is not an algorithm; it is a **data layout** — the standard flat way to hold a bucketed collection: $$n$$ groups, each with a variable number of values, filled once and then read many times. Adjacency lists are the headline use, but the same layout groups records by a key, or stores the rows of a sparse matrix (where the name comes from). Where a segment tree is the answer to "range queries on a changing array," CSR is the answer to "many fixed groups, scanned over and over."
 
 ## The layout
 
