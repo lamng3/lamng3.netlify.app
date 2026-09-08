@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-digit-dp-choosing-the-right-state",
+        },{id: "post-make-the-prefix-sum-the-variable",
+        
+          title: "Make the Prefix Sum the Variable",
+        
+        description: "Codeforces &quot;Signs of Prefix Sums&quot; stacks two reusable patterns — minimize-the-max becomes a feasibility question you can search, and feasibility becomes reachability once you treat the prefix sums (not the array) as the variables, which turns global constraints into local ones and lets a small reachability DP walk the answer.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/make-prefix-sum-the-variable/";
+          
+        },
+      },{id: "post-digit-dp-choosing-the-right-state",
         
           title: "Digit DP: Choosing the Right State",
         
