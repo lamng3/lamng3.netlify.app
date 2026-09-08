@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-counting-a-grid-by-its-degrees-of-freedom",
+        },{id: "post-digit-dp-choosing-the-right-state",
+        
+          title: "Digit DP: Choosing the Right State",
+        
+        description: "Count integers in [low, high] whose digits are half even, half odd and that are divisible by k (LeetCode 2827). The whole difficulty is deciding what to remember as you build a number digit by digit — carry the remainder mod k, not the number, and the even-minus-odd difference, not two counts.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/digit-dp-choosing-state/";
+          
+        },
+      },{id: "post-counting-a-grid-by-its-degrees-of-freedom",
         
           title: "Counting a Grid by Its Degrees of Freedom",
         
