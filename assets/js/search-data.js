@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-rolling-hashes-and-xor-hashes",
+        },{id: "post-counting-a-grid-by-its-degrees-of-freedom",
+        
+          title: "Counting a Grid by Its Degrees of Freedom",
+        
+        description: "Count the binary matrices whose every r×c window has an even number of ones (Codeforces 2240B). Each window is one XOR equation that forces a single cell, so the free cells form an L-shaped border and the answer is just 2 raised to the number of free cells.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/counting-grid-degrees-of-freedom/";
+          
+        },
+      },{id: "post-rolling-hashes-and-xor-hashes",
         
           title: "Rolling Hashes and XOR Hashes",
         
