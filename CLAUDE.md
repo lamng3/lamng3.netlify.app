@@ -86,6 +86,13 @@ toc:
 - Keep `enable_darkmode: true` in `_config.yml` — it only makes the dark syntax-highlight `<link id="highlight_theme_dark">` element render, which `setHighlight()` references (removing it would null-error the JS). Light is still what's applied.
 - Code highlighting: `setHighlight("light")` activates `assets/css/jekyll-pygments-themes-github.css` (light) and deactivates `-native.css` (dark). This is why code colors are correct on the light background — if code blocks ever look wrong after a theme change, it's because the light highlight stylesheet isn't active.
 
+## Builds & gotchas
+
+- Two builds run on push: **Netlify** (the real al-folio site) and a **GitHub Pages** build (`github-pages` gem). The GitHub Pages build uses `jekyll-optional-front-matter`, so it renders **root `.md` files that lack front matter as pages and executes Liquid inside them**. Netlify doesn't. Consequences:
+  - Any new meta/working `.md` at the repo root (like `CLAUDE.md`) must be added to `exclude:` in `_config.yml`, or the GitHub Pages build tries to render it.
+  - Never write a literal `{% … %}` or `{{ … }}` in a file that isn't excluded — the Pages build will try to execute it (e.g. a literal `{% post_url … %}` failed the build). Use plain text or `{% raw %}`.
+- `CLAUDE.md` is in the `exclude:` list — keep it there.
+
 ## Git
 
 - Commit messages end with the `Co-Authored-By: Claude` trailer.
