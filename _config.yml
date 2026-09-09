@@ -190,6 +190,7 @@ exclude:
   - _pages/repositories.md
   - _pages/dropdown.md
   - bin/
+  - CLAUDE.md
   - CONTRIBUTING.md
   - CUSTOMIZE.md
   - Dockerfile
