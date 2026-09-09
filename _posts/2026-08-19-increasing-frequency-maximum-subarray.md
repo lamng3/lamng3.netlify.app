@@ -5,7 +5,7 @@ description: Add k to one segment of an array to maximize how many elements equa
 date: 2026-08-19
 last_updated: 2026-08-20
 author: Nathan Nguyen
-categories: [Algorithms]
+categories: [Dynamic Programming]
 tags: [Maximum Subarray, Kadane, Prefix Sums, Greedy, Codeforces, Competitive Programming]
 toc:
   sidebar: right

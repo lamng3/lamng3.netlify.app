@@ -5,7 +5,7 @@ description: Two ways to fingerprint data with a single integer. A polynomial ro
 date: 2026-08-30
 last_updated: 2026-09-05 19:16:00
 author: Nathan Nguyen
-categories: [Algorithms, Strings]
+categories: [Hashing]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Zobrist Hashing, XOR Hashing, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
 toc:
   sidebar: right

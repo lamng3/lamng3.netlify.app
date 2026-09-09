@@ -5,7 +5,7 @@ description: The Möbius function mu(n) from the ground up — the sign flip tha
 date: 2026-08-21
 last_updated: 2026-08-21 01:17:00
 author: Nathan Nguyen
-categories: [Mathematics, Number Theory]
+categories: [Number Theory]
 tags: [Mobius Function, Number Theory, Sieve, Squarefree, Inclusion-Exclusion, Competitive Programming]
 toc:
   sidebar: right

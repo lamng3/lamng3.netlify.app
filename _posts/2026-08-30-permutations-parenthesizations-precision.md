@@ -4,7 +4,7 @@ title: "Range DP: Every Parenthesization by Splitting"
 description: Working through LeetCode 679 (the 24 Game) — generate operand orders by backtracking with a bitmask, enumerate every parenthesization by splitting a range instead of placing brackets (the range-DP idea), and handle real division either with an epsilon or, exactly, with rational arithmetic.
 date: 2026-08-30
 author: Nathan Nguyen
-categories: [Algorithms]
+categories: [Dynamic Programming]
 tags: [Backtracking, Bitmask, Interval DP, Range DP, Memoization, Floating Point, Rational Arithmetic, LeetCode, Competitive Programming]
 toc:
   sidebar: right

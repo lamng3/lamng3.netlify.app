@@ -4,7 +4,7 @@ title: "Compressed Sparse Row: A Flat Adjacency List"
 description: CSR is a data layout, not an algorithm — the standard flat way to store n groups of variable size in one contiguous array plus an offset table. Its build is a counting sort, it replaces vector<vector<int>> for a 2-3x speedup on graph-heavy problems, and the whole thing is O(n + m).
 date: 2026-09-08
 author: Nathan Nguyen
-categories: [Data Structures, Algorithms]
+categories: [Data Structures]
 tags: [CSR, Compressed Sparse Row, Data Layout, Counting Sort, Adjacency List, Graphs, Cache Locality, Competitive Programming]
 toc:
   sidebar: right

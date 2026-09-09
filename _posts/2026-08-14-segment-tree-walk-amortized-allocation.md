@@ -5,7 +5,7 @@ description: A cp-algorithms-style deep dive into Booking Concert Tickets in Gro
 date: 2026-08-14
 last_updated: 2026-08-20
 author: Nathan Nguyen
-categories: [Data Structures, Algorithms]
+categories: [Segment Trees]
 tags: [Segment Tree, Segment Tree Walk, Binary Search on Tree, Amortized Analysis, Potential Method, Range Queries, Competitive Programming]
 toc:
   sidebar: right

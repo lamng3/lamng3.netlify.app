@@ -5,7 +5,7 @@ description: A different way to think about segment trees — as a tree of nodes
 date: 2026-08-12
 last_updated: 2026-08-20
 author: Nathan Nguyen
-categories: [Data Structures, Algorithms]
+categories: [Segment Trees]
 tags: [Segment Tree, Dynamic Segment Tree, Sparse Segment Tree, Lazy Propagation, Range Queries, Competitive Programming]
 toc:
   sidebar: right

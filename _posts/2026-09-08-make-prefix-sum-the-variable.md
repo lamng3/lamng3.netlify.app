@@ -4,7 +4,7 @@ title: "Reachability DP: Make the Prefix Sum the Variable"
 description: Codeforces "Signs of Prefix Sums" stacks two reusable patterns — minimize-the-max becomes a feasibility question you can search, and feasibility becomes reachability once you treat the prefix sums (not the array) as the variables, which turns global constraints into local ones and lets a small reachability DP walk the answer.
 date: 2026-09-08
 author: Nathan Nguyen
-categories: [Algorithms, Dynamic Programming]
+categories: [Dynamic Programming]
 tags: [Prefix Sums, Reachability DP, Feasibility, Binary Search on Answer, Layered Graph, State Design, Codeforces, Competitive Programming]
 toc:
   sidebar: right

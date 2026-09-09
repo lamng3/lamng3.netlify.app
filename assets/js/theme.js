@@ -253,14 +253,15 @@ let transTheme = () => {
 
 // Determine the expected state of the theme toggle, which can be "dark", "light", or
 // "system". Default is "system".
-// Dark mode is the only theme; the toggle is hidden via CSS. enable_darkmode
-// stays true in _config so the dark syntax-highlight stylesheet still loads.
+// Light mode is the only theme; the toggle is hidden via CSS. enable_darkmode
+// stays true in _config so the dark syntax-highlight stylesheet element still
+// exists (setHighlight references it), even though light is forced.
 let determineThemeSetting = () => {
-  return "dark";
+  return "light";
 };
 
 let determineComputedTheme = () => {
-  return "dark";
+  return "light";
 };
 
 let initTheme = () => {

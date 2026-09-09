@@ -4,7 +4,7 @@ title: "Digit DP: Choosing the Right State"
 description: Count integers in [low, high] whose digits are half even, half odd and that are divisible by k (LeetCode 2827). The whole difficulty is deciding what to remember as you build a number digit by digit — carry the remainder mod k, not the number, and the even-minus-odd difference, not two counts.
 date: 2026-09-07
 author: Nathan Nguyen
-categories: [Algorithms, Dynamic Programming]
+categories: [Dynamic Programming]
 tags: [Digit DP, Dynamic Programming, Counting, State Design, Memoization, LeetCode, Codeforces, Competitive Programming]
 toc:
   sidebar: right

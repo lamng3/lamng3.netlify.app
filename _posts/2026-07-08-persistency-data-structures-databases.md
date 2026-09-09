@@ -5,7 +5,7 @@ description: A simple look at persistent data structures — the snapshot array,
 date: 2026-07-08
 last_updated: 2026-08-20
 author: Nathan Nguyen
-categories: [Data Structures, Algorithms]
+categories: [Data Structures]
 tags: [Persistency, Persistent Data Structures, Segment Tree, Snapshot Array, Databases, MVCC, Competitive Programming]
 toc:
   sidebar: right

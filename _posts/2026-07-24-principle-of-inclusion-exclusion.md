@@ -5,7 +5,7 @@ description: A gentle build-up to the Principle of Inclusion-Exclusion, followed
 date: 2026-07-24
 last_updated: 2026-08-20
 author: Nathan Nguyen
-categories: [Mathematics, Combinatorics]
+categories: [Combinatorics]
 tags: [Inclusion-Exclusion, PIE, Combinatorics, Counting, Binomial Theorem, Proof, Competitive Programming]
 toc:
   sidebar: right
