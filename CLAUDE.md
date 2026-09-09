@@ -84,7 +84,8 @@ toc:
 
 - The site is **forced to light mode**. `assets/js/theme.js` hardcodes `determineThemeSetting()` and `determineComputedTheme()` to `return "light"`; the theme toggle is hidden via CSS. Do **not** flip these back to "dark".
 - Keep `enable_darkmode: true` in `_config.yml` — it only makes the dark syntax-highlight `<link id="highlight_theme_dark">` element render, which `setHighlight()` references (removing it would null-error the JS). Light is still what's applied.
-- Code highlighting: `setHighlight("light")` activates `assets/css/jekyll-pygments-themes-github.css` (light) and deactivates `-native.css` (dark). This is why code colors are correct on the light background — if code blocks ever look wrong after a theme change, it's because the light highlight stylesheet isn't active.
+- Code highlighting: `setHighlight("light")` activates `assets/css/jekyll-pygments-themes-github.css` (light) and deactivates `-native.css` (dark). This is why code colors are correct on the light background.
+- Code-block background/border comes from the post-content rule in `_base.scss` (`pre { background-color: var(--global-code-bg-color); border: 1px solid var(--global-divider-color); }`). There used to be a hardcoded `#2d2d2d`/`#1e1e1e` override there that forced code blocks dark even in light mode — it was removed. Don't hardcode a dark code background again; use the variable.
 
 ## Builds & gotchas
 
