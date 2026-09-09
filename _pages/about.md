@@ -33,7 +33,7 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 ### Previous
 
-**@ Center for Materials Data Science**, I was a Research Engineer advised by [Yinghui Wu](https://yinghwu.github.io) and [Xiaotian Han](https://ahxt.github.io), where I built an information retrieval engine for scientific agents ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
+**@ Center for Materials Data Science**, I was a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
 **@ Microsoft**, I interned on the Microsoft Security team, building the data storage layer that powers agentic incident understanding.
 
