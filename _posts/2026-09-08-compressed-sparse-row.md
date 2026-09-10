@@ -1,70 +1,70 @@
 ---
 layout: post
-title: "Compressed Sparse Row: A Flat Adjacency List"
-description: CSR is a data layout, not an algorithm — the standard flat way to store n groups of variable size in one contiguous array plus an offset table. Its build is a counting sort, it replaces vector<vector<int>> for a 2-3x speedup on graph-heavy problems, and the whole thing is O(n + m).
+title: "Compressed Sparse Row: From a Sparse Matrix to an Adjacency List"
+description: A sparse matrix is mostly zeros, so store only the nonzeros — as three small arrays: the values, their column indices, and one pointer per row. That is CSR, and the same layout is exactly what makes a fast adjacency list.
 date: 2026-09-08
+last_updated: 2026-09-09 23:47:00
 author: Nathan Nguyen
 categories: [Data Structures]
-tags: [CSR, Compressed Sparse Row, Data Layout, Counting Sort, Adjacency List, Graphs, Cache Locality, Competitive Programming]
+tags: [CSR, Compressed Sparse Row, Sparse Matrix, Data Layout, Adjacency List, Graphs, Cache Locality, Competitive Programming]
 toc:
   sidebar: right
 ---
 
-Almost every graph problem opens the same way: read the edges, and store for each vertex the list of its neighbors. The reflex in C++ is `vector<vector<int>>` — one inner vector per vertex, `g[u].push_back(v)` for each edge. It is correct, and it is what everyone writes first.
+A **sparse matrix** is a matrix that is almost all zeros. Storing it as a full 2D grid is wasteful: an $$n \times m$$ matrix costs $$nm$$ cells even if only a handful are nonzero. So we store only the nonzeros — but we still want to grab "row $$i$$" instantly, not scan the whole thing. **Compressed Sparse Row (CSR)** is the layout that does exactly that.
 
-It also quietly does a lot of work. Each of the $$n$$ inner vectors is its own heap allocation that reallocates as you push into it, and those vectors end up scattered across memory. Later, when you walk a vertex's neighbors — which a traversal does constantly — you follow a pointer to some far-off block, take a cache miss, read a few integers, then jump somewhere else for the next vertex. On a graph with millions of edges and a tight time limit, that pointer-chasing is often the whole difference between passing and timing out.
+## Three arrays
 
-The nagging part is that we do not actually _need_ $$n$$ separate containers. The neighbor lists never change once the graph is read; we only ever scan them. So the question is: **can we store "a variable-length list per vertex" in a way that is compact and streams through memory in order?**
+Walk the nonzeros **row by row, left to right**, and record them in three arrays:
 
-**Compressed Sparse Row (CSR)** is the answer. It is not an algorithm; it is a **data layout** — the standard flat way to hold a bucketed collection: $$n$$ groups, each with a variable number of values, filled once and then read many times. Adjacency lists are the headline use, but the same layout groups records by a key, or stores the rows of a sparse matrix (where the name comes from). Where a segment tree is the answer to "range queries on a changing array," CSR is the answer to "many fixed groups, scanned over and over."
+- **`values`** — each nonzero value, in that order.
+- **`col`** — the column of each value (same length as `values`).
+- **`row_ptr`** — one entry per row, plus one. `row_ptr[i]` is the position in `values`/`col` where row $$i$$'s nonzeros begin, so **row $$i$$ is the slice `[row_ptr[i], row_ptr[i+1])`**.
 
-## The layout
+The name is the idea: instead of storing a row number for _every_ nonzero, we store just $$n+1$$ row pointers — we **compress the row information**.
 
-Keep two arrays:
+## A worked example
 
-- `dat` — every element, with the groups laid out back to back in one flat array.
-- `ptr` — an array of $$n+1$$ offsets marking where each group begins.
+Take this $$4 \times 4$$ matrix:
 
-Group $$i$$ is then the contiguous slice
-
-$$
-\text{dat}\bigl[\,\text{ptr}[i]\ ..\ \text{ptr}[i+1]\,\bigr).
-$$
-
-That is the entire idea. Instead of $$n$$ separate heap allocations (one per inner vector), there is a single `dat` array and a single `ptr` array, and reading group $$i$$ is just walking a pointer from `ptr[i]` to `ptr[i+1]`.
-
-## Two phases: stage, then group
-
-You cannot know a group's size until you have seen all its elements, so CSR is built in two phases.
-
-- **`add(i, x)`** stages one element: it appends the pair "value `x` belongs to group `i`" into two parallel arrays, unsorted, in whatever order you call it. Nothing is grouped yet.
-- **`build()`** does all the grouping in a single pass, then frees the staging data. A `built` flag enforces the discipline: no `add` after `build`, no reads before it.
-
-## `build` is a counting sort
-
-This is the part worth actually knowing. `build` sorts the staged elements by their group id, and it does it in $$O(n + m)$$ (with $$m$$ the number of elements) using **counting sort** — count, prefix-sum, scatter.
-
-1. **Count each group's size, written one slot to the right.** Zero out `ptr` (size $$n+1$$) and, for every staged element in group $$i$$, do `ptr[i+1]++`. After this, `ptr[i+1]` holds the size of group $$i$$ and `ptr[0]` is $$0$$. The deliberate off-by-one is what makes the next step land correctly.
-2. **Prefix-sum the counts into start offsets.** Running `ptr[i] += ptr[i-1]` turns each `ptr[i]` into the total size of all earlier groups — which is exactly where group $$i$$ _starts_. Now `ptr[i]` is the start of group $$i$$ and `ptr[i+1]` its end, so the slice invariant holds.
-3. **Scatter each element into its group.** Copy the start offsets into a moving cursor `cur`, then walk the staged elements in insertion order and write element $$k$$ to `tmp[cur[group of k]++]`. The post-increment advances that group's cursor, so a group's elements pack in consecutively; because we visit them in insertion order, their relative order inside the group is preserved — the sort is **stable**.
-
-Swap `tmp` into `dat`, drop the staging array, and you are done. `ptr` still holds the start offsets (we advanced the _copy_ `cur`, not `ptr`).
-
-> maspy's original does step 3 slightly differently: it advances `ptr` itself during the scatter, which leaves `ptr` shifted one slot too far, then rotates it back with a `pop_back` and an `insert(begin, 0)`. Correct and clever, but the extra cursor array above reads more plainly for the cost of one $$O(n)$$ scratch array.
-
-## Reading a group
-
-A group is exposed as a tiny view — two raw pointers with `begin`/`end` — so `for (int v : G[u])` compiles to a plain pointer walk with no indirection:
-
-```cpp
-struct range {
-    T *first, *last;
-    T* begin() const { return first; }
-    T* end()   const { return last; }
-    int size() const { return int(last - first); }
-    bool empty() const { return first == last; }
-};
 ```
+        col 0   col 1   col 2   col 3
+row 0 [   10      0       0      12  ]
+row 1 [    0      0      11       0  ]
+row 2 [    0     16       0       0  ]
+row 3 [    0      0       0      13  ]
+```
+
+Reading the nonzeros row by row — `10, 12` in row 0, `11` in row 1, `16` in row 2, `13` in row 3:
+
+```
+index:      0    1    2    3    4
+values  = [ 10   12   11   16   13 ]
+col     = [  0    3    2    1    3 ]
+
+row_ptr = [  0    2    3    4    5 ]
+row:        0    1    2    3   (end)
+```
+
+Read it back:
+
+- **Row 2** is `values[row_ptr[2] .. row_ptr[3])` = `values[3..4)` = `[16]`, at columns `col[3..4)` = `[1]` — so $$M_{2,1} = 16$$, and the rest of row 2 is zero.
+- **Nonzeros in row $$i$$** = `row_ptr[i+1] - row_ptr[i]` (row 0 has $$2 - 0 = 2$$).
+- **Total nonzeros** = `row_ptr[n]` = `row_ptr[4]` = `5`.
+- **Element $$(i, j)$$**: scan `col` over row $$i$$'s slice for $$j$$; if it appears at position $$k$$, the value is `values[k]`, otherwise the entry is zero.
+
+## Why store it this way
+
+- **Space.** CSR uses $$2 \cdot \text{nnz} + (n+1)$$ numbers instead of $$nm$$. On our tiny matrix that is barely a saving, but when nonzeros are rare it is the whole game: a $$10^5 \times 10^5$$ matrix with $$10^6$$ nonzeros needs $$\sim 2\times10^6$$ numbers, not $$10^{10}$$.
+- **Fast rows.** Locating a row is $$O(1)$$ and scanning it is $$O(\text{nnz in that row})$$. That is exactly the access pattern of a matrix–vector product, where you dot each row against the vector.
+
+## The competitive-programming case: adjacency lists
+
+A graph _is_ a sparse matrix — its adjacency matrix, where $$A_{u,v} \ne 0$$ means an edge from $$u$$ to $$v$$. Row $$u$$'s nonzero columns are exactly the **neighbors of $$u$$**.
+
+For an unweighted graph every nonzero is just $$1$$, so you can drop `values` entirely: `col` becomes the flat list of neighbors and `row_ptr` marks where each vertex's neighbors begin. That two-array CSR is a **fast adjacency list** — one contiguous block instead of $$n$$ separately heap-allocated `vector<int>`s. Neighbors of a vertex sit next to each other, so a traversal streams through memory instead of chasing pointers; on graph-heavy problems that is often a 2–3x speedup and a big memory saving. (Weighted graph? Keep `values` for the edge weights.)
+
+Here it is as a reusable container. It stages nonzeros with `add(row, x)` in any order, then `build()` groups them by row in one linear pass (a counting sort: count each row's size, prefix-sum into `row_ptr`, scatter). Reading a row is a plain pointer walk, so `for (int v : G[u])` has no indirection.
 
 <details markdown="1">
 <summary>C++ implementation (in the CP template style)</summary>
@@ -86,33 +86,29 @@ template <typename T>
 struct CSR {
     int n;
     bool built = false;
-    vi ptr;          // after build: n+1 offsets, group i = dat[ptr[i] .. ptr[i+1])
-    vi grp;          // staged group id of each element (freed after build)
-    vector<T> dat;   // the elements, flat
+    vi ptr;          // row_ptr: after build, n+1 offsets; row i = dat[ptr[i] .. ptr[i+1])
+    vi grp;          // staged row of each nonzero (freed after build)
+    vector<T> dat;   // the nonzeros (neighbors / column ids), flat and grouped by row
 
     CSR(int n = 0) : n(n) {}
 
-    // stage x into group i; any order, any number of times
+    // stage nonzero x into row i; any order, any number of times
     void add(int i, const T& x) {
         assert(0 <= i && i < n && !built);
         grp.pb(i), dat.pb(x);
     }
 
-    // group everything in one O(n + m) counting sort
+    // group everything by row in one O(n + nnz) counting sort
     void build() {
         assert(!built);
         built = true;
         int m = sz(dat);
 
-        // 1) count each group's size, one slot to the right
         ptr.assign(n + 1, 0);
-        for (int i : grp) ptr[i + 1]++;
+        for (int i : grp) ptr[i + 1]++;          // 1) count nonzeros per row
+        FOR(i, 1, n) ptr[i] += ptr[i - 1];       // 2) prefix sums -> row starts
 
-        // 2) prefix sums: ptr[i] becomes the start offset of group i
-        FOR(i, 1, n) ptr[i] += ptr[i - 1];
-
-        // 3) scatter into place, stable within a group
-        vi cur = ptr;                 // moving write cursor per group
+        vi cur = ptr;                            // 3) scatter into each row's slice
         vector<T> tmp(m);
         REP(k, m) tmp[cur[grp[k]]++] = dat[k];
 
@@ -143,27 +139,20 @@ struct CSR {
 
 </details>
 
-## Why bother, over `vector<vector<int>>`
+One caveat: a `range` holds raw pointers into `dat`, so it is valid only while the CSR lives and is not rebuilt — fine for the usual `for (auto&& v : G[u])`, but do not stash one for later.
 
-- **One allocation instead of $$n+1$$.** A `vector<vector<int>>` heap-allocates every inner vector.
-- **Cache locality.** A vertex's neighbors sit contiguously, and adjacent vertices' neighbors sit nearby, so a traversal streams through memory instead of chasing pointers. On graph-heavy problems this is often a 2–3x speedup.
-- **Memory.** The overhead drops from ~24 bytes per inner vector (pointer, size, capacity) to 4 bytes per group (its `ptr` entry).
+## When to reach for it
 
-The tradeoff is that CSR is **build-once**: after `build` you cannot add edges. And one sharp edge — a `range` holds raw pointers into `dat`, so it is valid only while the CSR outlives it and is not rebuilt. Fine for the usual `for (auto&& v : G[u])`; dangerous if you stash a `range` and use it later.
-
-## Where the same idea shows up
-
-CSR is the general answer to a recurring shape: **you have $$n$$ groups whose sizes you only learn after collecting every item, you will read the groups many times, and you never mutate them once built.** When that description fits, do not reach for $$n$$ little containers — flatten everything into one array plus an offset table with a counting sort, and index by offsets.
-
-The reusable core is the three-line move at the heart of `build`: **count, prefix-sum, scatter.** That is exactly counting sort (and one digit of radix sort), and it turns "bucket these items by key in linear time" into a rote operation. The same layout stores graph adjacency, groups records by a key, buckets offline queries by the position that will answer them, and — where the name comes from — packs the nonzero entries of a sparse matrix row by row. Whenever you catch yourself about to allocate a vector-of-vectors that you fill once and scan repeatedly, that is CSR asking to be used.
+Whenever you have many groups of variable size — matrix rows, or a graph's vertices — that you fill once and then scan repeatedly, don't allocate one container per group. Flatten everything into contiguous arrays indexed by a per-group pointer, the way CSR packs a matrix's rows or a graph's adjacency. One allocation, cache-friendly reads, and the group boundaries live in a single small `row_ptr` array.
 
 ## Docs worth reading
 
-- [Sparse matrix (Wikipedia)](https://en.wikipedia.org/wiki/Sparse_matrix) — see the "Compressed sparse row" section for the original context and the offset invariant.
-- [maspy's competitive library](https://github.com/maspypy/library) — where this container lives as `ds/csr.hpp`.
+- [NVIDIA — CSR storage format](https://docs.nvidia.com/nvpl/latest/sparse/storage_format/sparse_matrix.html).
+- [pnxguide — CSR: motivation and explanation](https://pnxguide.medium.com/compressed-sparse-row-motivation-and-explanation-cd92c71b7cfa).
+- [GeeksforGeeks — Sparse matrix (CSR)](https://www.geeksforgeeks.org/dsa/sparse-matrix-representations-set-3-csr/).
 
 ## Practice
 
-- [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/) (build an adjacency list, then traverse — CSR is the storage)
-- [LeetCode 1122 — Relative Sort Array](https://leetcode.com/problems/relative-sort-array/) (counting sort — the exact count/prefix/scatter of `build`)
+- [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/) (build an adjacency list, then traverse)
+- [LeetCode 1122 — Relative Sort Array](https://leetcode.com/problems/relative-sort-array/) (counting sort — the same count / prefix / scatter as `build`)
 - [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F) (a large tree DP where a flat adjacency list earns its speedup)
