@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Compressed Sparse Row: From a Sparse Matrix to an Adjacency List"
-description: A sparse matrix is mostly zeros, so store only the nonzeros — as three small arrays: the values, their column indices, and one pointer per row. That is CSR, and the same layout is exactly what makes a fast adjacency list.
+description: A sparse matrix is mostly zeros, so store only the nonzeros — three small arrays holding the values, their column indices, and one pointer per row. That is CSR, and the same layout is exactly what makes a fast adjacency list.
 date: 2026-09-08
 last_updated: 2026-09-09 23:47:00
 author: Nathan Nguyen

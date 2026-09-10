@@ -24,6 +24,8 @@ toc:
 ---
 ```
 
+- **Front-matter gotcha: no `: ` (colon-space) inside an unquoted value.** A colon-followed-by-space in an unquoted `description`/`title` breaks the YAML — the post then renders with a blank title and its page 404s (this happened to the CSR post: "three small arrays: the values"). Reword to drop the colon (use a dash) or wrap the whole value in double quotes.
+
 ### Structure & voice
 
 - **Two request flavors.** I'll either (a) hand you a specific problem to write up, or (b) name a **topic** to explain — a data structure, algorithm, layout, or concept (e.g. "write about Compressed Sparse Row"). For a topic, write an accessible explainer at the same bar: what it is, how it works step by step, why it beats the naive alternative, a worked usage, and the reusable pattern. If I paste template/library code, _study it_ and present a clean, easy-to-follow version **in my macro style** (`REP`/`FOR`/`vi`/`pb`/`sz`, not a foreign library's `vc`/`eb`/`len`), and it's fine to simplify a clever-but-cryptic step into a plainer one (say so).
