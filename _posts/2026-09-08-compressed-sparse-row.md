@@ -221,7 +221,9 @@ Whenever you have many groups of variable size — matrix rows, or a graph's ver
 
 ## Practice
 
-- [LeetCode 1971 — Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/) (the benchmark above — CSR vs vector-of-vectors)
-- [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/) (build an adjacency list, then traverse)
-- [LeetCode 1122 — Relative Sort Array](https://leetcode.com/problems/relative-sort-array/) (counting sort — the same count / prefix / scatter as `build`)
-- [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F) (a large tree DP where a flat adjacency list earns its speedup)
+All take an edge list as input, so you build the adjacency (CSR fits directly) and traverse.
+
+- [LeetCode 1971 — Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/)
+- [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/)
+- [LeetCode 1319 — Number of Operations to Make Network Connected](https://leetcode.com/problems/number-of-operations-to-make-network-connected/)
+- [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F)
