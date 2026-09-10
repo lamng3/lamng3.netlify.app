@@ -3,7 +3,7 @@ layout: post
 title: "Compressed Sparse Row: From a Sparse Matrix to an Adjacency List"
 description: A sparse matrix is mostly zeros, so store only the nonzeros — three small arrays holding the values, their column indices, and one pointer per row. That is CSR, and the same layout is exactly what makes a fast adjacency list.
 date: 2026-09-08
-last_updated: 2026-09-10 01:02:00
+last_updated: 2026-09-10 05:14:00
 author: Nathan Nguyen
 categories: [Data Structures]
 tags: [CSR, Compressed Sparse Row, Sparse Matrix, Data Layout, Adjacency List, Graphs, Cache Locality, Competitive Programming]
@@ -143,6 +143,42 @@ struct CSR {
 `operator[]` hands back a `range` — just the two pointers `first` and `last` that bound row `u`'s slice in `data`, exposed through `begin()` and `end()`. A range-based `for` desugars to exactly those two calls, and a raw pointer is already a valid iterator (it supports `*`, `++`, and `!=`), so `for (int v : G[u])` simply walks from `first` up to `last`, reading each neighbor straight out of `data` — no iterator class, no copy.
 
 One caveat: a `range` holds raw pointers into `data`, so it is valid only while the CSR lives and is not rebuilt — fine for the usual `for (auto&& v : G[u])`, but do not stash one for later.
+
+## Example: multiplying two sparse matrices
+
+This is the use CSR was invented for. [LeetCode 311 — Sparse Matrix Multiplication](https://leetcode.com/problems/sparse-matrix-multiplication/) (premium) asks for the product $$C = A B$$ of a sparse $$m \times k$$ matrix and a sparse $$k \times n$$ matrix. The textbook triple loop is $$O(mkn)$$ and spends almost all of it adding $$0 \cdot 0$$.
+
+But $$C_{ij} = \sum_{t} A_{it} B_{tj}$$, and a term contributes only when **both** $$A_{it}$$ and $$B_{tj}$$ are nonzero. So store each matrix in CSR — now the per-entry payload is the full nonzero, a `{column, value}` pair (the `values` and `col` from the top, carried together) — and iterate only over nonzeros: for each nonzero $$A_{it} = a$$ in row $$i$$, and each nonzero $$B_{tj} = b$$ in row $$t$$ of $$B$$, add $$a \cdot b$$ to $$C_{ij}$$. The work is proportional to the number of nonzero products, not $$mkn$$.
+
+<details markdown="1">
+<summary>C++ implementation (uses the CSR container above)</summary>
+
+```cpp
+struct Info { int idx, val; };   // one nonzero: its column (idx) and value
+
+class Solution {
+public:
+    vii multiply(vii& mat1, vii& mat2) {
+        int m = sz(mat1), k = sz(mat1[0]), n = sz(mat2[0]);
+
+        CSR<Info> A(m), B(k);                       // A stored by its rows, B by its rows
+        REP(i, m) REP(t, k) if (mat1[i][t]) A.add(i, {t, mat1[i][t]});
+        REP(t, k) REP(j, n) if (mat2[t][j]) B.add(t, {j, mat2[t][j]});
+        A.build(), B.build();
+
+        vii C(m, vi(n, 0));
+        REP(i, m)
+            for (auto& [t, a] : A[i])               // nonzeros of row i of A
+                for (auto& [j, b] : B[t])           // nonzeros of row t of B
+                    C[i][j] += a * b;
+        return C;
+    }
+};
+```
+
+</details>
+
+Here the payload `T` is `Info{column, value}` — exactly the `values` and `col` of the sparse matrix from the start, carried together per nonzero — and the nested loops walk only the nonzeros CSR grouped by row.
 
 ## A concrete benchmark
 
