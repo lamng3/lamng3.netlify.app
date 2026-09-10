@@ -3,7 +3,7 @@ layout: post
 title: "Compressed Sparse Row: From a Sparse Matrix to an Adjacency List"
 description: A sparse matrix is mostly zeros, so store only the nonzeros — three small arrays holding the values, their column indices, and one pointer per row. That is CSR, and the same layout is exactly what makes a fast adjacency list.
 date: 2026-09-08
-last_updated: 2026-09-09 23:47:00
+last_updated: 2026-09-10 01:02:00
 author: Nathan Nguyen
 categories: [Data Structures]
 tags: [CSR, Compressed Sparse Row, Sparse Matrix, Data Layout, Adjacency List, Graphs, Cache Locality, Competitive Programming]
@@ -142,6 +142,71 @@ struct CSR {
 
 One caveat: a `range` holds raw pointers into `data`, so it is valid only while the CSR lives and is not rebuilt — fine for the usual `for (auto&& v : G[u])`, but do not stash one for later.
 
+## A concrete benchmark
+
+The payoff is easy to measure. [LeetCode 1971 — Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/) is a plain reachability BFS on an undirected graph (up to $$2 \times 10^5$$ vertices and edges). Solve it twice and change **only the adjacency storage** — a `vector<vector<int>>` versus the CSR container above. The BFS is identical.
+
+<details markdown="1">
+<summary>C++ — the same BFS over two adjacency storages</summary>
+
+```cpp
+// (1) vector-of-vectors adjacency
+class Solution {
+public:
+    bool validPath(int n, vii& edges, int src, int dst) {
+        vector<vi> adj(n);
+        for (auto& e : edges) { adj[e[0]].pb(e[1]); adj[e[1]].pb(e[0]); }
+
+        queue<int> q; q.push(src);
+        vi seen(n, 0); seen[src] = 1;
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            if (u == dst) return true;
+            for (int v : adj[u]) {
+                if (seen[v]) continue;
+                q.push(v);
+                seen[v] = 1;
+            }
+        }
+        return false;
+    }
+};
+
+// (2) CSR adjacency (the container above) — identical BFS, just G[u] instead of adj[u]
+class Solution {
+public:
+    bool validPath(int n, vii& edges, int src, int dst) {
+        CSR<int> G(n);
+        for (auto& e : edges) { G.add(e[0], e[1]); G.add(e[1], e[0]); }
+        G.build();
+
+        queue<int> q; q.push(src);
+        vi seen(n, 0); seen[src] = 1;
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            if (u == dst) return true;
+            for (int v : G[u]) {
+                if (seen[v]) continue;
+                q.push(v);
+                seen[v] = 1;
+            }
+        }
+        return false;
+    }
+};
+```
+
+</details>
+
+Same input, same judge:
+
+| adjacency             | runtime | memory   |
+| --------------------- | ------- | -------- |
+| `vector<vector<int>>` | 240 ms  | 267.8 MB |
+| CSR                   | ~50 ms  | 250.3 MB |
+
+That is roughly **5x faster** and **17.5 MB less** — about **6.5%** of the memory — for the exact same traversal. The whole difference is the layout: CSR's neighbors sit contiguously in one array, so the BFS streams through memory, while the vector-of-vectors chases $$n$$ separate heap allocations and eats a cache miss per vertex. (Submission links, LeetCode login may be needed: [CSR](https://leetcode.com/problems/find-if-path-exists-in-graph/submissions/2137238854/), [vector-of-vectors](https://leetcode.com/problems/find-if-path-exists-in-graph/submissions/2137237758/).)
+
 ## When to reach for it
 
 Whenever you have many groups of variable size — matrix rows, or a graph's vertices — that you fill once and then scan repeatedly, don't allocate one container per group. Flatten everything into contiguous arrays indexed by a per-group pointer, the way CSR packs a matrix's rows or a graph's adjacency. One allocation, cache-friendly reads, and the group boundaries live in a single small `row_ptr` array.
@@ -154,6 +219,7 @@ Whenever you have many groups of variable size — matrix rows, or a graph's ver
 
 ## Practice
 
+- [LeetCode 1971 — Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/) (the benchmark above — CSR vs vector-of-vectors)
 - [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/) (build an adjacency list, then traverse)
 - [LeetCode 1122 — Relative Sort Array](https://leetcode.com/problems/relative-sort-array/) (counting sort — the same count / prefix / scatter as `build`)
 - [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F) (a large tree DP where a flat adjacency list earns its speedup)
