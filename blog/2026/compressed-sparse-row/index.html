@@ -67,6 +67,7 @@ row:        0    1    2    3   (end)
 
     <span class="n">range</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">assert</span><span class="p">(</span><span class="n">built</span><span class="p">);</span>
+        <span class="c1">// data.data() is the base pointer (element 0); + offset[i] reaches row i's start</span>
         <span class="k">return</span> <span class="n">range</span><span class="p">{</span><span class="n">data</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]};</span>
     <span class="p">}</span>
 <span class="p">};</span>
