@@ -140,6 +140,8 @@ struct CSR {
 
 </details>
 
+`operator[]` hands back a `range` — just the two pointers `first` and `last` that bound row `u`'s slice in `data`, exposed through `begin()` and `end()`. A range-based `for` desugars to exactly those two calls, and a raw pointer is already a valid iterator (it supports `*`, `++`, and `!=`), so `for (int v : G[u])` simply walks from `first` up to `last`, reading each neighbor straight out of `data` — no iterator class, no copy.
+
 One caveat: a `range` holds raw pointers into `data`, so it is valid only while the CSR lives and is not rebuilt — fine for the usual `for (auto&& v : G[u])`, but do not stash one for later.
 
 ## A concrete benchmark
@@ -154,15 +156,15 @@ The payoff is easy to measure. [LeetCode 1971 — Find if Path Exists in Graph](
 class Solution {
 public:
     bool validPath(int n, vii& edges, int src, int dst) {
-        vector<vi> adj(n);
-        for (auto& e : edges) { adj[e[0]].pb(e[1]); adj[e[1]].pb(e[0]); }
+        vector<vi> G(n);
+        for (auto& e : edges) { G[e[0]].pb(e[1]); G[e[1]].pb(e[0]); }
 
         queue<int> q; q.push(src);
         vi seen(n, 0); seen[src] = 1;
         while (!q.empty()) {
             int u = q.front(); q.pop();
             if (u == dst) return true;
-            for (int v : adj[u]) {
+            for (int v : G[u]) {
                 if (seen[v]) continue;
                 q.push(v);
                 seen[v] = 1;
@@ -172,7 +174,7 @@ public:
     }
 };
 
-// (2) CSR adjacency (the container above) — identical BFS, just G[u] instead of adj[u]
+// (2) CSR adjacency (the container above) — the BFS below is byte-for-byte the same
 class Solution {
 public:
     bool validPath(int n, vii& edges, int src, int dst) {
