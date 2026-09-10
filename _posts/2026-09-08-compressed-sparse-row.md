@@ -221,9 +221,9 @@ Whenever you have many groups of variable size — matrix rows, or a graph's ver
 
 ## Practice
 
-All take an edge list as input, so you build the adjacency (CSR fits directly) and traverse.
+All take an edge list and need real traversal over the adjacency — topological order, shortest paths, DFS, tree DP — the repeated neighbor iteration where CSR pays off. (Pure connectivity, like "does a path exist," is cleaner with union-find and doesn't exercise CSR.)
 
-- [LeetCode 1971 — Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/)
 - [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/)
-- [LeetCode 1319 — Number of Operations to Make Network Connected](https://leetcode.com/problems/number-of-operations-to-make-network-connected/)
+- [LeetCode 743 — Network Delay Time](https://leetcode.com/problems/network-delay-time/)
+- [LeetCode 1192 — Critical Connections in a Network](https://leetcode.com/problems/critical-connections-in-a-network/)
 - [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F)
