@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-reachability-dp-make-the-prefix-sum-the-variable",
+        },{id: "post-",
+        
+          title: "",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/2026-09-08-compressed-sparse-row/";
+          
+        },
+      },{id: "post-reachability-dp-make-the-prefix-sum-the-variable",
         
           title: "Reachability DP: Make the Prefix Sum the Variable",
         
@@ -25,17 +36,6 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/blog/2026/make-prefix-sum-the-variable/";
-          
-        },
-      },{id: "post-compressed-sparse-row-a-flat-adjacency-list",
-        
-          title: "Compressed Sparse Row: A Flat Adjacency List",
-        
-        description: "CSR is a data layout, not an algorithm — the standard flat way to store n groups of variable size in one contiguous array plus an offset table. Its build is a counting sort, it replaces vector&gt; for a 2-3x speedup on graph-heavy problems, and the whole thing is O(n + m).",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2026/compressed-sparse-row/";
           
         },
       },{id: "post-digit-dp-choosing-the-right-state",
