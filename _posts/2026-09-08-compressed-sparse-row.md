@@ -203,9 +203,9 @@ Same input, same judge:
 | adjacency             | runtime | memory   |
 | --------------------- | ------- | -------- |
 | `vector<vector<int>>` | 240 ms  | 267.8 MB |
-| CSR                   | ~50 ms  | 250.3 MB |
+| CSR                   | 42 ms   | 250.3 MB |
 
-That is roughly **5x faster** and **17.5 MB less** — about **6.5%** of the memory — for the exact same traversal. The whole difference is the layout: CSR's neighbors sit contiguously in one array, so the BFS streams through memory, while the vector-of-vectors chases $$n$$ separate heap allocations and eats a cache miss per vertex. (Submission links, LeetCode login may be needed: [CSR](https://leetcode.com/problems/find-if-path-exists-in-graph/submissions/2137238854/), [vector-of-vectors](https://leetcode.com/problems/find-if-path-exists-in-graph/submissions/2137237758/).)
+That is **more than 5x faster** ($$240 / 42 \approx 5.7$$) and **17.5 MB less** — about **6.5%** of the memory — for the exact same traversal. The whole difference is the layout: CSR's neighbors sit contiguously in one array, so the BFS streams through memory, while the vector-of-vectors chases $$n$$ separate heap allocations and eats a cache miss per vertex. (Submission links, LeetCode login may be needed: [CSR](https://leetcode.com/problems/find-if-path-exists-in-graph/submissions/2137238854/), [vector-of-vectors](https://leetcode.com/problems/find-if-path-exists-in-graph/submissions/2137237758/).)
 
 ## When to reach for it
 
