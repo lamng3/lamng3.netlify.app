@@ -126,6 +126,7 @@ struct CSR {
 
     range operator[](int i) {
         assert(built);
+        // data.data() is the base pointer (element 0); + offset[i] reaches row i's start
         return range{data.data() + offset[i], data.data() + offset[i + 1]};
     }
 };
