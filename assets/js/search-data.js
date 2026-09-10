@@ -16,18 +16,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-",
-        
-          title: "",
-        
-        description: "",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2026/2026-09-08-compressed-sparse-row/";
-          
-        },
-      },{id: "post-reachability-dp-make-the-prefix-sum-the-variable",
+        },{id: "post-reachability-dp-make-the-prefix-sum-the-variable",
         
           title: "Reachability DP: Make the Prefix Sum the Variable",
         
@@ -36,6 +25,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/blog/2026/make-prefix-sum-the-variable/";
+          
+        },
+      },{id: "post-compressed-sparse-row-from-a-sparse-matrix-to-an-adjacency-list",
+        
+          title: "Compressed Sparse Row: From a Sparse Matrix to an Adjacency List",
+        
+        description: "A sparse matrix is mostly zeros, so store only the nonzeros — three small arrays holding the values, their column indices, and one pointer per row. That is CSR, and the same layout is exactly what makes a fast adjacency list.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/compressed-sparse-row/";
           
         },
       },{id: "post-digit-dp-choosing-the-right-state",
