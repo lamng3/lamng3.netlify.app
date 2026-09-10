@@ -64,7 +64,7 @@ A graph _is_ a sparse matrix — its adjacency matrix, where $$A_{u,v} \ne 0$$ m
 
 For an unweighted graph every nonzero is just $$1$$, so you can drop `values` entirely: `col` becomes the flat list of neighbors and `row_ptr` marks where each vertex's neighbors begin. That two-array CSR is a **fast adjacency list** — one contiguous block instead of $$n$$ separately heap-allocated `vector<int>`s. Neighbors of a vertex sit next to each other, so a traversal streams through memory instead of chasing pointers; on graph-heavy problems that is often a 2–3x speedup and a big memory saving. (Weighted graph? Keep `values` for the edge weights.)
 
-Here it is as a reusable container. It stages nonzeros with `add(row, x)` in any order, then `build()` groups them by row in one linear pass (a counting sort: count each row's size, prefix-sum into `row_ptr`, scatter). Reading a row is a plain pointer walk, so `for (int v : G[u])` has no indirection.
+Here it is as a reusable container. Two arrays carry the structure: **`offset`** is the row pointer (`offset[i]` marks where row `i`'s entries begin), and **`data`** is the flat, row-grouped payload — a neighbor (that is, a column index) for an unweighted graph, or a `{to, weight}` for a weighted one. You stage entries with `add(row, x)` in any order; `build()` groups them by row in one linear counting-sort pass (count each row's size, prefix-sum into `offset`, scatter into `data`). Reading a row is a plain pointer walk, so `for (int v : G[u])` has no indirection.
 
 <details markdown="1">
 <summary>C++ implementation (in the CP template style)</summary>
@@ -86,34 +86,34 @@ template <typename T>
 struct CSR {
     int n;
     bool built = false;
-    vi ptr;          // row_ptr: after build, n+1 offsets; row i = dat[ptr[i] .. ptr[i+1])
-    vi grp;          // staged row of each nonzero (freed after build)
-    vector<T> dat;   // the nonzeros (neighbors / column ids), flat and grouped by row
+    vi offset;         // row offsets (row_ptr): after build, n+1 of them; row i = data[offset[i] .. offset[i+1])
+    vi row;            // staged row of each entry (freed after build)
+    vector<T> data;    // per-entry payload, grouped by row: a neighbor/column id, or {to, weight} when weighted
 
     CSR(int n = 0) : n(n) {}
 
-    // stage nonzero x into row i; any order, any number of times
+    // stage entry x into row i; any order, any number of times
     void add(int i, const T& x) {
         assert(0 <= i && i < n && !built);
-        grp.pb(i), dat.pb(x);
+        row.pb(i), data.pb(x);
     }
 
     // group everything by row in one O(n + nnz) counting sort
     void build() {
         assert(!built);
         built = true;
-        int m = sz(dat);
+        int m = sz(data);
 
-        ptr.assign(n + 1, 0);
-        for (int i : grp) ptr[i + 1]++;          // 1) count nonzeros per row
-        FOR(i, 1, n) ptr[i] += ptr[i - 1];       // 2) prefix sums -> row starts
+        offset.assign(n + 1, 0);
+        for (int i : row) offset[i + 1]++;          // 1) count entries per row
+        FOR(i, 1, n) offset[i] += offset[i - 1];    // 2) prefix sums -> row starts
 
-        vi cur = ptr;                            // 3) scatter into each row's slice
+        vi cur = offset;                            // 3) scatter into each row's slice
         vector<T> tmp(m);
-        REP(k, m) tmp[cur[grp[k]]++] = dat[k];
+        REP(k, m) tmp[cur[row[k]]++] = data[k];
 
-        swap(dat, tmp);
-        grp.clear(), grp.shrink_to_fit();
+        swap(data, tmp);
+        row.clear(), row.shrink_to_fit();
     }
 
     struct range {
@@ -126,7 +126,7 @@ struct CSR {
 
     range operator[](int i) {
         assert(built);
-        return range{dat.data() + ptr[i], dat.data() + ptr[i + 1]};
+        return range{data.data() + offset[i], data.data() + offset[i + 1]};
     }
 };
 
@@ -139,7 +139,7 @@ struct CSR {
 
 </details>
 
-One caveat: a `range` holds raw pointers into `dat`, so it is valid only while the CSR lives and is not rebuilt — fine for the usual `for (auto&& v : G[u])`, but do not stash one for later.
+One caveat: a `range` holds raw pointers into `data`, so it is valid only while the CSR lives and is not rebuilt — fine for the usual `for (auto&& v : G[u])`, but do not stash one for later.
 
 ## When to reach for it
 
