@@ -41,4 +41,4 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 **@ Microsoft AI**, I interned on Security Copilot, building the data layer and agentic workflows for agent-log retention and sensitive-data detection.
 
-**@ AWS**, I interned building serverless, stateful ranking inference for Alexa voice shopping recommendation.
+**@ AWS**, I interned on Alexa Voice AI, building serverless, stateful ranking inference for voice shopping recommendation.
