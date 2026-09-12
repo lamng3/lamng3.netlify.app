@@ -33,7 +33,7 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 ### Current
 
-**@ Microsoft**, I own the state-management and failure-recovery layer of a workflow engine running 10K+ long-running async jobs a day for PII remediation, keeping retries duplicate-free with idempotency and optimistic concurrency in CosmosDB.
+**@ Microsoft**, I build workflow automation and failure-recovery systems for Agentic Security.
 
 **@ Center for Materials Data Science**, I am a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
