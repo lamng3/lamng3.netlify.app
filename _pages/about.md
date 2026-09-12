@@ -35,16 +35,6 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 **@ Center for Materials Data Science**, I was a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
-**@ Microsoft AI**, I interned on the Security team on the data layer behind agentic incident understanding.
+**@ Microsoft AI**, I interned on the Security team, building the data layer and agentic Copilot workflows behind incident understanding.
 
-- Built a tiered archiving pipeline over monthly agent logs, selectively promoting critical signals to hot storage to meet retention mandates at lower storage cost.
-- Designed an agentic Copilot workflow for sensitive-data detection across private documents, batching LLM calls with checkpointing to survive partial failures and resume without reprocessing completed batches.
-
-_Technologies: C#, Python, Azure Blob Storage, Azure OpenAI, Microsoft Graph API, KQL._
-
-**@ AWS**, I interned on the Alexa Voice Shopping team on the recommendation serving pipeline.
-
-- Built a serverless ranking inference service on AWS Lambda and Step Functions, coordinating multi-stage stateful workflows for Alexa voice shopping recommendation.
-- Hardened the pipeline against transient downstream failures with exponential backoff and dead-letter queue replay.
-
-_Technologies: Python, AWS Lambda, Step Functions, SQS, DynamoDB, CloudWatch._
+**@ AWS**, I interned on the Alexa Voice Shopping team, building serverless ranking inference for voice shopping recommendation.
