@@ -60,15 +60,26 @@ ninja.data = [{
             window.location.href = "/blog/2026/counting-grid-degrees-of-freedom/";
           
         },
-      },{id: "post-hashing-rolling-and-xor",
+      },{id: "post-xor-hashing-fingerprinting-sets-and-trees",
         
-          title: "Hashing: Rolling and XOR",
+          title: "XOR Hashing: Fingerprinting Sets and Trees",
         
-        description: "Two ways to fingerprint data with a single integer. A polynomial rolling hash identifies an ordered sequence and gives any substring&#39;s hash in O(1); XOR / Zobrist hashing identifies an unordered set and is recoverable by prefix XOR. Plus how to scramble keys so an adversary can&#39;t force collisions.",
+        description: "Give each distinct value a random key and XOR the keys of a collection&#39;s members — you get an order-independent fingerprint of a set, recoverable by prefix XOR. The same idea, combining children into a parent, hashes whole trees and detects duplicate subtrees.",
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/blog/2026/rolling-and-xor-hashing/";
+            window.location.href = "/blog/2026/xor-hashing/";
+          
+        },
+      },{id: "post-rolling-hash-fingerprinting-substrings-in-o-1",
+        
+          title: "Rolling Hash: Fingerprinting Substrings in O(1)",
+        
+        description: "A polynomial rolling hash turns a string into one integer so any substring&#39;s fingerprint comes back in O(1) after linear preprocessing. That makes substring equality a number comparison — powering concatenation matching, palindromic prefixes, and a binary search for the longest common subpath.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/rolling-hash/";
           
         },
       },{id: "post-range-dp-every-parenthesization-by-splitting",
