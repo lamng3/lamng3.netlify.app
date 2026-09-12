@@ -35,6 +35,6 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 **@ Center for Materials Data Science**, I was a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
-**@ Microsoft AI**, I interned on the Security team, building the data layer and agentic Copilot workflows behind incident understanding.
+**@ Microsoft AI**, I interned building the data layer and agentic Copilot workflows for agent-log retention and sensitive-data detection.
 
-**@ AWS**, I interned on the Alexa Voice Shopping team, building serverless ranking inference for voice shopping recommendation.
+**@ AWS**, I interned building serverless, stateful ranking inference for recommendation.
