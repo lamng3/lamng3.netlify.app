@@ -27,7 +27,7 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-Hi there, welcome to my page! I'm a Software Engineer @ Microsoft. My interests lie in advanced data structures, algorithms, mathematical topics, database internals, and agentic memory. A competitive programmer at heart, I love the data structures and algorithms that make systems fast. I write about what I learn.
+Hi there, welcome to my page! I'm a Software Engineer @ Microsoft. My interests lie in database internals, agentic memory, and memory optimization. A competitive programmer at heart, I love advanced data structures, algorithms, and mathematical topics. I write about what I learn.
 
 On the side, the competitive itch never fully left: top 2% WW in [LeetCode contests](https://leetcode.com/u/triplethread/) and top 2% WW in [Chess.com puzzles](https://www.chess.com/member/3thread/stats/puzzles).
 
