@@ -27,7 +27,7 @@ latest_posts:
   limit: # leave blank to include all the blog posts
 ---
 
-I am a Software Engineer @ Microsoft. My interest lies in Distributed Systems, Databases, and the Data Structures & Algorithms beneath them. A competitive programmer at heart, I like carrying that algorithmic intuition into the data structures that make databases fast. I write about what I learn.
+I am a Software Engineer @ Microsoft. I work in Information Retrieval — building question-answering systems — with a growing pull toward database internals and agentic memory. A competitive programmer at heart, I carry that algorithmic intuition into the systems that make search and databases fast. I write about what I learn.
 
 On the side, the competitive itch never fully left: top 2% WW in [LeetCode contests](https://leetcode.com/u/triplethread/) and top 2% WW in [Chess.com puzzles](https://www.chess.com/member/3thread/stats/puzzles).
 
@@ -35,6 +35,16 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 **@ Center for Materials Data Science**, I was a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
-**@ Microsoft**, I interned on the Microsoft Security team, building the data storage layer that powers agentic incident understanding.
+**@ Microsoft AI**, I interned on the Security team on the data layer behind agentic incident understanding.
 
-**@ Amazon**, I interned on the Alexa Voice Shopping team, building data pipelines that power reasoning agents for product recommendation.
+- Built a tiered archiving pipeline over monthly agent logs, selectively promoting critical signals to hot storage to meet retention mandates at lower storage cost.
+- Designed an agentic Copilot workflow for sensitive-data detection across private documents, batching LLM calls with checkpointing to survive partial failures and resume without reprocessing completed batches.
+
+_Technologies: C#, Python, Azure Blob Storage, Azure OpenAI, Microsoft Graph API, KQL._
+
+**@ AWS**, I interned on the Alexa Voice Shopping team on the recommendation serving pipeline.
+
+- Built a serverless ranking inference service on AWS Lambda and Step Functions, coordinating multi-stage stateful workflows for Alexa voice shopping recommendation.
+- Hardened the pipeline against transient downstream failures with exponential backoff and dead-letter queue replay.
+
+_Technologies: Python, AWS Lambda, Step Functions, SQS, DynamoDB, CloudWatch._
