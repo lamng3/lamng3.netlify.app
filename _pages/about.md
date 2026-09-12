@@ -31,9 +31,9 @@ I am a Software Engineer @ Microsoft. I work in Information Retrieval — buildi
 
 On the side, the competitive itch never fully left: top 2% WW in [LeetCode contests](https://leetcode.com/u/triplethread/) and top 2% WW in [Chess.com puzzles](https://www.chess.com/member/3thread/stats/puzzles).
 
-### Previous
+**@ Center for Materials Data Science**, I am a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
 
-**@ Center for Materials Data Science**, I was a Researcher advised by [Yinghui Wu](https://yinghwu.github.io), working on query suggestions and search infrastructure for AI in scientific discovery ([ISWC 2025](https://arxiv.org/pdf/2507.14032)).
+### Previous
 
 **@ Microsoft AI**, I interned building the data layer and agentic Copilot workflows for agent-log retention and sensitive-data detection.
 
