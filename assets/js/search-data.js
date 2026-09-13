@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-reachability-dp-make-the-prefix-sum-the-variable",
+        },{id: "post-static-precompute-one-table-across-all-test-cases",
+        
+          title: "Static Precompute: One Table Across All Test Cases",
+        
+        description: "When an expensive table is input-independent, building it inside your function makes you pay for it on every test case. A static member built once, guarded by a flag, is shared across every call — turning repeated work into one-time work.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/static-precompute-across-test-cases/";
+          
+        },
+      },{id: "post-reachability-dp-make-the-prefix-sum-the-variable",
         
           title: "Reachability DP: Make the Prefix Sum the Variable",
         
