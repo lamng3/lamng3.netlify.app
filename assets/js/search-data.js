@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-static-precompute-one-table-across-all-test-cases",
+        },{id: "post-coordinate-compression-ranks-for-a-fenwick-tree",
+        
+          title: "Coordinate Compression: Ranks for a Fenwick Tree",
+        
+        description: "A Fenwick tree indexes by position 1..m, but the values you want to count (prefix sums) can be huge or negative. Flatten every value you will insert or query into one sorted array, and each value&#39;s rank in it becomes its Fenwick index.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/coordinate-compression-fenwick-ranks/";
+          
+        },
+      },{id: "post-static-precompute-one-table-across-all-test-cases",
         
           title: "Static Precompute: One Table Across All Test Cases",
         
