@@ -30,9 +30,15 @@ pagination:
 {% endif %}
 
 {% assign featured = site.posts | where: "featured", true | sort: "date" | reverse %}
-{% if featured.size > 0 %}
+{% assign posts_sorted = site.posts | sort: 'date' | reverse %}
+{% assign by_month = posts_sorted | group_by_exp: "p", "p.date | date: '%Y-%m'" %}
 
-<section class="blog-featured">
+{% if posts_sorted.size > 0 %}
+
+<div class="blog-layout">
+<div class="blog-main">
+{% if featured.size > 0 %}
+<section class="blog-featured" id="selected">
 <h2 class="blog-featured-heading">Selected by Author</h2>
 <div class="blog-list">
 {% for post in featured %}
@@ -46,14 +52,6 @@ pagination:
 </div>
 </section>
 {% endif %}
-
-{% assign posts_sorted = site.posts | sort: 'date' | reverse %}
-{% assign by_month = posts_sorted | group_by_exp: "p", "p.date | date: '%Y-%m'" %}
-
-{% if posts_sorted.size > 0 %}
-
-<div class="blog-layout">
-<div class="blog-main">
 {% for group in by_month %}
 {% assign label = group.items.first.date | date: '%B %Y' %}
 <h2 class="blog-month-heading" id="month-{{ group.name }}">{{ label }}</h2>
@@ -74,6 +72,7 @@ pagination:
         <div class="blog-months-inner">
           <div class="blog-months-title">Months</div>
           <nav class="blog-months-nav">
+            {% if featured.size > 0 %}<a href="#selected">Selected</a>{% endif %}
             {% for group in by_month %}
               {% assign label = group.items.first.date | date: '%B %Y' %}
               <a href="#month-{{ group.name }}">{{ label }}</a>

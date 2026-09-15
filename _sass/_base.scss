@@ -705,25 +705,19 @@ footer.sticky-bottom {
     }
   }
 
-  // author-selected highlights, pinned above the monthly archive
-  .blog-featured {
-    max-width: 700px;
-    margin: 0 auto 3rem;
-    padding: 1.25rem 1.5rem 0.5rem;
-    border: 1px solid var(--global-divider-color);
-    border-radius: 8px;
-    background-color: var(--global-code-bg-color);
+  // author-selected highlights, rendered as the first section of the main column
+  .blog-featured-heading {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--global-theme-color);
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--global-divider-color);
+    scroll-margin-top: 5rem;
 
-    .blog-featured-heading {
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--global-theme-color);
-      margin: 0 0 1rem;
-    }
-
-    .blog-featured-heading::before {
+    &::before {
       content: "★ ";
     }
   }
