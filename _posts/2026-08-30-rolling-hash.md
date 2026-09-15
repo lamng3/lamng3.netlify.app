@@ -7,6 +7,7 @@ last_updated: 2026-09-12 01:59:00
 author: Nathan Nguyen
 categories: [Hashing]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Prefix Sums, Binary Search, Anti-Hash, LeetCode, Competitive Programming]
+featured: true
 toc:
   sidebar: right
 ---

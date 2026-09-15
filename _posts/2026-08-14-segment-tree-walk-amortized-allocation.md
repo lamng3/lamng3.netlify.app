@@ -7,6 +7,7 @@ last_updated: 2026-08-20
 author: Nathan Nguyen
 categories: [Segment Trees]
 tags: [Segment Tree, Segment Tree Walk, Binary Search on Tree, Amortized Analysis, Potential Method, Range Queries, Competitive Programming]
+featured: true
 toc:
   sidebar: right
 ---

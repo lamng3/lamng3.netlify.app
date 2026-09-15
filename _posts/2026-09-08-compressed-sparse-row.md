@@ -7,6 +7,7 @@ last_updated: 2026-09-10 05:14:00
 author: Nathan Nguyen
 categories: [Data Structures]
 tags: [CSR, Compressed Sparse Row, Sparse Matrix, Data Layout, Adjacency List, Graphs, Cache Locality, Competitive Programming]
+featured: true
 toc:
   sidebar: right
 ---

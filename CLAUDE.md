@@ -62,10 +62,17 @@ toc:
 ### Workflow
 
 1. Write the post at `_posts/YYYY-MM-DD-slug.md`.
-2. Run `npx prettier _posts/<file>.md --write`.
-3. Commit **only** the post file. NOTE: the working tree carries unrelated tracked-file deletions — never stage or sweep those into a commit.
-4. **Commit and push by default** after writing or editing a post (I want this without being asked each time).
-5. Netlify auto-deploys on push; a new post takes a couple minutes to appear at the top of `/blog/` (it sorts newest-first). If it seems missing, it's almost always the deploy lag, not the post.
+2. Run `npx prettier _posts/<file>.md --write` (if `npx` stalls fetching, use the local binary `./node_modules/.bin/prettier`).
+3. **Ask me whether to highlight the post** in the "Selected by Author" section (see below). If yes, add `featured: true` to its front matter.
+4. Commit **only** the post file. NOTE: the working tree carries unrelated tracked-file deletions — never stage or sweep those into a commit.
+5. **Commit and push by default** after writing or editing a post (I want this without being asked each time).
+6. Netlify auto-deploys on push; a new post takes a couple minutes to appear at the top of `/blog/` (it sorts newest-first). If it seems missing, it's almost always the deploy lag, not the post.
+
+### Featured posts ("Selected by Author")
+
+- `/blog` shows a **"Selected by Author"** highlights box pinned above the monthly archive. It lists every post with `featured: true` in its front matter, newest first. Featured posts still also appear in the monthly listing below.
+- To feature a post, add `featured: true` to its front matter; to unfeature, remove it. Styles live in `_sass/_base.scss` under `.blog-featured`.
+- **Always ask me per new post whether to feature it** — don't default it either way.
 
 ### Last updated
 

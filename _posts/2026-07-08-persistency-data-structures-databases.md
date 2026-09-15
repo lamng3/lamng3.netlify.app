@@ -7,6 +7,7 @@ last_updated: 2026-08-20
 author: Nathan Nguyen
 categories: [Data Structures]
 tags: [Persistency, Persistent Data Structures, Segment Tree, Snapshot Array, Databases, MVCC, Competitive Programming]
+featured: true
 toc:
   sidebar: right
 ---

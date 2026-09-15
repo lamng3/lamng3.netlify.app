@@ -29,6 +29,24 @@ pagination:
 </nav>
 {% endif %}
 
+{% assign featured = site.posts | where: "featured", true | sort: "date" | reverse %}
+{% if featured.size > 0 %}
+
+<section class="blog-featured">
+<h2 class="blog-featured-heading">Selected by Author</h2>
+<div class="blog-list">
+{% for post in featured %}
+<article class="blog-item">
+<a href="{{ post.url | relative_url }}" class="blog-link">
+<h3 class="blog-title">{{ post.title }}</h3>
+<time class="blog-date">{{ post.date | date: '%B %d, %Y' }}</time>
+</a>
+</article>
+{% endfor %}
+</div>
+</section>
+{% endif %}
+
 {% assign posts_sorted = site.posts | sort: 'date' | reverse %}
 {% assign by_month = posts_sorted | group_by_exp: "p", "p.date | date: '%Y-%m'" %}
 

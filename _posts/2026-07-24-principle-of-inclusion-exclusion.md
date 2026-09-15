@@ -7,6 +7,7 @@ last_updated: 2026-08-20
 author: Nathan Nguyen
 categories: [Combinatorics]
 tags: [Inclusion-Exclusion, PIE, Combinatorics, Counting, Binomial Theorem, Proof, Competitive Programming]
+featured: true
 toc:
   sidebar: right
 ---

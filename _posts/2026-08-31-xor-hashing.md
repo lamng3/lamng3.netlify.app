@@ -6,6 +6,7 @@ date: 2026-08-31
 author: Nathan Nguyen
 categories: [Hashing]
 tags: [Hashing, Zobrist Hashing, XOR Hashing, Merkle Hashing, Trees, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
+featured: true
 toc:
   sidebar: right
 ---

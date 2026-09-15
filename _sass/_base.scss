@@ -705,6 +705,29 @@ footer.sticky-bottom {
     }
   }
 
+  // author-selected highlights, pinned above the monthly archive
+  .blog-featured {
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    padding: 1.25rem 1.5rem 0.5rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 8px;
+    background-color: var(--global-code-bg-color);
+
+    .blog-featured-heading {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--global-theme-color);
+      margin: 0 0 1rem;
+    }
+
+    .blog-featured-heading::before {
+      content: "★ ";
+    }
+  }
+
   // two-column layout: post list + sticky month index
   .blog-layout {
     display: flex;
