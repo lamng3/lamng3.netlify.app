@@ -10,9 +10,48 @@ toc:
   sidebar: right
 ---
 
-$$\binom{m}{t}$$ counts the ways to choose $$t$$ **strictly increasing** (hence distinct) values from $$\{0, 1, \dots, m-1\}$$. So when a counting problem lines up as $$x_1 < x_2 < \dots < x_t$$, the answer is a single binomial. The trouble starts when the chain mixes strict and non-strict steps — some $$<$$, some $$\le$$ — because a $$\le$$ lets two values coincide, and you can no longer say "choose distinct values." The **shift trick** repairs exactly this: nudge each item by its index so every $$\le$$ becomes a $$<$$.
+$$\binom{m}{t}$$ counts the ways to choose $$t$$ **strictly increasing** (hence distinct) values from $$\{0, 1, \dots, m-1\}$$. **Stars and bars** is the craft of bending a counting problem into exactly that shape. Often it drops out directly; sometimes the constraints mix strict and non-strict steps ($$<$$ and $$\le$$), and a small **shift** is needed to make every step strict. Here is one of each.
 
-## The problem
+## Warm-up: sorted vowel strings
+
+[LeetCode 1641 — Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/): count the length-$$n$$ strings over the five vowels $$a \le e \le i \le o \le u$$ that are non-decreasing, e.g. `aae`, `eiou`, `uuuuu`.
+
+A sorted string is pinned down entirely by _how many_ of each vowel it uses, so it is a way to split $$n$$ identical letters among the $$5$$ vowel groups. Write the $$n$$ letters as **stars** and drop **4 bars** to mark where one vowel group ends and the next begins — every arrangement of $$n$$ stars and $$4$$ bars is one valid string (empty groups allowed). Equivalently, **imagine $$n+4$$ symbols and choose which $$4$$ are bars**:
+
+$$
+\binom{n+4}{4}.
+$$
+
+That is the stars-and-bars identity $$\binom{m+g-1}{g-1}$$ with $$m = n$$ stars and $$g = 5$$ groups. With the factorial machinery below, the whole solution is `return nCk(n + 4, 4);`. It is equally a short DP — let $$dp[i][c]$$ be the sorted strings of length $$i$$ ending at vowel $$c$$, so $$dp[i][c] = \sum_{p \le c} dp[i-1][p]$$:
+
+<details markdown="1">
+<summary>C++ implementation (DP alternative)</summary>
+
+```cpp
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        vii dp(n, vi(5, 0));
+        REP(c, 5) dp[0][c] = 1;
+        FOR(i, 1, n-1) {
+            REP(c, 5) {
+                FOR(p, 0, c) {
+                    dp[i][c] += dp[i-1][p];
+                }
+            }
+        }
+        int ans = 0;
+        REP(c, 5) ans += dp[n-1][c];
+        return ans;
+    }
+};
+```
+
+</details>
+
+## Now with shared endpoints
+
+The same family gets a twist when the pieces may _share_ an endpoint, so the chain mixes $$<$$ and $$\le$$ — that is where the shift earns its keep.
 
 [LeetCode 1621 — Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/): on points $$0, 1, \dots, n-1$$, count the ways to draw $$k$$ segments, each covering $$\ge 2$$ points, that don't overlap but **may share endpoints**. Order the segments left to right; segment $$i$$ is $$[\ell_i, r_i]$$ with $$\ell_i < r_i$$, and non-overlap with a shared endpoint means $$r_i \le \ell_{i+1}$$. Stacking these:
 
@@ -120,6 +159,7 @@ Whenever a count lines up as an increasing chain that mixes $$<$$ and $$\le$$, t
 
 ## Practice
 
+- [LeetCode 1641 — Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/)
 - [LeetCode 1621 — Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/)
 - [LeetCode 62 — Unique Paths](https://leetcode.com/problems/unique-paths/)
 - [CSES — Distributing Apples](https://cses.fi/problemset/task/1716)
