@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-coordinate-compression-ranks-for-a-fenwick-tree",
+        },{id: "post-stars-and-bars-the-shift-trick",
+        
+          title: "Stars and Bars: The Shift Trick",
+        
+        description: "A binomial coefficient counts ways to pick distinct increasing values. When constraints mix strict and non-strict inequalities (shared endpoints allowed), shift the i-th item by i-1 to turn every ≤ into &lt;, and the count collapses to a single C(n+k-1, 2k).",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/stars-and-bars-shift-trick/";
+          
+        },
+      },{id: "post-coordinate-compression-ranks-for-a-fenwick-tree",
         
           title: "Coordinate Compression: Ranks for a Fenwick Tree",
         
