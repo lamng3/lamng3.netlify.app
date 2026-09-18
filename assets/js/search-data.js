@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-stars-and-bars-the-shift-trick",
+        },{id: "post-selected-leetcode-problems",
+        
+          title: "Selected LeetCode Problems",
+        
+        description: "A running, hand-picked list of LeetCode problems I found interesting, each tagged with the topic or technique it exercises. A companion index to the technique write-ups on this blog.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/selected-leetcode-problems/";
+          
+        },
+      },{id: "post-stars-and-bars-the-shift-trick",
         
           title: "Stars and Bars: The Shift Trick",
         
