@@ -122,8 +122,14 @@ The design decisions:
 <summary>C++ implementation</summary>
 
 ```cpp
-struct Query { int value, id; };
-struct Interval { int L, R; int length() { return R - L + 1; } };
+struct Query {
+    int value, id;
+};
+
+struct Interval {
+    int L, R;
+    int length() { return R - L + 1; }
+};
 
 class Solution {
 public:
@@ -132,26 +138,38 @@ public:
 
         vector<Query> Q(m);
         REP(i, m) Q[i] = {queries[i], i};
-        sort(all(Q), [](const Query& a, const Query& b){ return a.value < b.value; });
+        // sort queries by value asc
+        sort(all(Q), [](const Query& q1, const Query& q2) {
+            return q1.value < q2.value;
+        });
 
         vector<Interval> I(n);
         REP(i, n) I[i] = {intervals[i][0], intervals[i][1]};
-        sort(all(I), [](const Interval& a, const Interval& b){ return a.L < b.L; });
+        // sort intervals by L asc
+        sort(all(I), [](const Interval& i1, const Interval& i2) {
+            return i1.L < i2.L;
+        });
 
-        // min-heap keyed by length; each entry {length, R}
+        // min-heap {length, R} to get smallest length that satisfies R >= queries[j]
         priority_queue<pii, vector<pii>, greater<pii>> pq;
         vi ans(m, -1);
 
-        int iid = 0;
+        int iid = 0; // interval id
         for (auto& q : Q) {
-            while (iid < n && I[iid].L <= q.value) {        // feed: L <= q
+            // add intervals with L <= q.value
+            while (iid < n && I[iid].L <= q.value) {
                 pq.push({I[iid].length(), I[iid].R});
                 iid++;
             }
-            while (!pq.empty() && pq.top().se < q.value)     // lazy delete: R < q, dead forever
+
+            // remove intervals with q.value > R
+            while (!pq.empty() && pq.top().se < q.value) {
                 pq.pop();
-            if (!pq.empty()) ans[q.id] = pq.top().fi;        // shortest alive interval
+            }
+
+            if (!pq.empty()) ans[q.id] = pq.top().fi;
         }
+
         return ans;
     }
 };
