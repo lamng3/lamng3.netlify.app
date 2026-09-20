@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-selected-leetcode-problems",
+        },{id: "post-priority-queues-comparators-and-lazy-deletion",
+        
+          title: "Priority Queues: Comparators and Lazy Deletion",
+        
+        description: "A study guide for heaps in competitive programming. The primitive is simple — repeatedly get the current extreme of a changing set — but the skill is two things, choosing what &quot;extreme&quot; means (the comparator) and composing heaps into patterns, including lazy deletion for elements that go stale.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/priority-queues-comparators-lazy-deletion/";
+          
+        },
+      },{id: "post-selected-leetcode-problems",
         
           title: "Selected LeetCode Problems",
         
