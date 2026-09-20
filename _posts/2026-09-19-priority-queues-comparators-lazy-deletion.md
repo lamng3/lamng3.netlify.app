@@ -67,6 +67,8 @@ Merging $$k$$ sorted sources: the heap holds one **frontier** element per source
 
 [23 Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/) pushes list heads and re-pushes `node->next`. [264 Ugly Number II](https://leetcode.com/problems/ugly-number-ii/) generates the sorted multiples of $$\{2,3,5\}$$ this way — with a **dedup** step, since $$2\cdot3 = 3\cdot2$$ would otherwise emit $$6$$ twice. [373 K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/) merges the rows of an implicit sorted grid.
 
+This same $$k$$-way merge is a workhorse in **database systems**. External merge sort — how a database sorts data larger than memory — writes sorted runs to disk and then merges $$k$$ of them at a time with exactly this heap (engines often use a _loser tree_, a tournament-tree variant tuned for merging), and merge joins and ordered scans consume their sorted inputs the same way.
+
 ### Two heaps that balance
 
 Keep the lower half of the data in a **max-heap** and the upper half in a **min-heap**, sized so the two tops straddle the middle. That gives the running median in $$O(\log n)$$ per insert — [295 Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream/). The invariant $$0 \le \vert \text{left} \vert - \vert \text{right} \vert \le 1$$ is the whole trick; rebalance after each insert.
