@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-priority-queues-comparators-and-lazy-deletion",
+        },{id: "post-k-way-merge-designing-a-news-feed",
+        
+          title: "K-Way Merge: Designing a News Feed",
+        
+        description: "Design Twitter (LeetCode 355) passes with a backward scan of one global tweet log, but that rescans all of history on every feed request. Each user&#39;s own tweets are already sorted by time, so the feed is a k-way merge of a few short lists — the same heap trick as Merge k Sorted Lists.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/kway-merge-news-feed/";
+          
+        },
+      },{id: "post-priority-queues-comparators-and-lazy-deletion",
         
           title: "Priority Queues: Comparators and Lazy Deletion",
         
