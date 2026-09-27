@@ -41,4 +41,4 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 
 **@ Microsoft AI**, I interned building the data layer and agentic workflows for agent-log retention.
 
-**@ AWS**, I interned building serverless, stateful ranking inference for voice shopping recommendation.
+**@ AWS AI**, I interned building serverless, stateful ranking inference for voice shopping recommendation.
