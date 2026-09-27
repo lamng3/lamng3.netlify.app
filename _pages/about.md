@@ -42,3 +42,9 @@ On the side, the competitive itch never fully left: top 2% WW in [LeetCode conte
 **@ Microsoft AI**, I interned building the data layer and agentic workflows for agent-log retention.
 
 **@ AWS AI**, I interned building serverless, stateful ranking inference for voice shopping recommendation.
+
+### Open Source
+
+- [kroma](https://github.com/lamng3/kroma)
+- [agentoi](https://github.com/lamng3/agentoi)
+- [OntoCheck](https://github.com/cwru-sdle/OntoCheck)
