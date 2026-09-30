@@ -45,9 +45,7 @@ description: >-
       <p class="links-inline"><a href="https://github.com/lamng3/kroma">Repository</a></p>
     </li>
     <li>
-      <p class="title"><a href="https://github.com/lamng3/agentoi">agentoi</a> <span class="meta">— Agentic Ontology Integration with Budgeted LLM Inference</span></p>
-      <p class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</p>
-      <p class="desc">Code for agentic ontology integration with budgeted language-model inference.</p>
+      <p class="title"><a href="https://github.com/lamng3/agentoi">agentoi</a> <span class="meta">— Agentic ontology integration with budgeted language-model inference</span></p>
       <p class="links-inline"><a href="https://github.com/lamng3/agentoi">Repository</a> · <a href="https://lamng3.github.io/agentoi-docs/">Documentation</a></p>
     </li>
     <li>
@@ -77,6 +75,11 @@ description: >-
       <span class="venue">International Semantic Web Conference (ISWC)</span>, 2025.
       <a href="https://arxiv.org/abs/2507.14032">[arXiv]</a>
       <a href="https://github.com/lamng3/kroma">[code]</a>
+    </li>
+    <li>
+      <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
+      <span class="ptitle">Agentic Ontology Integration with Budgeted LLM Inference.</span>
+      <a href="https://github.com/lamng3/agentoi">[code]</a>
     </li>
   </ol>
 </section>
