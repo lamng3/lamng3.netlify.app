@@ -12,8 +12,18 @@
   <body>
     <main>
       <nav class="sitenav" aria-label="Site">
-        <a href="/" >Home</a>
-        <a href="/blog/" aria-current="page">Blog</a>
+        <a
+          href="/"
+          
+          >Home</a
+        >
+        <a
+          href="/blog/"
+          
+            aria-current="page"
+          
+          >Blog</a
+        >
       </nav>
       <article class="post">
   <header>
@@ -132,17 +142,17 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener('DOMContentLoaded', function () {
         if (!window.renderMathInElement) return;
         renderMathInElement(document.body, {
           delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "\\[", right: "\\]", display: true },
-            { left: "\\(", right: "\\)", display: false },
-            { left: "$", right: "$", display: false }
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '$', right: '$', display: false },
           ],
           throwOnError: false,
-          ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
         });
       });
     </script>
