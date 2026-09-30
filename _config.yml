@@ -8,7 +8,6 @@ lang: en
 timezone: America/Los_Angeles
 
 permalink: /blog/:year/:title/
-plugins_dir: _disabled
 
 markdown: kramdown
 highlighter: rouge
@@ -27,37 +26,12 @@ include:
   - _pages
 
 exclude:
-  - _pages/cv.md
-  - _pages/books.md
-  - _pages/news.md
-  - _pages/projects.md
-  - _pages/teaching.md
-  - _pages/profiles.md
-  - _pages/repositories.md
-  - _pages/dropdown.md
-  - _pages/about_einstein.md
-  - _pages/publications.md
-  - _pages/notes.md
-  - assets/css/main.scss
-  - bin/
-  - CLAUDE.md
-  - CONTRIBUTING.md
-  - CUSTOMIZE.md
-  - Dockerfile
-  - docker-compose.yml
-  - docker-compose-slim.yml
-  - FAQ.md
   - Gemfile
   - Gemfile.lock
-  - INSTALL.md
-  - LICENSE
-  - lighthouse_results/
-  - node_modules/
+  - node_modules
+  - vendor
   - package.json
   - package-lock.json
-  - purgecss.config.js
   - README.md
-  - readme_preview/
-  - vendor/
-  - .npm/
-  - .npm-cache/
+  - CLAUDE.md
+  - LICENSE
