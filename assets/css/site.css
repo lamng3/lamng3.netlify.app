@@ -118,6 +118,20 @@ p {
   color: var(--muted);
 }
 
+.lines {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lines > li {
+  margin: 0 0 0.35rem;
+}
+
+.lines .meta {
+  color: var(--muted);
+}
+
 .entries {
   list-style: none;
   padding: 0;
