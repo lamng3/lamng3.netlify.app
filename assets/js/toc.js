@@ -1,1 +1,107 @@
-document.addEventListener("DOMContentLoaded",(function(){const e=document.getElementById("toc-sidebar"),t=document.querySelector(".post-content");if(!e||!t)return;const n=Array.from(t.querySelectorAll("h2, h3"));if(0===n.length)return void e.remove();const o=90,i=(e,t=500)=>{const n=window.pageYOffset,o=document.documentElement.scrollHeight-window.innerHeight,i=Math.max(0,Math.min(e,o))-n;if(Math.abs(i)<1)return;let c=null;const a=e=>e<.5?2*e*e:(4-2*e)*e-1,l=e=>{null===c&&(c=e);const o=e-c,s=Math.min(o/t,1);window.scrollTo(0,n+i*a(s)),o<t&&window.requestAnimationFrame(l)};window.requestAnimationFrame(l)},c=e=>e.toLowerCase().trim().replace(/[^\w\s-]/g,"").replace(/\s+/g,"-"),a=document.createElement("ul");a.className="toc-list";const l=[];n.forEach((e=>{if(!e.id){let t=c(e.textContent)||"section",n=t,o=2;for(;document.getElementById(n);)n=t+"-"+o++;e.id=n}const t=document.createElement("li");t.className="toc-item toc-"+e.tagName.toLowerCase();const n=document.createElement("a");n.href="#"+e.id,n.textContent=e.textContent,n.addEventListener("click",(function(t){t.preventDefault();const c=e.getBoundingClientRect().top+window.pageYOffset-o;i(c),history.replaceState(null,"","#"+e.id),l.forEach((e=>e.classList.remove("active"))),n.classList.add("active")})),t.appendChild(n),a.appendChild(t),l.push(n)})),e.innerHTML="",e.appendChild(a);const s=()=>{let e=0;for(let t=0;t<n.length&&n[t].getBoundingClientRect().top-o<=1;t++)e=t;l.forEach(((t,n)=>t.classList.toggle("active",n===e)))};s();let r=!1;window.addEventListener("scroll",(()=>{r||(window.requestAnimationFrame((()=>{s(),r=!1})),r=!0)}),{passive:!0})}));
+// Builds the sidebar table of contents (#toc-sidebar) from the post's headings
+// and tracks the active section reliably under the fixed navbar. Replaces
+// bootstrap-toc's scrollspy, which mis-registered the active heading.
+document.addEventListener("DOMContentLoaded", function () {
+  const toc = document.getElementById("toc-sidebar");
+  const content = document.querySelector(".post-content");
+  if (!toc || !content) return;
+
+  const headings = Array.from(content.querySelectorAll("h2, h3"));
+  if (headings.length === 0) {
+    toc.remove();
+    return;
+  }
+
+  // Offset (px) below the viewport top that counts as "current" — clears the navbar.
+  const OFFSET = 90;
+
+  // Self-contained smooth scroll so it works regardless of CSS scroll-behavior
+  // or the OS "reduce motion" setting (which silently disables native smooth scroll).
+  const smoothScrollTo = (targetY, duration = 500) => {
+    const startY = window.pageYOffset;
+    const maxY = document.documentElement.scrollHeight - window.innerHeight;
+    const endY = Math.max(0, Math.min(targetY, maxY));
+    const diff = endY - startY;
+    if (Math.abs(diff) < 1) return;
+    let startTime = null;
+    const easeInOutQuad = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+    const step = (now) => {
+      if (startTime === null) startTime = now;
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + diff * easeInOutQuad(t));
+      if (elapsed < duration) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+  };
+
+  const slugify = (text) =>
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-");
+
+  const list = document.createElement("ul");
+  list.className = "toc-list";
+  const links = [];
+
+  headings.forEach((heading) => {
+    if (!heading.id) {
+      let base = slugify(heading.textContent) || "section";
+      let id = base;
+      let i = 2;
+      while (document.getElementById(id)) id = base + "-" + i++;
+      heading.id = id;
+    }
+
+    const li = document.createElement("li");
+    li.className = "toc-item toc-" + heading.tagName.toLowerCase();
+    const a = document.createElement("a");
+    a.href = "#" + heading.id;
+    a.textContent = heading.textContent;
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      const top = heading.getBoundingClientRect().top + window.pageYOffset - OFFSET;
+      smoothScrollTo(top);
+      history.replaceState(null, "", "#" + heading.id);
+      links.forEach((l) => l.classList.remove("active"));
+      a.classList.add("active");
+    });
+    li.appendChild(a);
+    list.appendChild(li);
+    links.push(a);
+  });
+
+  toc.innerHTML = "";
+  toc.appendChild(list);
+
+  // Active section = the last heading whose top has scrolled above the offset line.
+  const setActive = () => {
+    let activeIdx = 0;
+    for (let i = 0; i < headings.length; i++) {
+      if (headings[i].getBoundingClientRect().top - OFFSET <= 1) {
+        activeIdx = i;
+      } else {
+        break;
+      }
+    }
+    links.forEach((a, i) => a.classList.toggle("active", i === activeIdx));
+  };
+
+  setActive();
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setActive();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+});

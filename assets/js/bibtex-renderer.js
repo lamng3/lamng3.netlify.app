@@ -1,1 +1,171 @@
-!function(){"use strict";function t(t){if(!t)return"";return t.split(" and ").map((t=>{const e=t.trim().split(",").map((t=>t.trim()));return 2===e.length?e[1]+" "+e[0]:t.trim()})).join(", ")}function e(e,o,n){const r=e.title||"",s=t(e.author),i=e.journal||e.booktitle||"",l=(e.year,e.abbr||"");e.selected;let a='<div class="row" id="'+e.key+'">';if(l){a+='<div class="col col-sm-2 abbr">';const t=n&&n[l]?n[l]:null;a+='<abbr class="badge rounded w-100" '+'style="background-color: var(--global-theme-color)"'+">",t&&t.url?a+='<a href="'+t.url+'" style="color: inherit; text-decoration: none;">'+l+"</a>":a+="<div>"+l+"</div>",a+="</abbr>",a+="</div>"}a+='<div class="'+(l?"col-sm-8":"col-sm-10")+'">',a+='<div class="title">'+r+"</div>",s&&(a+='<div class="author">'+s+"</div>"),i&&(a+='<div class="periodical">',a+="<em>"+i+"</em>",a+="</div>");const c=[];return e.pdf&&c.push({text:"PDF",url:e.pdf}),e.code&&c.push({text:"Code",url:e.code}),e.html&&c.push({text:"HTML",url:e.html}),e.arxiv&&c.push({text:"arXiv",url:e.arxiv}),e.doi&&c.push({text:"DOI",url:"https://doi.org/"+e.doi}),c.length>0&&(a+='<div class="links">',c.forEach(((t,e)=>{a+='<a href="'+t.url+'" target="_blank" class="btn btn-sm z-depth-0" role="button">'+t.text+"</a>",e<c.length-1&&(a+=" ")})),a+="</div>"),a+="</div>",a+="</div>",a}function o(){const t=document.querySelector(".publications");t&&Promise.all([fetch("/assets/json/venues.json").then((t=>t.ok?t.json():{})).catch((()=>({}))),fetch("/assets/json/publications.json").then((t=>{if(!t.ok)throw new Error("Failed to load publications");return t.json()}))]).then((([o,n])=>{n.sort(((t,e)=>{const o=parseInt(t.year)||0;return(parseInt(e.year)||0)-o}));let r="";n.forEach(((t,n)=>{r+=e(t,n,o)})),t.innerHTML=r})).catch((()=>{t.innerHTML="<p>Unable to load publications. Please check the publications file.</p>"}))}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",o):o()}();
+/**
+ * Simple BibTeX parser and renderer for GitHub Pages
+ * Parses BibTeX entries and renders them in the al-folio publication format
+ */
+
+(function () {
+  "use strict";
+
+  // Simple BibTeX parser
+  function parseBibTeX(bibtexText) {
+    const entries = [];
+    // Remove front matter if present
+    let cleanText = bibtexText.replace(/^---[\s\S]*?---\s*/, "");
+
+    // Match BibTeX entries - handle multiline entries
+    const entryRegex = /@(\w+)\{([^,]+),([\s\S]*?)\n\}/g;
+    let match;
+
+    while ((match = entryRegex.exec(cleanText)) !== null) {
+      const type = match[1];
+      const key = match[2].trim();
+      const fieldsText = match[3];
+
+      const entry = { type, key, fields: {} };
+
+      // Parse fields - handle multiline and nested braces
+      const fieldRegex = /(\w+)\s*=\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g;
+      let fieldMatch;
+      while ((fieldMatch = fieldRegex.exec(fieldsText)) !== null) {
+        const fieldName = fieldMatch[1];
+        let fieldValue = fieldMatch[2];
+        // Remove extra whitespace and newlines
+        fieldValue = fieldValue.replace(/\s+/g, " ").trim();
+        entry.fields[fieldName] = fieldValue;
+      }
+
+      entries.push(entry);
+    }
+
+    return entries;
+  }
+
+  // Format authors
+  function formatAuthors(authorString) {
+    if (!authorString) return "";
+    const authors = authorString.split(" and ").map((author) => {
+      const parts = author
+        .trim()
+        .split(",")
+        .map((p) => p.trim());
+      if (parts.length === 2) {
+        return parts[1] + " " + parts[0];
+      }
+      return author.trim();
+    });
+    return authors.join(", ");
+  }
+
+  // Render a single publication entry
+  function renderPublication(entry, index, venues) {
+    const title = entry.title || "";
+    const authors = formatAuthors(entry.author);
+    const journal = entry.journal || entry.booktitle || "";
+    const year = entry.year || "";
+    const abbr = entry.abbr || "";
+    const selected = entry.selected === true;
+
+    let html = '<div class="row" id="' + entry.key + '">';
+
+    // Abbreviation/thumbnail column
+    if (abbr) {
+      html += '<div class="col col-sm-2 abbr">';
+      const venue = venues && venues[abbr] ? venues[abbr] : null;
+      // Use CSS variable for theme color to match page styling
+      let badgeStyle = 'style="background-color: var(--global-theme-color)"';
+      html += '<abbr class="badge rounded w-100" ' + badgeStyle + ">";
+      if (venue && venue.url) {
+        html += '<a href="' + venue.url + '" style="color: inherit; text-decoration: none;">' + abbr + "</a>";
+      } else {
+        html += "<div>" + abbr + "</div>";
+      }
+      html += "</abbr>";
+      html += "</div>";
+    }
+
+    // Main content column
+    const colClass = abbr ? "col-sm-8" : "col-sm-10";
+    html += '<div class="' + colClass + '">';
+
+    // Title
+    html += '<div class="title">' + title + "</div>";
+
+    // Authors
+    if (authors) {
+      html += '<div class="author">' + authors + "</div>";
+    }
+
+    // Journal/venue (year removed)
+    if (journal) {
+      html += '<div class="periodical">';
+      html += "<em>" + journal + "</em>";
+      html += "</div>";
+    }
+
+    // Links (if any)
+    const links = [];
+    if (entry.pdf) links.push({ text: "PDF", url: entry.pdf });
+    if (entry.code) links.push({ text: "Code", url: entry.code });
+    if (entry.html) links.push({ text: "HTML", url: entry.html });
+    if (entry.arxiv) links.push({ text: "arXiv", url: entry.arxiv });
+    if (entry.doi) links.push({ text: "DOI", url: "https://doi.org/" + entry.doi });
+
+    if (links.length > 0) {
+      html += '<div class="links">';
+      links.forEach((link, i) => {
+        html += '<a href="' + link.url + '" target="_blank" class="btn btn-sm z-depth-0" role="button">' + link.text + "</a>";
+        if (i < links.length - 1) html += " ";
+      });
+      html += "</div>";
+    }
+
+    html += "</div>"; // Close main content column
+    html += "</div>"; // Close row
+
+    return html;
+  }
+
+  // Main function to load and render publications
+  function loadPublications() {
+    const container = document.querySelector(".publications");
+    if (!container) return;
+
+    // Load venues and publications in parallel
+    Promise.all([
+      fetch("/assets/json/venues.json")
+        .then((r) => (r.ok ? r.json() : {}))
+        .catch(() => ({})),
+      fetch("/assets/json/publications.json").then((r) => {
+        if (!r.ok) throw new Error("Failed to load publications");
+        return r.json();
+      }),
+    ])
+      .then(([venues, entries]) => {
+        // Sort by year (descending)
+        entries.sort((a, b) => {
+          const yearA = parseInt(a.year) || 0;
+          const yearB = parseInt(b.year) || 0;
+          return yearB - yearA;
+        });
+
+        // Render publications
+        let html = "";
+        entries.forEach((entry, index) => {
+          html += renderPublication(entry, index, venues);
+        });
+
+        container.innerHTML = html;
+      })
+      .catch((error) => {
+        console.error("Error loading publications:", error);
+        container.innerHTML = "<p>Unable to load publications. Please check the publications file.</p>";
+      });
+  }
+
+  // Load publications when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadPublications);
+  } else {
+    loadPublications();
+  }
+})();
