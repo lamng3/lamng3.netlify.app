@@ -25,18 +25,14 @@ description: >-
 
 <section id="current">
   <h2>Current</h2>
-  <ul class="lines">
-    <li>Microsoft <span class="meta">— schema-constrained retrieval for Security Copilot's NL-to-KQL</span></li>
-    <li>Center for Materials Data Science <span class="meta">— advised by <a href="https://yinghwu.github.io">Yinghui Wu</a></span></li>
-  </ul>
+  <p><strong>@ Microsoft</strong>, I build schema-constrained retrieval for Security Copilot's NL-to-KQL.</p>
+  <p><strong>@ Center for Materials Data Science</strong>, I am a Researcher advised by <a href="https://yinghwu.github.io">Yinghui Wu</a>, working on query suggestions and search infrastructure for AI in scientific discovery (<a href="https://arxiv.org/pdf/2507.14032">ISWC 2025</a>).</p>
 </section>
 
 <section id="previous">
   <h2>Previous</h2>
-  <ul class="lines">
-    <li>Microsoft AI <span class="meta">— agent-log retention</span></li>
-    <li>AWS AI <span class="meta">— ranking for voice shopping</span></li>
-  </ul>
+  <p><strong>@ Microsoft AI</strong>, I interned building the data layer and agentic workflows for agent-log retention.</p>
+  <p><strong>@ AWS AI</strong>, I interned building serverless, stateful ranking inference for voice shopping recommendation.</p>
 </section>
 
 <section id="open-source">
