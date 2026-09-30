@@ -3,7 +3,7 @@ layout: post
 title: "Digit Counting: The N-th Digit of a Concatenation"
 description: Write the positive integers back to back — 123456789101112… — and locate the n-th digit without materializing the string. Count digits in blocks by number length, jump to the block that contains position n, then read off the exact number and digit in O(log n).
 date: 2026-08-28
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Combinatorics]
 tags: [Digits, Counting, Math, Binary Search, Codeforces, LeetCode, Competitive Programming]
 toc:

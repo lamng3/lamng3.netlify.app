@@ -3,7 +3,7 @@ layout: post
 title: "K-Way Merge: Designing a News Feed"
 description: Design Twitter (LeetCode 355) passes with a backward scan of one global tweet log, but that rescans all of history on every feed request. Each user's own tweets are already sorted by time, so the feed is a k-way merge of a few short lists — the same heap trick as Merge k Sorted Lists.
 date: 2026-09-23
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Data Structures]
 tags: [K-Way Merge, Heap, Priority Queue, Merge, System Design, LeetCode, Competitive Programming]
 toc:

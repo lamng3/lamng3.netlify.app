@@ -4,7 +4,7 @@ title: "Maximum Subarray: From a Range Update"
 description: Add k to one segment of an array to maximize how many elements equal c. The operation's net effect is a +1/-1 balance, which reduces the problem to a maximum subarray (Kadane), and a prefix count of c solves it for every value in O(n) total.
 date: 2026-08-19
 last_updated: 2026-08-20
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Dynamic Programming]
 tags: [Maximum Subarray, Kadane, Prefix Sums, Greedy, Codeforces, Competitive Programming]
 toc:

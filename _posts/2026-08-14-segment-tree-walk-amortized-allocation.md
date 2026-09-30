@@ -4,7 +4,7 @@ title: "Segment Tree Walk: Descending to the Answer"
 description: A cp-algorithms-style deep dive into Booking Concert Tickets in Groups — modeling seat allocation as a sum/max monoid on a segment tree, replacing a binary-searched range-max with an O(log n) descent (the "segment tree walk"), and proving the greedy scatter is O(log n) amortized via a potential argument on a monotone head pointer.
 date: 2026-08-14
 last_updated: 2026-08-20
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Segment Trees]
 tags: [Segment Tree, Segment Tree Walk, Binary Search on Tree, Amortized Analysis, Potential Method, Range Queries, Competitive Programming]
 featured: true

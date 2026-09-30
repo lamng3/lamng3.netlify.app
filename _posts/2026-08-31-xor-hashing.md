@@ -3,7 +3,7 @@ layout: post
 title: "XOR Hashing: Fingerprinting Sets and Trees"
 description: Give each distinct value a random key and XOR the keys of a collection's members — you get an order-independent fingerprint of a set, recoverable by prefix XOR. The same idea, combining children into a parent, hashes whole trees and detects duplicate subtrees.
 date: 2026-08-31
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Hashing]
 tags: [Hashing, Zobrist Hashing, XOR Hashing, Merkle Hashing, Trees, Prefix Sums, Anti-Hash, LeetCode, Codeforces, Competitive Programming]
 featured: true

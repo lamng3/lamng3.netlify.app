@@ -4,7 +4,7 @@ title: "Selected LeetCode Problems"
 description: A running, hand-picked list of LeetCode problems I found interesting, each tagged with the topic or technique it exercises. A companion index to the technique write-ups on this blog.
 date: 2026-09-18
 last_updated: 2026-09-18 16:18:00
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Problem Sets]
 tags: [LeetCode, Problem List, Reference, Competitive Programming]
 toc:

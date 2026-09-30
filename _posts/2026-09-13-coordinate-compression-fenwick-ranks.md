@@ -3,7 +3,7 @@ layout: post
 title: "Coordinate Compression: Ranks for a Fenwick Tree"
 description: A Fenwick tree indexes by position 1..m, but the values you want to count (prefix sums) can be huge or negative. Flatten every value you will insert or query into one sorted array, and each value's rank in it becomes its Fenwick index.
 date: 2026-09-13
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Data Structures]
 tags: [Fenwick Tree, BIT, Coordinate Compression, Prefix Sums, Binary Search, LeetCode, Competitive Programming]
 toc:

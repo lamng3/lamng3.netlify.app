@@ -3,7 +3,7 @@ layout: post
 title: "Static Precompute: One Table Across All Test Cases"
 description: When an expensive table is input-independent, building it inside your function makes you pay for it on every test case. A static member built once, guarded by a flag, is shared across every call — turning repeated work into one-time work.
 date: 2026-09-12
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Data Structures]
 tags: [Precompute, Static Members, inline static, Binary Search, Palindromes, C++, LeetCode, Competitive Programming]
 toc:

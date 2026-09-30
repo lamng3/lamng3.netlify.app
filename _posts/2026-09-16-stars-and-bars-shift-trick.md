@@ -3,7 +3,7 @@ layout: post
 title: "Stars and Bars: The Shift Trick"
 description: A binomial coefficient counts ways to pick distinct increasing values. When constraints mix strict and non-strict inequalities (shared endpoints allowed), shift the i-th item by i-1 to turn every ≤ into <, and the count collapses to a single C(n+k-1, 2k).
 date: 2026-09-16
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Combinatorics]
 tags: [Stars and Bars, Binomial Coefficients, Combinatorics, Modular Arithmetic, Bijection, LeetCode, CSES, Competitive Programming]
 toc:

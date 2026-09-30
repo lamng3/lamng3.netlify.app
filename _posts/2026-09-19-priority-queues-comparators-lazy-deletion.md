@@ -3,7 +3,7 @@ layout: post
 title: "Priority Queues: Comparators and Lazy Deletion"
 description: A study guide for heaps in competitive programming. The primitive is simple — repeatedly get the current extreme of a changing set — but the skill is two things, choosing what "extreme" means (the comparator) and composing heaps into patterns, including lazy deletion for elements that go stale.
 date: 2026-09-19
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Data Structures]
 tags: [Priority Queue, Heap, Lazy Deletion, Comparators, Greedy, Sweep Line, Two Heaps, LeetCode, Competitive Programming]
 toc:

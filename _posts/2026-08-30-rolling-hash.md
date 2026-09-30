@@ -4,7 +4,7 @@ title: "Rolling Hash: Fingerprinting Substrings in O(1)"
 description: A polynomial rolling hash turns a string into one integer so any substring's fingerprint comes back in O(1) after linear preprocessing. That makes substring equality a number comparison — powering concatenation matching, palindromic prefixes, and a binary search for the longest common subpath.
 date: 2026-08-30
 last_updated: 2026-09-12 01:59:00
-author: Nathan Nguyen
+author: Lam Nguyen
 categories: [Hashing]
 tags: [Hashing, Rolling Hash, Polynomial Hashing, Prefix Sums, Binary Search, Anti-Hash, LeetCode, Competitive Programming]
 featured: true
