@@ -41,12 +41,31 @@ description: >-
 
 <section id="open-source">
   <h2>Open Source</h2>
-  <ul class="lines">
-    <li><a href="https://github.com/lamng3/kroma">kroma</a> <span class="meta">— ontology matching</span></li>
-    <li><a href="https://github.com/lamng3/agentoi">agentoi</a> <span class="meta">— ontology integration</span></li>
-    <li><a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a> <span class="meta">— ontology assessment</span></li>
-    <li><a href="https://github.com/lamng3/nl2sparql">nl2sparql</a> <span class="meta">— natural language to SPARQL</span></li>
-    <li><a href="https://github.com/lamng3/competitive-programming-setup">competitive-programming-setup</a> <span class="meta">— personal setup for competing</span></li>
+  <ul class="entries">
+    <li>
+      <p class="title"><a href="https://github.com/lamng3/kroma">kroma</a> <span class="meta">— Ontology matching with knowledge retrieval and large language models</span></p>
+      <p class="desc">Code for the ISWC 2025 ontology matching framework.</p>
+      <p class="links-inline"><a href="https://github.com/lamng3/kroma">Repository</a></p>
+    </li>
+    <li>
+      <p class="title"><a href="https://github.com/lamng3/agentoi">agentoi</a> <span class="meta">— Agentic ontology integration with budgeted language-model inference</span></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/agentoi">Repository</a> · <a href="https://lamng3.github.io/agentoi-docs/">Documentation</a></p>
+    </li>
+    <li>
+      <p class="title"><a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a> <span class="meta">— Query-driven ontology assessment</span></p>
+      <p class="desc">Query-driven ontology assessment for scientific domain applications.</p>
+      <p class="links-inline"><a href="https://github.com/cwru-sdle/OntoCheck">Repository</a> · <a href="https://ontocheck.readthedocs.io/en/latest/">Documentation</a></p>
+    </li>
+    <li>
+      <p class="title"><a href="https://github.com/lamng3/nl2sparql">nl2sparql</a> <span class="meta">— Training-free natural language to SPARQL</span></p>
+      <p class="desc">A question and a Turtle ontology in, one SPARQL query out. The model generates the query; nothing is trained on query pairs.</p>
+      <p class="links-inline"><a href="https://github.com/lamng3/nl2sparql">Repository</a></p>
+    </li>
+    <li>
+      <p class="title"><a href="https://github.com/lamng3/competitive-programming-setup">competitive-programming-setup</a> <span class="meta">— Personal setup for competing</span></p>
+      <p class="desc">Templates, a snippet notebook, and tools to start, build, and fetch problems.</p>
+      <p class="links-inline"><a href="https://github.com/lamng3/competitive-programming-setup">Repository</a></p>
+    </li>
   </ul>
 </section>
 
