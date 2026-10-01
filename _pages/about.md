@@ -19,20 +19,26 @@ description: >-
 </header>
 
 <section id="about">
-  <p>My research focuses on grounding language models in structured knowledge: natural language to structured queries, agents and query engines, and scientific semantic layers for sharing data. I develop open-source projects including <a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/agentoi">agentoi</a>, and <a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>. I hold an M.S. in Computer Science from Case Western Reserve University (<a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a>).</p>
+  <p>I am interested in grounding language models in structured knowledge. This spans query engines, query generation, suggestions, and validation (<a href="https://github.com/lamng3/nl2sparql">nl2sparql</a>, <a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>), and scientific workflows (<a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/agentoi">agentoi</a>). I hold an M.S. in Computer Science from Case Western Reserve University, with a <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a> focusing on knowledge retrieval and efficient language models.</p>
   <p>1000+ problems solved, top 2% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a> and <a href="https://www.chess.com/member/3thread/stats/puzzles">Chess.com puzzles</a>.</p>
 </section>
 
-<section id="current">
-  <h2>Current</h2>
-  <p><strong>@ Microsoft</strong>, I build schema-constrained retrieval for Security Copilot's NL-to-KQL.</p>
-  <p><strong>@ Center for Materials Data Science</strong>, I am a Researcher advised by <a href="https://yinghwu.github.io">Yinghui Wu</a>, working on query suggestions and search infrastructure for AI in scientific discovery (<a href="https://arxiv.org/pdf/2507.14032">ISWC 2025</a>).</p>
-</section>
-
-<section id="previous">
-  <h2>Previous</h2>
-  <p><strong>@ Microsoft AI</strong>, I interned building the data layer and agentic workflows for agent-log retention.</p>
-  <p><strong>@ AWS AI</strong>, I interned building serverless, stateful ranking inference for voice shopping recommendation.</p>
+<section id="publications">
+  <h2>Select Publications</h2>
+  <ol class="entries pubs">
+    <li>
+      <span class="authors">L. Nguyen, E. Barcelos, R. French, and Y. Wu.</span>
+      <span class="ptitle">KROMA: Ontology Matching with Knowledge Retrieval and Large Language Models.</span>
+      <span class="venue">International Semantic Web Conference (ISWC)</span>, 2025.
+      <a href="https://arxiv.org/abs/2507.14032">[arXiv]</a>
+      <a href="https://github.com/lamng3/kroma">[code]</a>
+    </li>
+    <li>
+      <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
+      <span class="ptitle">Agentic Ontology Integration with Budgeted LLM Inference.</span>
+      <a href="https://github.com/lamng3/agentoi">[code]</a>
+    </li>
+  </ol>
 </section>
 
 <section id="open-source">
@@ -61,22 +67,9 @@ description: >-
   </ul>
 </section>
 
-<section id="publications">
-  <h2>Select Publications</h2>
-  <ol class="entries pubs">
-    <li>
-      <span class="authors">L. Nguyen, E. Barcelos, R. French, and Y. Wu.</span>
-      <span class="ptitle">KROMA: Ontology Matching with Knowledge Retrieval and Large Language Models.</span>
-      <span class="venue">International Semantic Web Conference (ISWC)</span>, 2025.
-      <a href="https://arxiv.org/abs/2507.14032">[arXiv]</a>
-      <a href="https://github.com/lamng3/kroma">[code]</a>
-    </li>
-    <li>
-      <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
-      <span class="ptitle">Agentic Ontology Integration with Budgeted LLM Inference.</span>
-      <a href="https://github.com/lamng3/agentoi">[code]</a>
-    </li>
-  </ol>
+<section id="service">
+  <h2>Service</h2>
+  <p>Reviewing: Co-reviewer, IEEE BigData 2024.</p>
 </section>
 
 <p class="contact">Reaching me is O(log log log n), practically a constant. Say hi.</p>
