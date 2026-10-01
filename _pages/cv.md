@@ -17,6 +17,6 @@ description: Current and previous roles.
 
 <section id="previous">
   <h2>Previous</h2>
-  <p><strong>@ Microsoft</strong>, I interned building the data layer and agentic workflows for agent-log retention.</p>
-  <p><strong>@ Amazon</strong>, I interned building serverless, stateful ranking inference for voice shopping recommendation.</p>
+  <p><strong>@ Microsoft</strong>, I interned building agentic workflows in Security Copilot for sensitive data detection and redaction.</p>
+  <p><strong>@ Amazon</strong>, I interned building recommendation systems for Alexa voice shopping, including ranking inference, and a data annotation platform for RLHF training of recommendation models.</p>
 </section>
