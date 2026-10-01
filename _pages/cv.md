@@ -17,6 +17,8 @@ description: Current and previous roles.
 
 <section id="previous">
   <h2>Previous</h2>
-  <p><strong>@ Microsoft</strong>, I interned building agentic workflows in Security Copilot for sensitive data detection and redaction.</p>
-  <p><strong>@ Amazon</strong>, I interned building recommendation systems for Alexa voice shopping, including ranking inference, and a data annotation platform for RLHF training of recommendation models.</p>
+  <p><strong>@ Microsoft</strong>, 2024, I interned developing Security Copilot agentic pipelines for real-time sensitive data classification and redaction.</p>
+  <p><strong>@ Amazon</strong>, 2023, I interned developing Alexa voice shopping recommendation systems and RLHF data pipelines for model alignment.</p>
+  <p><strong>@ Microsoft</strong>, 2023, I interned building log compaction pipelines for agent telemetry, selectively promoting critical signals to hot storage for cost-efficient long-term retention.</p>
+  <p><strong>@ Microsoft</strong>, 2022, I interned building a data partitioning service and dynamic VM scaling infrastructure to accelerate high-throughput log processing and testing.</p>
 </section>

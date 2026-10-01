@@ -29,18 +29,18 @@ description: >-
       <span class="ptitle">KROMA: Ontology Matching with Knowledge Retrieval and Large Language Models.</span>
       <span class="venue">International Semantic Web Conference (ISWC)</span>, 2025.
       <a href="https://arxiv.org/abs/2507.14032">[Paper]</a>
-      <a href="https://github.com/lamng3/kroma">[code]</a>
+      <a href="https://github.com/lamng3/kroma">[Code]</a>
     </li>
     <li>
       <span class="authors">L. Nguyen.</span>
       <span class="ptitle">Ontology Matching with Knowledge Retrieval and Efficient Large Language Models.</span>
       <span class="venue">M.S. thesis, Case Western Reserve University</span>, 2025.
-      <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">[thesis]</a>
+      <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">[Thesis]</a>
     </li>
     <li>
       <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
       <span class="ptitle">Agentic Ontology Integration with Budgeted LLM Inference.</span>
-      <a href="https://github.com/lamng3/agentoi">[code]</a>
+      <a href="https://github.com/lamng3/agentoi">[Code]</a>
     </li>
   </ol>
 </section>
