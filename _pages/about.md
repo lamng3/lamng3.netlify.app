@@ -3,8 +3,7 @@ layout: default
 title: Lam Nguyen
 permalink: /
 description: >-
-  Lam Nguyen, researcher. Database internals, agentic memory, and memory
-  optimization.
+  Lam Nguyen, researcher. Grounding language models in structured knowledge.
 ---
 
 <header>
@@ -20,7 +19,8 @@ description: >-
 </header>
 
 <section id="about">
-  <p>Database internals, agentic memory, and memory optimization. 1000+ problems solved, top 2% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a> and <a href="https://www.chess.com/member/3thread/stats/puzzles">Chess.com puzzles</a>.</p>
+  <p>My research focuses on grounding language models in structured knowledge: natural language to structured queries, agents and query engines, and scientific semantic layers for sharing data. I develop open-source projects including <a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/agentoi">agentoi</a>, and <a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>. I hold an M.S. in Computer Science from Case Western Reserve University (<a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a>).</p>
+  <p>1000+ problems solved, top 2% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a> and <a href="https://www.chess.com/member/3thread/stats/puzzles">Chess.com puzzles</a>.</p>
 </section>
 
 <section id="current">
