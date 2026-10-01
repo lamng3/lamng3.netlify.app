@@ -12,9 +12,7 @@ description: >-
   <nav class="links" aria-label="Profiles">
     <a href="https://github.com/lamng3">GitHub</a>
     <a href="https://scholar.google.com/citations?user=ws80Q0IAAAAJ">Scholar</a>
-    <a href="https://www.linkedin.com/in/lamng3">LinkedIn</a>
     <a href="https://leetcode.com/u/triplethread/">LeetCode</a>
-    <a href="https://www.chess.com/member/3thread/">Chess</a>
   </nav>
 </header>
 
