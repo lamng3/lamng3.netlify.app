@@ -66,7 +66,7 @@ description: >-
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/nl2sparql">nl2sparql</a><span class="meta">: Training-free natural language to SPARQL</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/nl2sparql">Repository</a></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/nl2sparql">Repository</a> · <a href="https://lamng3.github.io/nl2sparql-docs/">Documentation</a></p>
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/competitive-programming-setup">competitive-programming-setup</a><span class="meta">: Notebooks of data structures and algorithms for competitive programming</span></p>
