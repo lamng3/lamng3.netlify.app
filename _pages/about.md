@@ -18,7 +18,7 @@ description: >-
 
 <section id="about">
   <p>My research focuses on grounding language models in structured knowledge for trustworthy, contextualized retrieval. This spans query engines (<a href="https://github.com/lamng3/ontodb">ontodb</a>), natural language interfaces to databases (<a href="https://github.com/lamng3/nl2sparql">nl2sparql</a>), query validation (<a href="https://github.com/cwru-sdle/OntoCheck">ontocheck</a>), and agents for scientific discovery (<a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/agentoi">agentoi</a>). I hold an M.S. in Computer Science from Case Western Reserve University, with a <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a> focusing on knowledge retrieval and efficient language models.</p>
-  <p>Top 2% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a> and <a href="https://www.chess.com/member/3thread/stats/puzzles">Chess.com puzzles</a>.</p>
+  <p>Top 2% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a> and <a href="https://www.chess.com/member/3thread/stats/puzzles?time=0">Chess.com puzzles</a>.</p>
 </section>
 
 <section id="publications">
