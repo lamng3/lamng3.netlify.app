@@ -61,7 +61,7 @@ description: >-
       <p class="links-inline"><a href="https://github.com/cwru-sdle/OntoCheck">Repository</a> · <a href="https://ontocheck.readthedocs.io/en/latest/">Documentation</a></p>
     </li>
     <li>
-      <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: SPARQL query engine in C++, with B+ tree indexing</span></p>
+      <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: SPARQL query engine</span></p>
       <p class="links-inline"><a href="https://github.com/lamng3/ontodb">Repository</a> · <a href="https://lamng3.github.io/ontodb-docs/">Documentation</a></p>
     </li>
     <li>
