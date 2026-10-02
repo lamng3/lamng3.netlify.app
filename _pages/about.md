@@ -50,7 +50,7 @@ description: >-
   <ul class="entries">
     <li>
       <p class="title"><a href="https://github.com/lamng3/kroma">kroma</a><span class="meta">: Ontology matching with knowledge retrieval and large language models</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/kroma">Repository</a></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/kroma">Repository</a> · <a href="https://lamng3.github.io/kroma-docs/">Documentation</a></p>
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/agentoi">agentoi</a><span class="meta">: Agentic ontology integration with budgeted language-model inference</span></p>
@@ -59,10 +59,6 @@ description: >-
     <li>
       <p class="title"><a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a><span class="meta">: Query-driven ontology assessment for scientific domain applications</span></p>
       <p class="links-inline"><a href="https://github.com/cwru-sdle/OntoCheck">Repository</a> · <a href="https://ontocheck.readthedocs.io/en/latest/">Documentation</a></p>
-    </li>
-    <li>
-      <p class="title"><a href="https://github.com/lamng3/hermitpy">hermitpy</a><span class="meta">: Python implementation of the HermiT OWL reasoner</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/hermitpy">Repository</a></p>
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: SPARQL query engine in C++, with B+ tree indexing</span></p>
