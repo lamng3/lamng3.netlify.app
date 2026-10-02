@@ -62,7 +62,7 @@ description: >-
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: SPARQL query engine in C++, with B+ tree indexing</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/ontodb">Repository</a></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/ontodb">Repository</a> · <a href="https://lamng3.github.io/ontodb-docs/">Documentation</a></p>
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/nl2sparql">nl2sparql</a><span class="meta">: Training-free natural language to SPARQL</span></p>
