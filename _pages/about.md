@@ -70,7 +70,7 @@ description: >-
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/competitive-programming-setup">competitive-programming-setup</a><span class="meta">: Notebooks of data structures and algorithms for competitive programming</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/competitive-programming-setup">Repository</a></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/competitive-programming-setup">Repository</a> · <a href="https://lamng3.github.io/cp-docs/">Documentation</a></p>
     </li>
   </ul>
 </section>
