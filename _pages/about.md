@@ -45,7 +45,6 @@ description: >-
     <li>
       <span class="authors">R. Kundu, R. Mehdi, V. D. Tran, L. Nguyen, E. Frakes, A. Daundkar, M. Sumudumalie, V. S. Mandayam, J. A. Lample, M. Li, L. S. Bruckman, E. I. Barcelos, A. Sehirlioglu, R. H. French, and Y. Wu.</span>
       <span class="ptitle">OntoCheck: Query-Driven Ontology Assessments for Scientific Domain Applications.</span>
-      2025.
       <a href="https://github.com/cwru-sdle/OntoCheck/blob/main/SupplementaryMaterials/2605-KunduMehdiTran-OntoCheck-SupplementaryMaterial.pdf">[Paper]</a>
       <a href="https://github.com/cwru-sdle/OntoCheck">[Code]</a>
     </li>
