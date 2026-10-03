@@ -17,8 +17,8 @@ description: Current and previous roles.
 
 <section id="previous">
   <h2>Previous</h2>
-  <p><strong>@ Microsoft</strong>, Software Engineer Intern, 2024, Security Copilot agentic pipelines for classification and redaction.</p>
-  <p><strong>@ Amazon</strong>, Software Engineer Intern, 2023, Alexa voice shopping recommendations and RLHF data pipelines.</p>
-  <p><strong>@ Microsoft</strong>, Software Engineer Intern, 2023, Log compaction for agent telemetry, critical signals in hot storage.</p>
-  <p><strong>@ Microsoft</strong>, Software Engineer Intern, 2022, Data partitioning and dynamic VM scaling for log processing.</p>
+  <p><strong>@ Microsoft</strong>, Software Engineer Intern, 2024. Security Copilot agentic pipelines for classification and redaction.</p>
+  <p><strong>@ Amazon</strong>, Software Engineer Intern, 2023. Alexa voice shopping recommendations and RLHF data pipelines.</p>
+  <p><strong>@ Microsoft</strong>, Software Engineer Intern, 2023. Log compaction for agent telemetry, critical signals in hot storage.</p>
+  <p><strong>@ Microsoft</strong>, Software Engineer Intern, 2022. Data partitioning and dynamic VM scaling for log processing.</p>
 </section>
