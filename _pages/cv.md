@@ -11,7 +11,7 @@ description: Current and previous roles.
 
 <section id="current">
   <h2>Current</h2>
-  <p><strong>@ Microsoft</strong>, Software Engineer. I developed schema-constrained retrieval for Security Copilot's NL-to-KQL, pruning irrelevant tables and columns with intent-driven filtering.</p>
+  <p><strong>@ Microsoft</strong>, Software Engineer. Schema-constrained retrieval for NL to KQL.</p>
   <p><strong>@ Center for Materials Data Science</strong>, Researcher, advised by <a href="https://yinghwu.github.io">Yinghui Wu</a>, working on semantic data layer for AI in scientific discovery (<a href="https://arxiv.org/pdf/2507.14032">ISWC 2025</a>).</p>
 </section>
 
