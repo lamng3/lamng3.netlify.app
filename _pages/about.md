@@ -42,6 +42,12 @@ description: >-
       <span class="ptitle">Agentic Ontology Integration with Budgeted LLM Inference.</span>
       <a href="https://github.com/lamng3/agentoi">[Code]</a>
     </li>
+    <li>
+      <span class="authors">R. Kundu, R. Mehdi, V. D. Tran, L. Nguyen, E. Frakes, A. Daundkar, M. Sumudumalie, V. S. Mandayam, J. A. Lample, M. Li, L. S. Bruckman, E. I. Barcelos, A. Sehirlioglu, R. H. French, and Y. Wu.</span>
+      <span class="ptitle">OntoCheck: Query-Driven Ontology Assessments for Scientific Domain Applications.</span>
+      2025.
+      <a href="https://github.com/cwru-sdle/OntoCheck">[Code]</a>
+    </li>
   </ol>
 </section>
 
@@ -49,19 +55,7 @@ description: >-
   <h2>Open Source</h2>
   <ul class="entries">
     <li>
-      <p class="title"><a href="https://github.com/lamng3/kroma">kroma</a><span class="meta">: Ontology matching with knowledge retrieval and large language models</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/kroma">Repository</a> · <a href="https://lamng3.github.io/kroma-docs/">Documentation</a></p>
-    </li>
-    <li>
-      <p class="title"><a href="https://github.com/lamng3/agentoi">agentoi</a><span class="meta">: Agentic ontology integration with budgeted language-model inference</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/agentoi">Repository</a> · <a href="https://lamng3.github.io/agentoi-docs/">Documentation</a></p>
-    </li>
-    <li>
-      <p class="title"><a href="https://github.com/cwru-sdle/OntoCheck">ontocheck</a><span class="meta">: Query-driven ontology assessment for scientific domain applications</span></p>
-      <p class="links-inline"><a href="https://github.com/cwru-sdle/OntoCheck">Repository</a> · <a href="https://ontocheck.readthedocs.io/en/latest/">Documentation</a></p>
-    </li>
-    <li>
-      <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: SPARQL query engine</span></p>
+      <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: Original SPARQL query engine</span></p>
       <p class="links-inline"><a href="https://github.com/lamng3/ontodb">Repository</a> · <a href="https://lamng3.github.io/ontodb-docs/">Documentation</a></p>
     </li>
     <li>
