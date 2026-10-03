@@ -69,10 +69,6 @@ description: >-
       <p class="links-inline"><a href="https://github.com/lamng3/nl2sparql">Repository</a> · <a href="https://lamng3.github.io/nl2sparql-docs/">Documentation</a></p>
     </li>
     <li>
-      <p class="title"><a href="https://github.com/lamng3/hermitpy">hermitpy</a><span class="meta">: HermiT reasoner in Python, without a JVM</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/hermitpy">Repository</a> · <a href="https://lamng3.github.io/hermit-docs/">Documentation</a></p>
-    </li>
-    <li>
       <p class="title"><a href="https://github.com/lamng3/competitive-programming-setup">competitive-programming-setup</a><span class="meta">: Notebooks of data structures and algorithms for competitive programming</span></p>
       <p class="links-inline"><a href="https://github.com/lamng3/competitive-programming-setup">Repository</a> · <a href="https://lamng3.github.io/cp-docs/">Documentation</a></p>
     </li>
