@@ -5,7 +5,7 @@ description: Working through LeetCode 679 (the 24 Game) — generate operand ord
 date: 2026-08-30
 author: Lam Nguyen
 categories: [Dynamic Programming]
-tags: [Backtracking, Bitmask, Interval DP, Range DP, Memoization, Floating Point, Rational Arithmetic, LeetCode, Competitive Programming]
+tags: [Backtracking, Bitmask, Interval DP, Range DP, Recursion, Memoization, Floating Point, Rational Arithmetic, LeetCode, Competitive Programming]
 toc:
   sidebar: right
 ---
@@ -181,8 +181,50 @@ public:
 
 With four cards the whole search is tiny, so the redundancy of regenerating per permutation costs nothing here; on larger instances you would switch to picking any two values from a multiset and recursing, which avoids the permutation layer entirely.
 
+## The same move on a string: Score of Parentheses
+
+[LeetCode 856 — Score of Parentheses](https://leetcode.com/problems/score-of-parentheses/) is the same "recurse on a range" habit stripped down to one dimension. A balanced string $$S$$ is scored by three rules:
+
+- $$\text{score}(\texttt{"()"}) = 1$$,
+- $$\text{score}(A B) = \text{score}(A) + \text{score}(B)$$ for balanced $$A, B$$,
+- $$\text{score}(\texttt{"("} A \texttt{")"}) = 2 \cdot \text{score}(A)$$ for balanced $$A$$.
+
+Those rules already *are* a recursion on a range — the only work is deciding where one range ends and the next begins, and here the string tells you. Call a balanced string **primitive** if its first character's matching close is its last character. Every balanced string decomposes **uniquely** into a concatenation of primitives $$P_1 P_2 \cdots P_k$$, and the cut points are exactly the prefixes where the running balance (`+1` for `(`, `-1` for `)`) returns to zero for the first time since the last cut. So scan $$[L, R]$$ keeping `bal`; each time it hits $$0$$ you have closed off one primitive.
+
+For a primitive $$P = \texttt{(}A\texttt{)}$$ there are only two cases: it has length $$2$$, so it is `"()"` and contributes $$1$$; or it is longer, and it contributes $$2 \cdot \text{score}(A)$$ where $$A$$ is the strictly interior range. That is the whole algorithm.
+
+$$
+\text{score}(L, R) = \sum_{j=1}^{k} \begin{cases}
+1 & \text{if } P_j = \texttt{"()"} \\
+2 \cdot \text{score}(\ell_j + 1,\ r_j - 1) & \text{otherwise}
+\end{cases}
+$$
+
+where $$[\ell_j, r_j]$$ are the primitive blocks of $$[L, R]$$.
+
+```cpp
+int score(const string& s, int L, int R) {
+    // score of s[L..R], assumed balanced
+    int res = 0, bal = 0;
+    for (int pivot = L; pivot <= R; pivot++) {
+        bal += s[pivot] == '(' ? 1 : -1;
+        if (bal == 0) {                 // s[L..pivot] is a primitive
+            if (pivot - L == 1) res += 1;               // "()"
+            else res += 2 * score(s, L + 1, pivot - 1); // "(" A ")"
+            L = pivot + 1;              // next primitive starts here
+        }
+    }
+    return res;
+}
+```
+
+Note the mutation of `L` inside the loop: `pivot` keeps marching forward over the whole range while `L` tracks the start of the *current* primitive, so one pass both finds every cut point and supplies the correct interior range to each recursive call. No stack, no index map of matching brackets.
+
+The cost is $$O(n^2)$$ in the worst case — a fully nested `((((...))))` peels one layer per call and rescans the rest — which is the same shape of redundancy as the range DP above, and perfectly fine at $$n \le 50$$. Writing it this way is worth it anyway, because it makes the structure explicit: *decompose the range into independent blocks, recurse into each block's interior, combine.* Once that is the mental model, the $$O(n)$$ one-pass solutions read as optimizations of it rather than tricks. Each `"()"` sitting at depth $$d$$ contributes $$2^d$$, since the $$d$$ enclosing pairs each double it — so a single scan that tracks depth and adds $$2^{d}$$ at every `"()"` computes the same sum, and the explicit-stack version is just this recursion with its frames made manual.
+
 ## Practice
 
 - [LeetCode 679 — 24 Game](https://leetcode.com/problems/24-game/)
 - [LeetCode 241 — Different Ways to Add Parentheses](https://leetcode.com/problems/different-ways-to-add-parentheses/)
 - [LeetCode 312 — Burst Balloons](https://leetcode.com/problems/burst-balloons/)
+- [LeetCode 856 — Score of Parentheses](https://leetcode.com/problems/score-of-parentheses/)
