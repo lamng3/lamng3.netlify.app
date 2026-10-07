@@ -17,7 +17,7 @@ description: >-
 </header>
 
 <section id="about">
-  <p>My research focuses on grounding machine learning models in structured knowledge for trustworthy, context-aware reasoning and retrieval. This spans query engines (<a href="https://github.com/lamng3/ontodb">ontodb</a>), natural language interfaces to databases (<a href="https://github.com/lamng3/nl2sparql">nl2sparql</a>), query validation (<a href="https://github.com/cwru-sdle/OntoCheck">ontocheck</a>), and agents for scientific discovery (<a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/agentoi">agentoi</a>). I hold an M.S. in Computer Science from Case Western Reserve University, with a <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a> focusing on knowledge retrieval and efficient language models.</p>
+  <p>My research focuses on grounding machine learning models in structured knowledge for trustworthy, context-aware reasoning and retrieval. This spans query engines (<a href="https://github.com/lamng3/ontodb">ontodb</a>), natural language interfaces to databases (<a href="https://github.com/lamng3/nl2sparql">nl2sparql</a>), query validation (<a href="https://github.com/cwru-sdle/OntoCheck">ontocheck</a>), and agents for scientific discovery (<a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/moira">moira</a>). I hold an M.S. in Computer Science from Case Western Reserve University, with a <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a> focusing on knowledge retrieval and efficient language models.</p>
   <p>Top 1.26% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a>, with 1000+ problems solved.</p>
 </section>
 
@@ -39,8 +39,8 @@ description: >-
     </li>
     <li>
       <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
-      <span class="ptitle">Agentic Ontology Integration with Budgeted LLM Inference.</span>
-      <a href="https://github.com/lamng3/agentoi">[Code]</a>
+      <span class="ptitle">MOIRA: Cost-Bounded Ontology Integration with Memory-Augmented Agent Workflows.</span>
+      <a href="https://github.com/lamng3/moira">[Code]</a>
     </li>
     <li>
       <span class="authors">R. Kundu, R. Mehdi, V. D. Tran, E. Frakes, A. Daundkar, M. Sumudumalie, V. S. Mandayam, J. A. Lample, M. Li, L. S. Bruckman, E. I. Barcelos, A. Sehirlioglu, R. H. French, and Y. Wu.</span>
