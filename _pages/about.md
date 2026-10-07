@@ -39,7 +39,7 @@ description: >-
     </li>
     <li>
       <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
-      <span class="ptitle">MOIRA: Cost-Bounded Ontology Integration with Memory-Augmented Agent Workflows.</span>
+      <span class="ptitle">Memory-Augmented Ontology Integration with Cost-Bounded Reasoning Agents.</span>
       <a href="https://github.com/lamng3/moira">[Code]</a>
     </li>
     <li>
