@@ -45,6 +45,9 @@
         <p>© {{ site.time | date: '%Y' }} Lam Nguyen</p>
       </footer>
     </main>
+    {% if page.toc %}
+      <script defer src="{{ '/assets/js/toc.js' | relative_url }}"></script>
+    {% endif %}
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
     <script>

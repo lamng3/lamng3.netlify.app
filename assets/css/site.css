@@ -415,3 +415,79 @@ footer p {
     color: #e0b4a4;
   }
 }
+
+/* table of contents, built by assets/js/toc.js */
+.post-toc {
+  margin: 0 0 2.25rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--rule);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.post-toc .toc-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.post-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-toc li {
+  margin: 0.32rem 0;
+}
+
+.post-toc li.toc-sub {
+  padding-left: 0.95rem;
+  font-size: 0.95em;
+}
+
+.post-toc a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.post-toc a:hover {
+  color: var(--link-hover);
+}
+
+.post-toc a.is-current {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.post-toc code {
+  font-size: 0.9em;
+  background: none;
+  padding: 0;
+}
+
+/* an anchor jump shouldn't land the heading flush against the top */
+article.post h2[id],
+article.post h3[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+/* Wide viewports only: lift the TOC out of the text column into the margin.
+   720px column + 2rem gap + 184px of TOC needs ~1200px to fit. */
+@media (min-width: 1200px) {
+  .post-toc.post-toc--right {
+    position: fixed;
+    top: 2.5rem;
+    left: calc(50% + 360px + 2rem);
+    width: 184px;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    margin: 0;
+    padding: 0 0 0 1rem;
+    border: 0;
+    border-left: 1px solid var(--rule);
+  }
+}
