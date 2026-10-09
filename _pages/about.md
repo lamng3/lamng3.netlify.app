@@ -17,7 +17,7 @@ description: >-
 </header>
 
 <section id="about">
-  <p>My research focuses on grounding machine learning models in structured knowledge for trustworthy, context-aware reasoning and retrieval. This spans query engines (<a href="https://github.com/lamng3/ontodb">ontodb</a>), natural language interfaces to databases (<a href="https://github.com/lamng3/nl2sparql">nl2sparql</a>), query validation (<a href="https://github.com/cwru-sdle/OntoCheck">ontocheck</a>), and agents for scientific discovery (<a href="https://github.com/lamng3/kroma">kroma</a>, <a href="https://github.com/lamng3/moira">moira</a>). I hold an M.S. in Computer Science from Case Western Reserve University, with a <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a> focusing on knowledge retrieval and efficient language models.</p>
+  <p>My research focuses on grounding machine learning models in structured knowledge for trustworthy, context-aware reasoning and retrieval. This spans query engines (<a href="https://github.com/lamng3/OntoDB">OntoDB</a>), natural language interfaces to databases (<a href="https://github.com/lamng3/hermes">Hermes</a>), query validation (<a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>), and agents for scientific discovery (<a href="https://github.com/lamng3/kroma">KROMA</a>, <a href="https://github.com/lamng3/moira">MOIRA</a>). I hold an M.S. in Computer Science from Case Western Reserve University, with a <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">thesis</a> focusing on knowledge retrieval and efficient language models.</p>
   <p>Top 1.26% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a>, with 1000+ problems solved.</p>
 </section>
 
@@ -55,8 +55,12 @@ description: >-
   <h2>Open Source</h2>
   <ul class="entries">
     <li>
-      <p class="title"><a href="https://github.com/lamng3/ontodb">ontodb</a><span class="meta">: Original SPARQL query engine</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/ontodb">Repository</a> · <a href="https://lamng3.github.io/ontodb-docs/">Documentation</a></p>
+      <p class="title"><a href="https://github.com/lamng3/OntoDB">OntoDB</a><span class="meta">: Database management system for ontologies. RDF storage, SPARQL queries, B+ tree indexes, and ARIES recovery</span></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/OntoDB">Repository</a> · <a href="https://lamng3.github.io/ontodb-docs/">Documentation</a></p>
+    </li>
+    <li>
+      <p class="title"><a href="https://github.com/lamng3/hermes">Hermes</a><span class="meta">: Natural language to SPARQL over ontologies, a Python library with swappable systems</span></p>
+      <p class="links-inline"><a href="https://github.com/lamng3/hermes">Repository</a> · <a href="https://lamng3.github.io/hermes-docs/">Documentation</a></p>
     </li>
     <li>
       <p class="title"><a href="https://github.com/lamng3/competitive-programming-setup">competitive-programming-setup</a><span class="meta">: Notebooks of data structures and algorithms for competitive programming</span></p>
