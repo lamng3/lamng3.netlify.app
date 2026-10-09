@@ -10,6 +10,7 @@ tags: [Persistency, Persistent Data Structures, Segment Tree, Snapshot Array, Da
 featured: true
 toc:
   sidebar: right
+pinned: true
 ---
 
 A **persistent** data structure keeps its old versions: every update produces a new version, and every earlier version stays queryable. An ordinary structure overwrites in place, so its past states are lost.

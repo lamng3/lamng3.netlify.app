@@ -62,7 +62,6 @@ description: >-
       <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">[Thesis]</a>
     </li>
   </ol>
-  <p>See also my <a href="https://scholar.google.com/citations?user=ws80Q0IAAAAJ">Google Scholar profile</a>.</p>
 </section>
 
 <section id="open-source">
