@@ -27,9 +27,9 @@ description: >-
 <section id="experiences">
   <h2>Experiences</h2>
   <ul class="post-list">
-    <li><span><strong>Microsoft</strong> · Software Engineer, agentic security</span><time>2025</time></li>
+    <li><span><strong>Microsoft</strong> · Software Engineer, Agentic Security</span><time>2025</time></li>
     <li><span><strong>Microsoft</strong> · Software Engineer Intern, Security Copilot</span><time>2024</time></li>
-    <li><span><strong>Amazon</strong> · Software Engineer Intern, voice shopping recommendation systems</span><time>2023</time></li>
+    <li><span><strong>Amazon</strong> · Software Engineer Intern, Recommendation Systems</span><time>2023</time></li>
     <li><span><strong>Microsoft</strong> · Software Engineer Intern, Azure Data</span><time>2022</time></li>
   </ul>
 </section>
@@ -38,6 +38,11 @@ description: >-
   <h2>Selected Publications</h2>
   <ol class="entries pubs">
     <li>
+      <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
+      <span class="ptitle">MOIRA: Memory-Augmented Ontology Integration with Cost-Bounded Reasoning Agents.</span>
+      <a href="https://github.com/lamng3/moira">[Code]</a>
+    </li>
+    <li>
       <span class="authors">L. Nguyen, E. Barcelos, R. French, and Y. Wu.</span>
       <span class="ptitle">KROMA: Ontology Matching with Knowledge Retrieval and Large Language Models.</span>
       <span class="venue">International Semantic Web Conference (ISWC)</span>, 2025.
@@ -45,21 +50,16 @@ description: >-
       <a href="https://github.com/lamng3/kroma">[Code]</a>
     </li>
     <li>
-      <span class="authors">L. Nguyen.</span>
-      <span class="ptitle">Ontology Matching with Knowledge Retrieval and Efficient Large Language Models.</span>
-      <span class="venue">M.S. thesis, Case Western Reserve University</span>, 2025.
-      <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">[Thesis]</a>
-    </li>
-    <li>
-      <span class="authors">L. Nguyen, E. Frakes, H. Ma, O. Dernek, R. H. French, and Y. Wu.</span>
-      <span class="ptitle">MOIRA: Memory-Augmented Ontology Integration with Cost-Bounded Reasoning Agents.</span>
-      <a href="https://github.com/lamng3/moira">[Code]</a>
-    </li>
-    <li>
       <span class="authors">R. Kundu, R. Mehdi, V. D. Tran, E. Frakes, A. Daundkar, M. Sumudumalie, V. S. Mandayam, J. A. Lample, M. Li, L. S. Bruckman, E. I. Barcelos, A. Sehirlioglu, R. H. French, and Y. Wu.</span>
       <span class="ptitle">OntoCheck: Query-Driven Ontology Assessments for Scientific Domain Applications.</span>
       <a href="https://github.com/cwru-sdle/OntoCheck/blob/main/SupplementaryMaterials/2605-KunduMehdiTran-OntoCheck-SupplementaryMaterial.pdf">[Paper]</a>
       <a href="https://github.com/cwru-sdle/OntoCheck">[Code]</a>
+    </li>
+    <li>
+      <span class="authors">L. Nguyen.</span>
+      <span class="ptitle">Ontology Matching with Knowledge Retrieval and Efficient Large Language Models.</span>
+      <span class="venue">M.S. thesis, Case Western Reserve University</span>, 2025.
+      <a href="https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1751987504689716&amp;disposition=inline">[Thesis]</a>
     </li>
   </ol>
   <p>See also my <a href="https://scholar.google.com/citations?user=ws80Q0IAAAAJ">Google Scholar profile</a>.</p>
