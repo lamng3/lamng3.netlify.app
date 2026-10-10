@@ -29,10 +29,10 @@ A running list of LeetCode problems worth remembering, each labeled with the top
 | [Count Subarrays with Distant Sums](https://leetcode.com/problems/count-subarrays-with-distant-sums/) | [Fenwick Tree, Coordinate Compression](/blog/range-queries/#fenwick-tree) |
 | [1971 — Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/) | [Graphs, Adjacency (CSR)](/blog/databases/#compressed-sparse-row) |
 | [3067 — Count Pairs of Connectable Servers in a Weighted Tree Network](https://leetcode.com/problems/count-pairs-of-connectable-servers-in-a-weighted-tree-network/) | [Trees](/blog/graphs-and-trees/#meeting-vertex) |
-| [1641 — Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/) | [Combinatorics, Stars and Bars](/blog/counting/#stars-and-bars) |
-| [1621 — Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/) | [Combinatorics, Stars and Bars](/blog/counting/#stars-and-bars) |
+| [1641 — Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/) | [Combinatorics, Stars and Bars](/blog/combinatorics/#stars-and-bars) |
+| [1621 — Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/) | [Combinatorics, Stars and Bars](/blog/combinatorics/#stars-and-bars) |
 | [1146 — Snapshot Array](https://leetcode.com/problems/snapshot-array/) | [Persistent Data Structures](/blog/databases/#persistence) |
 | [311 — Sparse Matrix Multiplication](https://leetcode.com/problems/sparse-matrix-multiplication/) | [Sparse Matrix, CSR](/blog/databases/#compressed-sparse-row) |
-| [400 — Nth Digit](https://leetcode.com/problems/nth-digit/) | [Digit Counting](/blog/counting/#digit-counting) |
+| [400 — Nth Digit](https://leetcode.com/problems/nth-digit/) | [Digit Counting](/blog/combinatorics/#digit-counting) |
 | [4053 — Minimum Operations to Make Every Element Palindromic](https://leetcode.com/problems/minimum-operations-to-make-every-element-palindromic/) | [Precompute, Binary Search](/blog/data-structure-design/#static-precompute) |
 | [3357 — Minimize the Maximum Adjacent Element Difference](https://leetcode.com/problems/minimize-the-maximum-adjacent-element-difference/) | [Binary Search on the Answer](/blog/binary-search/#search-d-not-x) |

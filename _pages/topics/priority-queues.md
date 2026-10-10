@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Heaps"
+title: "Priority Queues"
 description: "A heap answers one question fast: what is on top right now. Choosing the comparator decides what that means, lazy deletion handles elements that go stale while buried, and a k-way merge uses a heap to read many sorted lists as one."
-permalink: /blog/heaps/
+permalink: /blog/priority-queues/
 last_updated: 2026-10-10
 author: Lam Nguyen
 toc:

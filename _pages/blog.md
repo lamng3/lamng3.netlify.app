@@ -10,23 +10,13 @@ description: Study notes on algorithms, data structures, and the systems built o
   <p class="lede">Study notes on algorithms, data structures, and the systems built on them, and where they turn up again in agentic memory.</p>
 </header>
 
-{% for area in site.data.topics %}
-  <section>
-    <h2>{{ area.area }}</h2>
-    {% for topic in area.topics %}
-      {% assign topic_url = '/blog/' | append: topic.slug | append: '/' | relative_url %}
-      {% if topic.sections.size > 0 %}
-        <details class="topic">
-          <summary><a href="{{ topic_url }}">{{ topic.title }}</a></summary>
-          <ul class="post-list">
-            {% for section in topic.sections %}
-              <li><a href="{{ topic_url | append: '#' | append: section.id }}">{{ section.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </details>
-      {% else %}
-        <p class="topic"><a href="{{ topic_url }}">{{ topic.title }}</a></p>
-      {% endif %}
-    {% endfor %}
-  </section>
-{% endfor %}
+<ul class="post-list">
+  {% for topic in site.data.topics %}
+    {% assign topic_url = '/blog/' | append: topic.slug | append: '/' %}
+    {% assign topic_page = site.pages | where: 'url', topic_url | first %}
+    <li>
+      <a href="{{ topic_url | relative_url }}">{{ topic.title }}</a>
+      <time datetime="{{ topic_page.last_updated | date: '%Y-%m-%d' }}">{{ topic_page.last_updated | date: "%B %d, %Y" }}</time>
+    </li>
+  {% endfor %}
+</ul>

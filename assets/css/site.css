@@ -478,26 +478,6 @@ footer p {
   margin-bottom: 0.5rem;
 }
 
-.post-toc li.toc-area {
-  margin-top: 0.6rem;
-  color: var(--muted);
-}
-
-details.topic {
-  margin: 0 0 0.5rem;
-}
-
-details.topic summary {
-  cursor: pointer;
-}
-
-details.topic .post-list {
-  margin: 0.5rem 0 1rem;
-}
-
-p.topic {
-  margin: 0 0 0.5rem;
-}
 
 /* an anchor jump shouldn't land the heading flush against the top */
 article.post h2[id],

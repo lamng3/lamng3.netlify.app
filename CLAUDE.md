@@ -5,7 +5,7 @@ Lam Nguyen's site, hosted on Netlify. A one-page profile plus a blog. There is n
 ## Pages
 
 - `_pages/about.md` is the homepage (`permalink: /`).
-- `_pages/blog.md` is the blog index: a Pinned list, then topics grouped by area (Data Structures, Graphs, Math, Strings, Dynamic Programming, Searching, Databases). It reads `_data/topics.yml`.
+- `_pages/blog.md` is the blog index: one flat list of topics with their last-updated dates, in the order of `_data/topics.yml`. Topic names stay generic, like cp-algorithms or the USACO Guide (Binary Search, Range Queries, Hashing), so each one can hold many techniques.
 - `_pages/leetcode.md` is Selected LeetCode Problems. Each row's topic links into a topic page.
 - Topic pages use `layout: post`. With no `date`, the layout shows "Updated" and `last_updated`.
 

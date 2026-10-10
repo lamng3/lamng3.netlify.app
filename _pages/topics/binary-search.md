@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Binary Search on the Answer"
+title: "Binary Search"
 description: "When a problem asks to minimize the maximum (or maximize the minimum), the answer is often monotone even when the choices are not. Fix the answer, turn the problem into a yes-or-no check, and binary search. Reachability DP in Dynamic Programming starts the same way."
 permalink: /blog/binary-search/
 last_updated: 2026-10-10

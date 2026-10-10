@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Counting"
+title: "Combinatorics"
 description: "Counting without listing. Inclusion-exclusion corrects for overlaps, the Möbius function is its sign flip on divisors, stars and bars counts distributions, and degrees of freedom and digit blocks count by finding what is actually free."
-permalink: /blog/counting/
+permalink: /blog/combinatorics/
 last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
