@@ -184,6 +184,52 @@ p {
   font-style: italic;
 }
 
+/* research stack on the homepage: one row per layer, top to bottom */
+.stack {
+  margin: 1.5rem 0;
+  border: 1px solid var(--rule);
+  font-size: 0.95rem;
+}
+
+.stack .layer {
+  display: grid;
+  grid-template-columns: 7rem 1fr 9.5rem;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.55rem 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+.stack .layer:first-child {
+  border-top: 0;
+}
+
+.stack .goal {
+  background: var(--code-bg);
+}
+
+.stack .name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.stack .analog {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-style: italic;
+  text-align: right;
+}
+
+.stack figcaption {
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .post-list {
   list-style: disc;
   padding-left: 1.25rem;
@@ -345,6 +391,16 @@ footer p {
 
 .katex {
   font-size: 1.05em;
+}
+
+@media (max-width: 640px) {
+  .stack .layer {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+  .stack .analog {
+    text-align: left;
+  }
 }
 
 @media (max-width: 480px) {
