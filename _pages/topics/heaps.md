@@ -3,7 +3,7 @@ layout: post
 title: "Heaps"
 description: "A heap answers one question fast: what is on top right now. Choosing the comparator decides what that means, lazy deletion handles elements that go stale while buried, and a k-way merge uses a heap to read many sorted lists as one."
 permalink: /blog/heaps/
-last_updated: 2026-09-23
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
@@ -195,21 +195,9 @@ When a problem smells like a heap, four questions pin down the design:
 
 Answer those and the comparator and the loop write themselves. The recurring instinct is the same one behind a [segment tree walk](/blog/range-queries/#segment-tree-walk) or a sweep: keep just enough state to serve the _next_ extreme cheaply, and let an ordering do the bookkeeping.
 
-### Docs worth reading
-
-- [USACO Guide — Priority Queues](https://usaco.guide/silver/priority-queues) — the cleanest introduction with practice.
-- [cppreference — std::priority_queue](https://en.cppreference.com/w/cpp/container/priority_queue) — the comparator semantics, precisely.
-- [Codeforces — deleting elements in a priority queue](https://codeforces.com/blog/entry/67265) — the lazy-deletion technique.
-
-### Practice
-
-- **Top-K:** [215 Kth Largest Element](https://leetcode.com/problems/kth-largest-element-in-an-array/), [703 Kth Largest in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream/), [2583 Kth Largest Level Sum](https://leetcode.com/problems/kth-largest-sum-in-a-binary-tree/)
-- **K-way merge:** [23 Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/), [264 Ugly Number II](https://leetcode.com/problems/ugly-number-ii/), [373 K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
-- **Two heaps:** [295 Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream/), [1383 Maximum Performance of a Team](https://leetcode.com/problems/maximum-performance-of-a-team/)
-- **Event simulation:** [253 Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/), [2402 Meeting Rooms III](https://leetcode.com/problems/meeting-rooms-iii/), [1834 Single-Threaded CPU](https://leetcode.com/problems/single-threaded-cpu/), [1801 Number of Orders in the Backlog](https://leetcode.com/problems/number-of-orders-in-the-backlog/)
-- **Lazy deletion:** [2349 Design a Number Container System](https://leetcode.com/problems/design-a-number-container-system/), [1851 Minimum Interval to Include Each Query](https://leetcode.com/problems/minimum-interval-to-include-each-query/)
-
 ## K-Way Merge {#k-way-merge}
+
+The patterns above treat the heap as a set of items. One more pattern treats it as a set of _streams_: keep only the head of each sorted list in the heap, and popping from it reads all the lists in order.
 
 [LeetCode 355 — Design Twitter](https://leetcode.com/problems/design-twitter/) asks for a tiny social network: post a tweet, follow/unfollow, and fetch a **news feed** of the 10 most recent tweets from you and everyone you follow. The obvious solution passes — but it does an amount of work per feed that grows with the entire history, and there is a much better structure hiding in the problem.
 
@@ -301,9 +289,27 @@ Two details make it correct: the default `priority_queue` is a **max-heap**, so 
 
 The move is worth filing away: when you must repeatedly take the few most-recent (or smallest) items across many already-sorted sequences, do not flatten and rescan — **merge the sequence heads with a heap**. It is the [k-way merge](#priority-queues) pattern, and it is everywhere. A database's external merge sort merges $$k$$ sorted runs the same way; a real timeline service merges recent posts from the accounts you follow at read time (**fan-out on read**), the exact structure here. The problem "as stated" is easy; treating the feed as a k-way merge is what makes it scale.
 
-### Practice
+## Practice {#practice}
+
+**Priority Queues and Lazy Deletion**
+
+- **Top-K:** [215 Kth Largest Element](https://leetcode.com/problems/kth-largest-element-in-an-array/), [703 Kth Largest in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream/), [2583 Kth Largest Level Sum](https://leetcode.com/problems/kth-largest-sum-in-a-binary-tree/)
+- **K-way merge:** [23 Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/), [264 Ugly Number II](https://leetcode.com/problems/ugly-number-ii/), [373 K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
+- **Two heaps:** [295 Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream/), [1383 Maximum Performance of a Team](https://leetcode.com/problems/maximum-performance-of-a-team/)
+- **Event simulation:** [253 Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/), [2402 Meeting Rooms III](https://leetcode.com/problems/meeting-rooms-iii/), [1834 Single-Threaded CPU](https://leetcode.com/problems/single-threaded-cpu/), [1801 Number of Orders in the Backlog](https://leetcode.com/problems/number-of-orders-in-the-backlog/)
+- **Lazy deletion:** [2349 Design a Number Container System](https://leetcode.com/problems/design-a-number-container-system/), [1851 Minimum Interval to Include Each Query](https://leetcode.com/problems/minimum-interval-to-include-each-query/)
+
+**K-Way Merge**
 
 - [LeetCode 355 — Design Twitter](https://leetcode.com/problems/design-twitter/)
 - [LeetCode 23 — Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
 - [LeetCode 373 — Find K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
 - [LeetCode 632 — Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/)
+
+## Further reading {#further-reading}
+
+**Priority Queues and Lazy Deletion**
+
+- [USACO Guide — Priority Queues](https://usaco.guide/silver/priority-queues) — the cleanest introduction with practice.
+- [cppreference — std::priority_queue](https://en.cppreference.com/w/cpp/container/priority_queue) — the comparator semantics, precisely.
+- [Codeforces — deleting elements in a priority queue](https://codeforces.com/blog/entry/67265) — the lazy-deletion technique.

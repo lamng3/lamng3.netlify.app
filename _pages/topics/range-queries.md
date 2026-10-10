@@ -3,13 +3,53 @@ layout: post
 title: "Range Queries"
 description: "Answering questions about a range of an array while the array changes. A segment tree stores a summary per node, a walk descends it to find a position, and a Fenwick tree does prefix sums in less code once the values are compressed to ranks."
 permalink: /blog/range-queries/
-last_updated: 2026-09-13
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Answering questions about a range of an array while the array changes. A segment tree stores a summary per node, a walk descends it to find a position, and a Fenwick tree does prefix sums in less code once the values are compressed to ranks.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Segment Tree {#segment-tree}
 
@@ -44,26 +84,6 @@ Now the merge is local and exact. The parent's best run is the better of its two
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 class SegmentTree {
 private:
     struct Node {
@@ -144,26 +164,6 @@ Instead of `2*v+1` index arithmetic, each node stores explicit `left` and `right
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 const int MAX_N = 1e9+7;
 
 struct SparseST {
@@ -275,12 +275,6 @@ Before reaching for a dynamic segment tree, it's worth knowing the common shortc
 
 The dynamic segment tree earns its keep when you _can't_ see everything in advance — an **online** problem like My Calendar III, where each answer must be produced before the next booking arrives — or when you want persistence (each update forking a new version by copying only the $$O(\log C)$$ nodes on its path, which is exactly how a persistent segment tree is built).
 
-### Docs worth reading
-
-- [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html): the definitive reference. Start here for the recursive formulation, then read the sections on storing more per node and on dynamic/implicit trees.
-- [USACO Guide — Segment Trees](https://usaco.guide/gold/segtree-ext?lang=cpp) and its [sparse segment tree](https://usaco.guide/plat/sparse-segtree?lang=cpp) page.
-- [Codeforces — Efficient and easy segment trees](https://codeforces.com/blog/entry/18051) (al.cash) for the iterative bottom-up variant once the recursive one clicks.
-
 ### Takeaways
 
 - A segment tree is a tree of nodes; each node is a **summary** of its range, built by a **merge** of its children.
@@ -288,14 +282,9 @@ The dynamic segment tree earns its keep when you _can't_ see everything in advan
 - When the index space is huge, go **dynamic/sparse**: replace index arithmetic with child pointers and create nodes lazily, so you pay only for the paths you actually touch.
 - **Lazy propagation** lets range updates stay $$O(\log)$$; coordinate compression is the offline alternative when you can see all queries ahead of time.
 
-### Practice
-
-- [LeetCode 2213 — Longest Substring of One Repeating Character](https://leetcode.com/problems/longest-substring-of-one-repeating-character/)
-- [LeetCode 732 — My Calendar III](https://leetcode.com/problems/my-calendar-iii/)
-- [LeetCode 715 — Range Module](https://leetcode.com/problems/range-module/)
-- [CSES — Range Updates and Sums](https://cses.fi/problemset/task/1735)
-
 ## Segment Tree Walk {#segment-tree-walk}
+
+The node view says what a segment tree stores. The next question is how to use it to _find_ something: the first position where a condition holds, in one descent instead of a binary search wrapped around range queries.
 
 Range queries mixed with a stateful greedy are a recurring olympiad motif. A naive scan handles each operation in $$O(n)$$, and the reflexive fix — a binary search wrapped around a logarithmic range query — only reaches $$O(\log^2 n)$$. We can do better on both fronts. Pairing a **segment tree walk** (a single descent that locates a boundary in one pass) with an **amortized potential argument** brings one operation to $$O(\log n)$$ worst case and the other to $$O(\log n)$$ amortized.
 
@@ -412,26 +401,6 @@ The largest possible range sum is $$n \cdot m = 5\cdot10^4 \times 10^9 = 5 \cdot
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 class SegmentTree {
 private:
     struct Node {
@@ -527,12 +496,6 @@ public:
 
 </details>
 
-### Docs worth reading
-
-- [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html) — see "Searching for the first element greater than a given amount."
-- [USACO Guide — More Applications of Segment Tree](https://usaco.guide/plat/segtree-ext?lang=cpp) — the "Walking on a Segment Tree" section.
-- [Potential method (Wikipedia)](https://en.wikipedia.org/wiki/Potential_method) — the amortized-analysis framing behind the `head` pointer.
-
 ### Takeaways
 
 - Model each row by its free-seat count $$r_i$$; the tree stores a $$(\text{sum}, \max)$$ monoid — sum gates `scatter`, max gates `gather`.
@@ -540,14 +503,9 @@ public:
 - A **monotone `head` pointer** plus a potential $$\Phi = \#\{r_i > 0\}$$ proves the greedy `scatter` is $$O(\log n)$$ amortized: each expensive multi-row call is paid for by the rows it retires forever.
 - Sums reach $$5 \cdot 10^{13}$$ — use 64-bit integers throughout.
 
-### Practice
-
-- [LeetCode 2286 — Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups/)
-- [CSES — Prefix Sum Queries](https://cses.fi/problemset/task/2166) (segment tree walk / max-prefix descent)
-- [LeetCode 715 — Range Module](https://leetcode.com/problems/range-module/)
-- [Codeforces EDU — Segment Tree, Part 1 & 2](https://codeforces.com/edu/course/2/lesson/4) (descent exercises)
-
 ## Fenwick Tree with Coordinate Compression {#fenwick-tree}
+
+Not every range query needs a full segment tree. When the question is a prefix count and values are only ever added, a Fenwick tree does the same job in a few lines, as long as its indices are small. That last condition is where coordinate compression comes in.
 
 A Fenwick tree counts along indices $$1 \dots m$$, so to count how many earlier prefix sums fall in some range, you would index it by the prefix-sum _value_. But prefix sums can be up to $$10^{14}$$ or negative, so you cannot use them as array indices directly. **Coordinate compression** fixes this: replace each value by its **rank** in the sorted set of all values that ever appear, giving a dense $$1 \dots m$$ index the Fenwick tree can use.
 
@@ -674,9 +632,39 @@ Each step is one range query and one point update, so the whole sweep is $$O(n \
 
 Whenever a Fenwick (or segment) tree needs to be keyed by a value that is large, sparse, or negative, compress: gather **all** values it will ever see — inserts and query bounds alike — into one sorted, deduped array, and use each value's rank as the index. The "and query bounds" half is the easy thing to forget.
 
-### Practice
+## Practice {#practice}
+
+**Segment Tree**
+
+- [LeetCode 2213 — Longest Substring of One Repeating Character](https://leetcode.com/problems/longest-substring-of-one-repeating-character/)
+- [LeetCode 732 — My Calendar III](https://leetcode.com/problems/my-calendar-iii/)
+- [LeetCode 715 — Range Module](https://leetcode.com/problems/range-module/)
+- [CSES — Range Updates and Sums](https://cses.fi/problemset/task/1735)
+
+**Segment Tree Walk**
+
+- [LeetCode 2286 — Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups/)
+- [CSES — Prefix Sum Queries](https://cses.fi/problemset/task/2166) (segment tree walk / max-prefix descent)
+- [LeetCode 715 — Range Module](https://leetcode.com/problems/range-module/)
+- [Codeforces EDU — Segment Tree, Part 1 & 2](https://codeforces.com/edu/course/2/lesson/4) (descent exercises)
+
+**Fenwick Tree with Coordinate Compression**
 
 - [LeetCode — Count Subarrays with Distant Sums](https://leetcode.com/problems/count-subarrays-with-distant-sums/)
 - [LeetCode 327 — Count of Range Sum](https://leetcode.com/problems/count-of-range-sum/)
 - [LeetCode 493 — Reverse Pairs](https://leetcode.com/problems/reverse-pairs/)
 - [LeetCode 315 — Count of Smaller Numbers After Self](https://leetcode.com/problems/count-of-smaller-numbers-after-self/)
+
+## Further reading {#further-reading}
+
+**Segment Tree**
+
+- [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html): the definitive reference. Start here for the recursive formulation, then read the sections on storing more per node and on dynamic/implicit trees.
+- [USACO Guide — Segment Trees](https://usaco.guide/gold/segtree-ext?lang=cpp) and its [sparse segment tree](https://usaco.guide/plat/sparse-segtree?lang=cpp) page.
+- [Codeforces — Efficient and easy segment trees](https://codeforces.com/blog/entry/18051) (al.cash) for the iterative bottom-up variant once the recursive one clicks.
+
+**Segment Tree Walk**
+
+- [CP-Algorithms — Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html) — see "Searching for the first element greater than a given amount."
+- [USACO Guide — More Applications of Segment Tree](https://usaco.guide/plat/segtree-ext?lang=cpp) — the "Walking on a Segment Tree" section.
+- [Potential method (Wikipedia)](https://en.wikipedia.org/wiki/Potential_method) — the amortized-analysis framing behind the `head` pointer.

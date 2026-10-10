@@ -3,13 +3,53 @@ layout: post
 title: "Hashing"
 description: "Fingerprints that let you compare things in O(1). A rolling hash fingerprints ordered sequences, and XOR hashing fingerprints sets, multisets, and trees."
 permalink: /blog/hashing/
-last_updated: 2026-09-12
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Fingerprints that let you compare things in O(1). A rolling hash fingerprints ordered sequences, and XOR hashing fingerprints sets, multisets, and trees.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Rolling Hash {#rolling-hash}
 
@@ -80,18 +120,6 @@ Hash each word and store the target frequency of each word-hash. Build one rolli
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define sz(x) (int)((x).size())
-#define pb push_back
-
 class RollingHash {
 private:
     u128 base = 313;
@@ -213,21 +241,6 @@ Deduplicate within a path (a window repeated in one path must still count once t
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define sz(x) (int)((x).size())
-#define pb push_back
-
-const int INF = 1e9+7;
-
 class RollingHash {
 private:
     u128 base = 1e5+5;
@@ -293,19 +306,6 @@ public:
 
 With $$N$$ the total number of cities, each `check` is $$O(N \log N)$$ (rolling every window, the log from the maps), and the binary search adds an outer $$O(\log N)$$ — comfortable for the constraints. Adding `x+1` keeps city id $$0$$ from hashing to a real zero, and the base above the city range keeps distinct windows distinct.
 
-### Docs worth reading
-
-- [CP-Algorithms — String hashing](https://cp-algorithms.com/string/string-hashing.html), the substring formula and collision analysis.
-- [USACO Guide — Hashing](https://usaco.guide/gold/hashing?lang=cpp).
-
-### Practice
-
-- [LeetCode 30 — Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
-- [LeetCode 214 — Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome/)
-- [LeetCode 1923 — Longest Common Subpath](https://leetcode.com/problems/longest-common-subpath/)
-- [LeetCode 187 — Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
-- [LeetCode 1044 — Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
-
 ## XOR Hashing {#xor-hashing}
 
 A [rolling hash](#rolling-hash) fingerprints an _ordered_ sequence — `"abc"` and `"cab"` come out different, by design. But plenty of problems ask the opposite: is this the same **unordered** collection, in any order? Are these two multisets equal? Do two tree nodes have identical subtrees regardless of how you drew them? Order-sensitivity is now a bug, not a feature.
@@ -348,7 +348,6 @@ Keep the randomness in one place — seed one generator, hand out one key per di
 <summary>C++ XorHash / SumHash templates</summary>
 
 ```cpp
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 // one random key per distinct value, shared by every hash object
 map<ll, u64> key_table;
@@ -398,7 +397,6 @@ $$
 the subarray's set-fingerprint on the left, the target set's on the right.
 
 ```cpp
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 // values are in [1, n]; A is 1-indexed
 vector<u64> key(n+1), P(n+1, 0), T(n+1, 0);
@@ -570,15 +568,32 @@ public:
 
 Both faces of XOR hashing are the same move: **assign randomness to atoms, then combine.** Down a flat array the atoms are values and the combiner is XOR along a prefix — a set fingerprint you can slice in $$O(1)$$. Up a tree the atoms are a node's value and its children's hashes, and the same combiner folds a whole subtree into one number, so structural equality becomes integer equality. Swap XOR for `+` and the same machinery counts multiplicities instead of collapsing them. Pick the combiner to match what "equal" means — a set, a multiset, or a tree — and the fingerprint falls out.
 
-### Docs worth reading
+## Practice {#practice}
 
-- [USACO Guide — Hashing](https://usaco.guide/gold/hashing?lang=cpp), including the XOR / Zobrist section.
-- [CP-Algorithms — String hashing](https://cp-algorithms.com/string/string-hashing.html) for the polynomial cousin.
+**Rolling Hash**
 
-### Practice
+- [LeetCode 30 — Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
+- [LeetCode 214 — Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome/)
+- [LeetCode 1923 — Longest Common Subpath](https://leetcode.com/problems/longest-common-subpath/)
+- [LeetCode 187 — Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
+- [LeetCode 1044 — Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
+
+**XOR Hashing**
 
 - [LeetCode 652 — Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees/)
 - [LeetCode 1948 — Delete Duplicate Folders in System](https://leetcode.com/problems/delete-duplicate-folders-in-system/)
 - [LeetCode 567 — Permutation in String](https://leetcode.com/problems/permutation-in-string/)
 - [LeetCode 438 — Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
 - [Codeforces 1418G — Three Occurrences](https://codeforces.com/problemset/problem/1418/G)
+
+## Further reading {#further-reading}
+
+**Rolling Hash**
+
+- [CP-Algorithms — String hashing](https://cp-algorithms.com/string/string-hashing.html), the substring formula and collision analysis.
+- [USACO Guide — Hashing](https://usaco.guide/gold/hashing?lang=cpp).
+
+**XOR Hashing**
+
+- [USACO Guide — Hashing](https://usaco.guide/gold/hashing?lang=cpp), including the XOR / Zobrist section.
+- [CP-Algorithms — String hashing](https://cp-algorithms.com/string/string-hashing.html) for the polynomial cousin.

@@ -3,13 +3,53 @@ layout: post
 title: "Counting"
 description: "Counting without listing. Inclusion-exclusion corrects for overlaps, the Möbius function is its sign flip on divisors, stars and bars counts distributions, and degrees of freedom and digit blocks count by finding what is actually free."
 permalink: /blog/counting/
-last_updated: 2026-09-16
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Counting without listing. Inclusion-exclusion corrects for overlaps, the Möbius function is its sign flip on divisors, stars and bars counts distributions, and degrees of freedom and digit blocks count by finding what is actually free.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Inclusion-Exclusion {#inclusion-exclusion}
 
@@ -69,26 +109,6 @@ The cleanest way to _feel_ inclusion-exclusion is to use it. [LeetCode 3312 — 
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 const int MAX_M = 5e4+5;
 
 class Solution {
@@ -177,26 +197,6 @@ With at most 15 coins, iterating all $$2^n$$ subsets as a bitmask is cheap, and 
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 const ll INF64 = 2e18;
 
 class Solution {
@@ -267,13 +267,9 @@ PIE is everywhere once you know to look for it:
 
 The statement looks heavy, but the engine underneath is just one line of algebra: $$(1-1)^k = 0$$.
 
-### Practice
-
-- [LeetCode 878 — Nth Magical Number](https://leetcode.com/problems/nth-magical-number/)
-- [LeetCode 3116 — Kth Smallest Amount with Single Denomination Combination](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/)
-- [LeetCode 3312 — Sorted GCD Pair Queries](https://leetcode.com/problems/sorted-gcd-pair-queries/)
-
 ## Möbius Function {#mobius-function}
+
+Inclusion-exclusion over divisors needs a sign for each divisor. The Möbius function is that sign, and it comes with a sieve of its own.
 
 The Möbius function $$\mu(n)$$ is one of the basic tools of number theory: it is the signed indicator you attach to a divisor so that inclusion-exclusion over divisors works out. This section builds it from the definition, proves the one property people trip over — why a squared prime factor zeroes it — and computes it for all $$n \le N$$ with a sieve.
 
@@ -345,29 +341,6 @@ Each value is minus the sum of the Möbius values of its _proper_ divisors. That
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 const int MAX_N = 1e6+5;
 
 int mobius[MAX_N];
@@ -464,29 +437,6 @@ Flip it around. Instead of finding the divisors of each element, count how many 
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 void solve() {
     int n; cin >> n;
     vi x(n);
@@ -543,19 +493,9 @@ Both the Möbius values and $$\text{cnt}[d]$$ come out of the same "loop over mu
 - **Counting coprime pairs** and squarefree numbers up to $$N$$.
 - **Inclusion-exclusion over prime factors**, e.g. counting integers in a range divisible by none of a set of primes.
 
-### Docs worth reading
-
-- [USACO Guide — Inclusion-Exclusion Principle](https://usaco.guide/plat/PIE?lang=cpp#mobius-function), Möbius section.
-- [Möbius function (Wikipedia)](https://en.wikipedia.org/wiki/M%C3%B6bius_function).
-
-### Practice
-
-- [LeetCode 2572 — Count the Number of Square-Free Subsets](https://leetcode.com/problems/count-the-number-of-square-free-subsets/)
-- [Codeforces 547C — Mike and Foam](https://codeforces.com/problemset/problem/547/C)
-- [Codeforces 900D — Unusual Sequences](https://codeforces.com/problemset/problem/900/D)
-- [Codeforces 1139D — Steps to One](https://codeforces.com/problemset/problem/1139/D)
-
 ## Stars and Bars {#stars-and-bars}
+
+Inclusion-exclusion counts by correcting overlaps. Stars and bars counts by reshaping: turn the objects into a choice of positions, and one binomial coefficient does the rest.
 
 $$\binom{m}{t}$$ counts the ways to choose $$t$$ **strictly increasing** (hence distinct) values from $$\{0, 1, \dots, m-1\}$$. **Stars and bars** is the craft of bending a counting problem into exactly that shape. Often it drops out directly; sometimes the constraints mix strict and non-strict steps ($$<$$ and $$\le$$), and a small **shift** is needed to make every step strict. Here is one of each.
 
@@ -641,18 +581,6 @@ $$n$$ is small, so precompute factorials and inverse factorials once and read $$
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-
-using vi = vector<int>;
-
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-
-const int MOD = 1e9+7;
-
 const int MAXN = 10000;
 ll fac[MAXN+5], ifac[MAXN+5];
 
@@ -699,20 +627,9 @@ public:
 
 Whenever a count lines up as an increasing chain that mixes $$<$$ and $$\le$$, try shifting the $$i$$-th term by a function of $$i$$ (here $$i-1$$) to make every step strict. A strict chain of $$t$$ values over a range of size $$m$$ is just $$\binom{m}{t}$$ — the same "add an offset to separate collisions" move behind the stars-and-bars identity $$\binom{m+n-1}{n-1}$$ for distributing indistinguishable items.
 
-### Additional reading
-
-- [CP-Algorithms — Binomial coefficients](https://cp-algorithms.com/combinatorics/binomial-coefficients.html) — computing $$\binom{n}{k} \bmod p$$ with factorials and inverse factorials.
-- [CSES — Distributing Apples](https://cses.fi/problemset/task/1716) — the canonical stars-and-bars problem, $$\binom{m+n-1}{n-1}$$.
-
-### Practice
-
-- [LeetCode 1641 — Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/)
-- [LeetCode 1621 — Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/)
-- [LeetCode 62 — Unique Paths](https://leetcode.com/problems/unique-paths/)
-- [CSES — Distributing Apples](https://cses.fi/problemset/task/1716)
-- [CSES — Binomial Coefficients](https://cses.fi/problemset/task/1079)
-
 ## Degrees of Freedom {#degrees-of-freedom}
+
+Sometimes there is no formula to reach for, and the count comes from asking which choices are actually free. If $$k$$ binary cells can be chosen freely and the rest are forced, the answer is $$2^k$$, so the whole problem is finding $$k$$.
 
 [Codeforces 2240B — AI Finds Nothing Here](https://codeforces.com/contest/2240/problem/B) is a small problem with a clean idea worth slowing down on. We fill an $$n \times m$$ grid with $$0$$s and $$1$$s. Call the grid **clean** if every contiguous $$r \times c$$ block has an even number of ones — equivalently, the XOR of its $$rc$$ cells is $$0$$. Count the clean grids, modulo $$998244353$$.
 
@@ -852,11 +769,6 @@ Nothing is built. Compute the exponent (at most $$nm \le 10^{18}$$, so it fits i
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-
 const int MOD = 998244353;
 
 ll power(ll a, ll b) { // a^b mod MOD
@@ -890,11 +802,9 @@ int main() {
 
 Read $$n, m, r, c$$ as 64-bit from the start: $$n \cdot m$$ already overflows 32-bit at these bounds.
 
-### Practice
-
-- [Codeforces 2240B — AI Finds Nothing Here](https://codeforces.com/contest/2240/problem/B)
-
 ## Digit Counting {#digit-counting}
+
+One last counting move: count in blocks instead of one at a time. It locates a single position in a sequence far too long to write down.
 
 [LeetCode 400 — Nth Digit](https://leetcode.com/problems/nth-digit/) concatenates the positive integers into one string, $$1\,2\,3\,\dots\,9\,10\,11\,12\dots$$, and asks for the digit at position $$n$$. The string is astronomically long, so we never build it — we count our way to the answer in $$O(\log n)$$.
 
@@ -929,29 +839,6 @@ The 1-digit block holds $$9$$ digits; $$11 > 9$$, so subtract and move on with $
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 class Solution {
 public:
     int findNthDigit(int n) {
@@ -999,26 +886,6 @@ $$
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 class Solution {
 public:
     int kthDigit(ll k) {
@@ -1060,7 +927,34 @@ public:
 
 Same skeleton as the plain sequence — the block counting to find $$L$$ and the slot is byte-for-byte the same math; the parity branch is the only new line.
 
-### Practice
+## Practice {#practice}
+
+**Inclusion-Exclusion**
+
+- [LeetCode 878 — Nth Magical Number](https://leetcode.com/problems/nth-magical-number/)
+- [LeetCode 3116 — Kth Smallest Amount with Single Denomination Combination](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/)
+- [LeetCode 3312 — Sorted GCD Pair Queries](https://leetcode.com/problems/sorted-gcd-pair-queries/)
+
+**Möbius Function**
+
+- [LeetCode 2572 — Count the Number of Square-Free Subsets](https://leetcode.com/problems/count-the-number-of-square-free-subsets/)
+- [Codeforces 547C — Mike and Foam](https://codeforces.com/problemset/problem/547/C)
+- [Codeforces 900D — Unusual Sequences](https://codeforces.com/problemset/problem/900/D)
+- [Codeforces 1139D — Steps to One](https://codeforces.com/problemset/problem/1139/D)
+
+**Stars and Bars**
+
+- [LeetCode 1641 — Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/)
+- [LeetCode 1621 — Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/)
+- [LeetCode 62 — Unique Paths](https://leetcode.com/problems/unique-paths/)
+- [CSES — Distributing Apples](https://cses.fi/problemset/task/1716)
+- [CSES — Binomial Coefficients](https://cses.fi/problemset/task/1079)
+
+**Degrees of Freedom**
+
+- [Codeforces 2240B — AI Finds Nothing Here](https://codeforces.com/contest/2240/problem/B)
+
+**Digit Counting**
 
 - [LeetCode 400 — Nth Digit](https://leetcode.com/problems/nth-digit/)
 - [LeetCode — K-th Digit in Infinite String](https://leetcode.com/problems/k-th-digit-in-infinite-string/)
@@ -1070,3 +964,15 @@ Same skeleton as the plain sequence — the block counting to find $$L$$ and the
 - [LeetCode 400 — Nth Digit](https://leetcode.com/problems/nth-digit/)
 - [Codeforces 1177B — Digits Sequence (Hard Edition)](https://codeforces.com/problemset/problem/1177/B)
 - [Codeforces 1216E2 — Numerical Sequences (Hard Version)](https://codeforces.com/problemset/problem/1216/E2)
+
+## Further reading {#further-reading}
+
+**Möbius Function**
+
+- [USACO Guide — Inclusion-Exclusion Principle](https://usaco.guide/plat/PIE?lang=cpp#mobius-function), Möbius section.
+- [Möbius function (Wikipedia)](https://en.wikipedia.org/wiki/M%C3%B6bius_function).
+
+**Stars and Bars**
+
+- [CP-Algorithms — Binomial coefficients](https://cp-algorithms.com/combinatorics/binomial-coefficients.html) — computing $$\binom{n}{k} \bmod p$$ with factorials and inverse factorials.
+- [CSES — Distributing Apples](https://cses.fi/problemset/task/1716) — the canonical stars-and-bars problem, $$\binom{m+n-1}{n-1}$$.

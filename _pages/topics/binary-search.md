@@ -3,13 +3,53 @@ layout: post
 title: "Binary Search on the Answer"
 description: "When a problem asks to minimize the maximum (or maximize the minimum), the answer is often monotone even when the choices are not. Fix the answer, turn the problem into a yes-or-no check, and binary search. Reachability DP in Dynamic Programming starts the same way."
 permalink: /blog/binary-search/
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 When a problem asks to minimize the maximum (or maximize the minimum), the answer is often monotone even when the choices are not. Fix the answer, turn the problem into a yes-or-no check, and binary search. Reachability DP in Dynamic Programming starts the same way.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Search D, Not x {#search-d-not-x}
 
@@ -146,36 +186,6 @@ The two questions that did the work here carry over to other "minimize the maxim
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using i64 = int64_t;
-using u64 = uint64_t;
-using i128 = __int128;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-
 class Solution {
 public:
     int minDifference(vi& nums) {
@@ -251,7 +261,9 @@ public:
 
 A couple of notes on the code. `mn` and `mx` are the $$m$$ and $$M$$ from above, and `x`, `y` inside `can` are the forced pair for that $$D$$. A run is found by remembering where it started in `L` and processing it once the next entry is not $$-1$$. Everything stays `int`: $$D \le 10^9$$ and $$m \le 10^9$$, so $$m + D \le 2 \cdot 10^9$$, still under `INT_MAX`.
 
-### Practice
+## Practice {#practice}
+
+**Search D, Not x**
 
 - [LeetCode 3357 — Minimize the Maximum Adjacent Element Difference](https://leetcode.com/problems/minimize-the-maximum-adjacent-element-difference/)
 - [LeetCode 410 — Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/)

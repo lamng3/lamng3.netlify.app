@@ -3,13 +3,53 @@ layout: post
 title: "Data Structure Design"
 description: "Before picking a structure, name the query it has to answer. Then decide what can be built once and shared instead of rebuilt on every call."
 permalink: /blog/data-structure-design/
-last_updated: 2026-10-07
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Before picking a structure, name the query it has to answer. Then decide what can be built once and shared instead of rebuilt on every call.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Name the Query First {#name-the-query}
 
@@ -151,16 +191,9 @@ The catalog has a pattern, and it is in step 2 every time. Each certificate is a
 
 So the real work in designing one of these is never the code. It is finding the argument that lets you stop looking at most of the set — and then checking that an update only disturbs a constant amount of what you kept.
 
-### Practice
-
-- [LeetCode 220 — Contains Duplicate III](https://leetcode.com/problems/contains-duplicate-iii/)
-- [LeetCode 1438 — Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit](https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/)
-- [LeetCode 480 — Sliding Window Median](https://leetcode.com/problems/sliding-window-median/)
-- [LeetCode 239 — Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
-- [LeetCode 3481 — Apply Substitutions](https://leetcode.com/problems/apply-substitutions/)
-- [LeetCode 355 — Design Twitter](https://leetcode.com/problems/design-twitter/)
-
 ## Static Precompute {#static-precompute}
+
+Naming the query tells you what to maintain. The companion question is what _not_ to rebuild: a table that does not depend on the input belongs outside the call.
 
 Some solutions need a big lookup table that does not depend on the input at all: every prime below $$10^7$$, all factorials mod $$p$$, every palindrome up to $$10^{10}$$. Build that table inside your solve function and you rebuild it on **every test case** — and judges run many. The table is the same each time, so all but the first build is wasted work, and it is exactly the kind of waste that turns a correct solution into a TLE.
 
@@ -198,19 +231,6 @@ The judge constructs `Solution` and calls `minOperations` once per test case. A 
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-
-using vi = vector<int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-#define pb push_back
-
 const ll INF64 = (ll)2e18;
 
 class Solution {
@@ -257,7 +277,18 @@ The generator builds each palindrome from its left half `x`: mirror `x` to get a
 
 When a table is a pure function of _nothing but constants_ — not of the input — it should be built once, not once per test case. A `static` member plus an "already built?" guard turns $$T$$ rebuilds into one, and `inline static` gives you that with zero boilerplate. The same move applies to a prime sieve, a factorial/inverse-factorial table, or any precomputed structure you binary-search or index into across many queries.
 
-### Practice
+## Practice {#practice}
+
+**Name the Query First**
+
+- [LeetCode 220 — Contains Duplicate III](https://leetcode.com/problems/contains-duplicate-iii/)
+- [LeetCode 1438 — Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit](https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/)
+- [LeetCode 480 — Sliding Window Median](https://leetcode.com/problems/sliding-window-median/)
+- [LeetCode 239 — Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
+- [LeetCode 3481 — Apply Substitutions](https://leetcode.com/problems/apply-substitutions/)
+- [LeetCode 355 — Design Twitter](https://leetcode.com/problems/design-twitter/)
+
+**Static Precompute**
 
 - [LeetCode 4053 — Minimum Operations to Make Every Element Palindromic](https://leetcode.com/problems/minimum-operations-to-make-every-element-palindromic/)
 - [LeetCode 2081 — Sum of k-Mirror Numbers](https://leetcode.com/problems/sum-of-k-mirror-numbers/)

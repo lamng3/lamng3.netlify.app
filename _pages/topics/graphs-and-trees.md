@@ -3,13 +3,53 @@ layout: post
 title: "Graphs and Trees"
 description: "Dependency graphs and trees. Kahn's algorithm kept as a live invariant resolves definitions as they arrive, and on a tree, counting by the vertex where three paths meet turns a triple loop into one pass."
 permalink: /blog/graphs-and-trees/
-last_updated: 2026-10-07
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Dependency graphs and trees. Kahn's algorithm kept as a live invariant resolves definitions as they arrive, and on a tree, counting by the vertex where three paths meet turns a triple loop into one pass.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Topological Order, One Entry at a Time {#topological-order}
 
@@ -232,36 +272,6 @@ The full structure. `get_keys` collects the dependencies of a value by toggling 
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using i64 = int64_t;
-using u64 = uint64_t;
-using i128 = __int128;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-
 class StreamingSubstitutor {
 private:
     map<string,vector<string>> Adj;   // dependency -> dependents (reverse edges)
@@ -359,16 +369,9 @@ Against the judge, `applySubstitutions` just feeds the pairs in and asks for the
 
 The problem says "apply substitutions." The structure underneath says **topological order**, and once you see that, the interesting question stops being "what is the answer" and becomes "what state do I keep between insertions." Three choices did the work here: edges oriented dependency → dependent so progress flows forward; indegree counting only *pending* dependencies so it stays meaningful mid-stream; and unresolved placeholders preserved verbatim so partial output stays re-feedable. None of them are needed to pass the judge. All of them are what separates an answer from a component.
 
-### Practice
-
-- [LeetCode 3481 — Apply Substitutions](https://leetcode.com/problems/apply-substitutions/)
-- [LeetCode 207 — Course Schedule](https://leetcode.com/problems/course-schedule/)
-- [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/)
-- [LeetCode 269 — Alien Dictionary](https://leetcode.com/problems/alien-dictionary/)
-- [LeetCode 1136 — Parallel Courses](https://leetcode.com/problems/parallel-courses/)
-- [LeetCode 1096 — Brace Expansion II](https://leetcode.com/problems/brace-expansion-ii/)
-
 ## Counting on Trees: The Meeting Vertex {#meeting-vertex}
+
+The substitution problem walks a graph in dependency order. On a tree there is a different way to organize the work: pick the vertex where things meet, and count from there.
 
 [Codeforces 2241E](https://codeforces.com/contest/2241/problem/E) gives a tree on $$n$$ vertices with a value $$a_x$$ on each vertex. Write $$p(x, y)$$ for the product of the values along the simple path from $$x$$ to $$y$$. Count the unordered triplets $$\{u, v, w\}$$ for which
 
@@ -480,29 +483,6 @@ Every step — the DFS, and one linear scan of each vertex's incident branches �
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 const int MAXN = 2e5+5;
 
 int A[MAXN];
@@ -572,12 +552,25 @@ int main() {
 
 One implementation note: `int x = sqrt(A[u])` can land one off from floating error, so re-check `x*x == A[u]` (and, to be safe on the boundary, you may test `x+1` too). Everything is 64-bit for the products — with $$n$$ up to $$2\cdot10^5$$, a single vertex's $$e_3$$ already overflows 32-bit.
 
-### Docs worth reading
+## Practice {#practice}
 
-- [Codeforces 2241E editorial](https://codeforces.com/blog/entry/154698) — the meeting-vertex proof in full.
+**Topological Order, One Entry at a Time**
 
-### Practice
+- [LeetCode 3481 — Apply Substitutions](https://leetcode.com/problems/apply-substitutions/)
+- [LeetCode 207 — Course Schedule](https://leetcode.com/problems/course-schedule/)
+- [LeetCode 210 — Course Schedule II](https://leetcode.com/problems/course-schedule-ii/)
+- [LeetCode 269 — Alien Dictionary](https://leetcode.com/problems/alien-dictionary/)
+- [LeetCode 1136 — Parallel Courses](https://leetcode.com/problems/parallel-courses/)
+- [LeetCode 1096 — Brace Expansion II](https://leetcode.com/problems/brace-expansion-ii/)
+
+**Counting on Trees: The Meeting Vertex**
 
 - [Codeforces 2241E](https://codeforces.com/contest/2241/problem/E)
 - [Codeforces 161D — Distance in Tree](https://codeforces.com/problemset/problem/161/D)
 - [LeetCode 3067 — Count Pairs of Connectable Servers in a Weighted Tree Network](https://leetcode.com/problems/count-pairs-of-connectable-servers-in-a-weighted-tree-network/)
+
+## Further reading {#further-reading}
+
+**Counting on Trees: The Meeting Vertex**
+
+- [Codeforces 2241E editorial](https://codeforces.com/blog/entry/154698) — the meeting-vertex proof in full.

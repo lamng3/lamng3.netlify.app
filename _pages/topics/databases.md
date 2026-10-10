@@ -3,13 +3,53 @@ layout: post
 title: "Databases"
 description: "Ideas from competitive programming that show up inside database systems: keeping old versions around (persistence, MVCC, copy-on-write B-trees), and laying sparse data out so scans are fast (compressed sparse row)."
 permalink: /blog/databases/
-last_updated: 2026-09-10
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Ideas from competitive programming that show up inside database systems: keeping old versions around (persistence, MVCC, copy-on-write B-trees), and laying sparse data out so scans are fast (compressed sparse row).
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Persistence {#persistence}
 
@@ -35,26 +75,6 @@ You don't need a fancy tree here. Just keep, for each index, a list of `(snap_id
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 class SnapshotArray {
 private:
     int time;
@@ -118,26 +138,6 @@ The classic problem is [CSES — Range Queries and Copies](https://cses.fi/probl
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 const int MAX_N = 2e5+5;
 
 struct PersistentST {
@@ -270,12 +270,9 @@ So the recurring lesson holds at every scale:
 
 _Never overwrite; keep the old version and point new readers at the new one._
 
-### Practice
-
-- [LeetCode 1146 — Snapshot Array](https://leetcode.com/problems/snapshot-array/) (persistence, easy)
-- [CSES — Range Queries and Copies](https://cses.fi/problemset/task/1737) (persistent segment tree)
-
 ## Compressed Sparse Row {#compressed-sparse-row}
+
+Persistence is about keeping versions. Layout is the other half of storage: how the data sits in memory decides how fast it scans.
 
 A **sparse matrix** is a matrix that is almost all zeros. Storing it as a full 2D grid is wasteful: an $$n \times m$$ matrix costs $$nm$$ cells even if only a handful are nonzero. So we store only the nonzeros — but we still want to grab "row $$i$$" instantly, not scan the whole thing. **Compressed Sparse Row (CSR)** is the layout that does exactly that.
 
@@ -336,18 +333,6 @@ Here it is as a reusable container. Two arrays carry the structure: **`offset`**
 <summary>C++ implementation (in the CP template style)</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define pb push_back
-#define sz(x) (int)((x).size())
-
 template <typename T>
 struct CSR {
     int n;
@@ -515,13 +500,14 @@ That is **more than 5x faster** ($$240 / 42 \approx 5.7$$) and **17.5 MB less** 
 
 Whenever you have many groups of variable size — matrix rows, or a graph's vertices — that you fill once and then scan repeatedly, don't allocate one container per group. Flatten everything into contiguous arrays indexed by a per-group pointer, the way CSR packs a matrix's rows or a graph's adjacency. One allocation, cache-friendly reads, and the group boundaries live in a single small `row_ptr` array.
 
-### Docs worth reading
+## Practice {#practice}
 
-- [NVIDIA — CSR storage format](https://docs.nvidia.com/nvpl/latest/sparse/storage_format/sparse_matrix.html).
-- [pnxguide — CSR: motivation and explanation](https://pnxguide.medium.com/compressed-sparse-row-motivation-and-explanation-cd92c71b7cfa).
-- [GeeksforGeeks — Sparse matrix (CSR)](https://www.geeksforgeeks.org/dsa/sparse-matrix-representations-set-3-csr/).
+**Persistence**
 
-### Practice
+- [LeetCode 1146 — Snapshot Array](https://leetcode.com/problems/snapshot-array/) (persistence, easy)
+- [CSES — Range Queries and Copies](https://cses.fi/problemset/task/1737) (persistent segment tree)
+
+**Compressed Sparse Row**
 
 All take an edge list and need real traversal over the adjacency — topological order, shortest paths, DFS, tree DP — the repeated neighbor iteration where CSR pays off. (Pure connectivity, like "does a path exist," is cleaner with union-find and doesn't exercise CSR.)
 
@@ -529,3 +515,11 @@ All take an edge list and need real traversal over the adjacency — topological
 - [LeetCode 743 — Network Delay Time](https://leetcode.com/problems/network-delay-time/)
 - [LeetCode 1192 — Critical Connections in a Network](https://leetcode.com/problems/critical-connections-in-a-network/)
 - [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F)
+
+## Further reading {#further-reading}
+
+**Compressed Sparse Row**
+
+- [NVIDIA — CSR storage format](https://docs.nvidia.com/nvpl/latest/sparse/storage_format/sparse_matrix.html).
+- [pnxguide — CSR: motivation and explanation](https://pnxguide.medium.com/compressed-sparse-row-motivation-and-explanation-cd92c71b7cfa).
+- [GeeksforGeeks — Sparse matrix (CSR)](https://www.geeksforgeeks.org/dsa/sparse-matrix-representations-set-3-csr/).

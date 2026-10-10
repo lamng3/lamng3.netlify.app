@@ -3,13 +3,53 @@ layout: post
 title: "Dynamic Programming"
 description: "Most of dynamic programming is choosing what to remember. Each technique here is a different answer to that question: digits and a remainder, a split point, a set of reachable values, or a running best."
 permalink: /blog/dynamic-programming/
-last_updated: 2026-09-08
+last_updated: 2026-10-10
 author: Lam Nguyen
 toc:
   sidebar: right
 ---
 
 Most of dynamic programming is choosing what to remember. Each technique here is a different answer to that question: digits and a remainder, a split point, a set of reachable values, or a running best.
+
+<details markdown="1">
+<summary>C++ template used by every implementation on this page</summary>
+
+Each implementation below starts after this header. A snippet that needs a different modulus defines its own `MOD` in place of this one.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
+using i128 = __int128;
+using u128 = unsigned __int128;
+
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+```
+</details>
 
 ## Digit DP {#digit-dp}
 
@@ -99,36 +139,6 @@ The number of states is $$\text{pos} \times \text{tight} \times \text{started} \
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using i64 = int64_t;
-using u64 = uint64_t;
-using i128 = __int128;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-
 // dp[pos][tight][started][rem][diff + 10]
 int dp[11][2][2][21][21];
 
@@ -170,14 +180,9 @@ public:
 
 A couple of notes on the code. `pos` counts _down_ to $$0$$, so the digit at the current position is `num[sz(num) - pos]`. The `diff + 10` offset is the negative-index shift from the table. And `memset(dp, -1, ...)` runs inside `count_up_to`: the cache is valid only for one bound, since a `tight` state's digit cap comes from that bound's digits — reset it before each new number.
 
-### Practice
-
-- [LeetCode 2827 — Number of Beautiful Integers in the Range](https://leetcode.com/problems/number-of-beautiful-integers-in-the-range/)
-- [LeetCode 902 — Numbers At Most N Given Digit Set](https://leetcode.com/problems/numbers-at-most-n-given-digit-set/)
-- [LeetCode 600 — Non-negative Integers without Consecutive Ones](https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/)
-- [Codeforces 1036C — Classy Numbers](https://codeforces.com/problemset/problem/1036/C)
-
 ## Range DP {#range-dp}
+
+Digit DP chooses its state by asking what the final test reads. Range DP asks a different question: what is the last step, and where does it split the input?
 
 [LeetCode 679 — 24 Game](https://leetcode.com/problems/24-game/) gives four cards, each in $$[1, 9]$$, and asks whether some expression built from $$+, -, \times, \div$$ and parentheses evaluates to $$24$$. Division is real division, so $$6 \div (1 - \tfrac{3}{4}) = 24$$ is a valid answer for $$\{1, 3, 4, 6\}$$.
 
@@ -261,35 +266,6 @@ The solution below takes the floating-point route: generate every permutation, r
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using ull = unsigned long long;
-using u32 = uint32_t;
-using u64 = uint64_t;
-using i64 = int64_t;
-using i128 = __int128;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
 const double eps = 1e-6;
 
 class Solution {
@@ -391,14 +367,9 @@ Note the mutation of `L` inside the loop: `pivot` keeps marching forward over th
 
 The cost is $$O(n^2)$$ in the worst case — a fully nested `((((...))))` peels one layer per call and rescans the rest — which is the same shape of redundancy as the range DP above, and perfectly fine at $$n \le 50$$. Writing it this way is worth it anyway, because it makes the structure explicit: *decompose the range into independent blocks, recurse into each block's interior, combine.* Once that is the mental model, the $$O(n)$$ one-pass solutions read as optimizations of it rather than tricks. Each `"()"` sitting at depth $$d$$ contributes $$2^d$$, since the $$d$$ enclosing pairs each double it — so a single scan that tracks depth and adds $$2^{d}$$ at every `"()"` computes the same sum, and the explicit-stack version is just this recursion with its frames made manual.
 
-### Practice
-
-- [LeetCode 679 — 24 Game](https://leetcode.com/problems/24-game/)
-- [LeetCode 241 — Different Ways to Add Parentheses](https://leetcode.com/problems/different-ways-to-add-parentheses/)
-- [LeetCode 312 — Burst Balloons](https://leetcode.com/problems/burst-balloons/)
-- [LeetCode 856 — Score of Parentheses](https://leetcode.com/problems/score-of-parentheses/)
-
 ## Reachability DP {#reachability-dp}
+
+Both DPs so far carry one value per state. Sometimes the right state is the _set_ of values still reachable, and the problem only asks whether a target is in it.
 
 [Codeforces 2260D — Signs of Prefix Sums](https://codeforces.com/contest/2260/problem/D) is a compact problem worth pulling apart slowly, because it stacks two patterns that recur everywhere.
 
@@ -488,35 +459,8 @@ For a fixed budget, each layer pairs a frontier of width $$w = O(x)$$ against th
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using i64 = int64_t;
-using u64 = uint64_t;
-using i128 = __int128;
-using u128 = unsigned __int128;
-
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
 const int MOD = 998244353; // 1e9+7
 
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 void preprocess() {
 
@@ -592,20 +536,9 @@ Once you are on that graph the finish writes itself: "does a valid object exist"
 
 So the outline to reach for, when an optimization that is secretly a max-or-min sits on top of a constraint that couples everything through a running total: peel the optimization into a feasibility search, promote the running total to the variable so the constraints go local, then walk the resulting graph. It is the same instinct — carry a compressed running total and let it drive the transitions — behind [digit DP](#digit-dp), where the running total is the value taken $$\bmod\ k$$, and behind [prefix XOR hashing](/blog/hashing/#xor-hashing), where it is the XOR of a prefix. Three aggregates, one habit.
 
-### Docs worth reading
-
-- [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf), ch. 7 (DP) — the reachability/counting DP template in its plainest form.
-- [USACO Guide — Introduction to DP](https://usaco.guide/gold/intro-dp).
-- [Codeforces — Everything About Dynamic Programming](https://codeforces.com/blog/entry/43256).
-
-### Practice
-
-- [Codeforces 2260D — Signs of Prefix Sums](https://codeforces.com/contest/2260/problem/D) (the problem above)
-- [LeetCode 416 — Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/) (boolean reachability DP — carry the set of reachable sums)
-- [LeetCode 494 — Target Sum](https://leetcode.com/problems/target-sum/) (the counting sibling: OR becomes +)
-- [LeetCode 926 — Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/) (per-position feasibility DP)
-
 ## Maximum Subarray from a Range Update {#maximum-subarray}
+
+The last one is the oldest DP on this page, Kadane's maximum subarray, reached from a problem that does not look like one at first.
 
 [Codeforces 1082E — Increasing Frequency](https://codeforces.com/contest/1082/problem/E) (rated **2000**) reduces to a maximum subarray problem. This writeup derives that reduction and the $$O(n)$$ implementation.
 
@@ -656,29 +589,6 @@ Because the occurrence lists across all values partition the non-$$c$$ elements,
 <summary>C++ implementation</summary>
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using vi = vector<int>;
-using vii = vector<vector<int>>;
-using pii = pair<int, int>;
-
-#define REP(i, n) for (int i = 0; i < (n); i++)
-#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
-#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
-#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)((x).size())
-
-#define fi first
-#define se second
-#define pb push_back
-
-const int INF = 1e9+7;
-const int MOD = 1e9+7;
-
 void preprocess() {
 
 }
@@ -747,9 +657,40 @@ int main() {
 - That balance is a **maximum subarray**: answer $$= \text{tot} + \max_v \text{Kadane}(v)$$.
 - Only occurrences carry weight, so a **prefix count of $$c$$** collapses per-value Kadane onto the occurrence lists, giving $$O(n)$$ across all values.
 
-### Practice
+## Practice {#practice}
+
+**Digit DP**
+
+- [LeetCode 2827 — Number of Beautiful Integers in the Range](https://leetcode.com/problems/number-of-beautiful-integers-in-the-range/)
+- [LeetCode 902 — Numbers At Most N Given Digit Set](https://leetcode.com/problems/numbers-at-most-n-given-digit-set/)
+- [LeetCode 600 — Non-negative Integers without Consecutive Ones](https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/)
+- [Codeforces 1036C — Classy Numbers](https://codeforces.com/problemset/problem/1036/C)
+
+**Range DP**
+
+- [LeetCode 679 — 24 Game](https://leetcode.com/problems/24-game/)
+- [LeetCode 241 — Different Ways to Add Parentheses](https://leetcode.com/problems/different-ways-to-add-parentheses/)
+- [LeetCode 312 — Burst Balloons](https://leetcode.com/problems/burst-balloons/)
+- [LeetCode 856 — Score of Parentheses](https://leetcode.com/problems/score-of-parentheses/)
+
+**Reachability DP**
+
+- [Codeforces 2260D — Signs of Prefix Sums](https://codeforces.com/contest/2260/problem/D) (the problem above)
+- [LeetCode 416 — Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/) (boolean reachability DP — carry the set of reachable sums)
+- [LeetCode 494 — Target Sum](https://leetcode.com/problems/target-sum/) (the counting sibling: OR becomes +)
+- [LeetCode 926 — Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/) (per-position feasibility DP)
+
+**Maximum Subarray from a Range Update**
 
 - [Codeforces 1082E — Increasing Frequency](https://codeforces.com/contest/1082/problem/E)
 - [LeetCode 53 — Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)
 - [CSES — Maximum Subarray Sum](https://cses.fi/problemset/task/1643)
 - [LeetCode 1749 — Maximum Absolute Sum of Any Subarray](https://leetcode.com/problems/maximum-absolute-sum-of-any-subarray/)
+
+## Further reading {#further-reading}
+
+**Reachability DP**
+
+- [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf), ch. 7 (DP) — the reachability/counting DP template in its plainest form.
+- [USACO Guide — Introduction to DP](https://usaco.guide/gold/intro-dp).
+- [Codeforces — Everything About Dynamic Programming](https://codeforces.com/blog/entry/43256).
