@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Databases"
-description: "Ideas from competitive programming that show up inside database systems: keeping old versions around (persistence, MVCC, copy-on-write B-trees), and laying sparse data out so scans are fast (compressed sparse row)."
+description: "Ideas from competitive programming that show up inside database systems: keeping old versions around (persistence, MVCC, copy-on-write B-trees), laying sparse data out for fast scans (compressed sparse row), answering membership in little memory (filters and sketches), keeping a sorted table in memory (skip lists), and deciding what stays in a full cache (eviction)."
 permalink: /blog/databases/
 last_updated: 2026-10-10
 author: Lam Nguyen
@@ -9,7 +9,7 @@ toc:
   sidebar: right
 ---
 
-Ideas from competitive programming that show up inside database systems: keeping old versions around (persistence, MVCC, copy-on-write B-trees), and laying sparse data out so scans are fast (compressed sparse row).
+Ideas from competitive programming that show up inside database systems: keeping old versions around (persistence, MVCC, copy-on-write B-trees), laying sparse data out for fast scans (compressed sparse row), answering membership in little memory (filters and sketches), keeping a sorted table in memory (skip lists), and deciding what stays in a full cache (eviction).
 
 <details markdown="1">
 <summary>C++ template used by every implementation on this page</summary>
@@ -499,6 +499,35 @@ That is **more than 5x faster** ($$240 / 42 \approx 5.7$$) and **17.5 MB less** 
 ### When to reach for it
 
 Whenever you have many groups of variable size — matrix rows, or a graph's vertices — that you fill once and then scan repeatedly, don't allocate one container per group. Flatten everything into contiguous arrays indexed by a per-group pointer, the way CSR packs a matrix's rows or a graph's adjacency. One allocation, cache-friendly reads, and the group boundaries live in a single small `row_ptr` array.
+
+## Filters and Sketches {#filters}
+
+A filter answers "is this key in the set?" approximately, in far less memory than the set itself. A **Bloom filter** sets $$k$$ hashed bits per key in one bit array. A lookup that finds any of its bits clear means _definitely absent_; all set means _probably present_. False positives happen, false negatives never do, and keys cannot be removed. A **cuckoo filter** stores short fingerprints in a cuckoo hash table instead, which keeps lookups to two buckets and adds deletes.
+
+A **count-min sketch** is the counting relative: $$d$$ rows of counters, each with its own hash. An update bumps one counter per row, and an estimate takes the minimum across rows. Collisions only ever add, so the estimate never undercounts.
+
+Databases put filters in front of disk. A log-structured merge tree keeps one Bloom filter per sorted run, so a point lookup skips every run whose filter says the key is absent.
+
+## Skip List {#skip-list}
+
+A skip list is a sorted linked list with express lanes. Each node is promoted to the next level up with probability $$\tfrac{1}{2}$$, so the top lanes skip most of the list, and search, insert, and delete take $$O(\log n)$$ expected time with no rebalancing. That simplicity is why in-memory sorted tables use one: the memtables of LevelDB and RocksDB, and the sorted sets in Redis.
+
+## Cache Eviction {#cache-eviction}
+
+A cache is full the moment it is useful, so the real design question is who leaves. **FIFO** evicts the oldest insert. **LRU** evicts the least recently used, with a hash map pointing into a doubly linked list so every operation is $$O(1)$$. **LFU** evicts the least frequently used. **2Q** keeps first-time keys on probation in a FIFO and promotes a key to the main LRU only when it is seen again, so one long scan cannot flush the hot set.
+
+A database buffer pool faces the same choice for pages, and the same question comes back in agent memory: with a bounded context, what is worth keeping?
+
+## From the Notebook {#notebook}
+
+Implementations from my [competitive programming notebook](https://github.com/lamng3/competitive-programming-notebook), tagged with their [USACO Guide](https://usaco.guide/) level where they have one.
+
+- **Persistent segment tree** (advanced). [`PersistentSegmentTree.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/rurq/PersistentSegmentTree.h): Persistent sparse segment tree.
+- **Compressed sparse row** (silver). [`CSR.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/compress/CSR.h): Adjacency stored as offsets and edges.
+- **Filters** (advanced). [`bloomfilter.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/bloomfilter.h): Bloom filter. [`BloomFilter.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/databases/data_structures/BloomFilter.py): The same filter in Python. [`countminsketch.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/countminsketch.h): Count-min sketch with seeded hashes, merge, and top k. [`CountMinSketch.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/databases/data_structures/CountMinSketch.py): The same sketch in Python. [`cuckoofilter.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/cuckoofilter.h): Cuckoo filter with fingerprints, kicks, and deletes. [`CuckooFilter.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/databases/data_structures/CuckooFilter.py): The same filter in Python.
+- **Hash** (advanced). [`hash.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/utils/hash.h): String hashes, mixers, and a rolling hash. [`hash.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/databases/data_structures/utils/hash.py): The string hashes in Python.
+- **Skip list** (advanced). [`skiplist.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/skiplist.h): Skip list. [`Skiplist.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/databases/data_structures/Skiplist.py): The same structure in Python.
+- **Caches** (advanced). [`fifo.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/fifo.h): FIFO eviction. [`lru.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/lru.h): LRU eviction. [`lfu.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/lfu.h): LFU eviction. [`lru-2q.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/lru-2q.h): LRU-2Q eviction.
 
 ## Practice {#practice}
 

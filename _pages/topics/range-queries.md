@@ -632,6 +632,18 @@ Each step is one range query and one point update, so the whole sweep is $$O(n \
 
 Whenever a Fenwick (or segment) tree needs to be keyed by a value that is large, sparse, or negative, compress: gather **all** values it will ever see — inserts and query bounds alike — into one sorted, deduped array, and use each value's rank as the index. The "and query bounds" half is the easy thing to forget.
 
+## From the Notebook {#notebook}
+
+Implementations from my [competitive programming notebook](https://github.com/lamng3/competitive-programming-notebook), tagged with their [USACO Guide](https://usaco.guide/) level where they have one.
+
+- **Coordinate compression** (silver). [`CoordinateCompression.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/utils/CoordinateCompression.h): Sort unique values and map them back to ranks.
+- **Fenwick tree** (gold). [`FenwickTree.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/1d_range_query/FenwickTree.h): Prefix sums with point updates.
+- **Segment tree** (gold). [`SegmentTree.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/1d_range_query/SegmentTree.h): Recursive segment tree. [`IterativeSegmentTree.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/1d_range_query/IterativeSegmentTree.h): Iterative segment tree.
+- **Lazy segment tree** (platinum). [`LazySegmentTree.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/rurq/LazySegmentTree.h): Segment tree with lazy range updates.
+- **Sparse segment tree** (platinum). [`SparseSegmentTree.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/rurq/SparseSegmentTree.h): A segment tree that allocates only visited nodes.
+- **Mo's algorithm** (platinum). [`Mo.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/1d_range_query/Mo.h): Offline range queries in blocks. [`mo_algorithm/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/mo_algorithm): A solved Mo problem.
+- **Square root decomposition** (platinum). [`SRD.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/data_structures/1d_range_query/SRD.h): Blocks over a one-dimensional array.
+
 ## Practice {#practice}
 
 **Segment Tree**

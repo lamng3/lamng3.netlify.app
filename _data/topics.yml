@@ -1,3 +1,6 @@
+- slug: contest-setup
+  title: Contest Setup
+  sections: []
 - slug: binary-search
   title: Binary Search
   sections:
@@ -37,6 +40,9 @@
     title: Rolling Hash
   - id: xor-hashing
     title: XOR Hashing
+- slug: strings
+  title: Strings
+  sections: []
 - slug: graphs-and-trees
   title: Graphs and Trees
   sections:
@@ -71,6 +77,12 @@
     title: Persistence
   - id: compressed-sparse-row
     title: Compressed Sparse Row
+  - id: filters
+    title: Filters and Sketches
+  - id: skip-list
+    title: Skip List
+  - id: cache-eviction
+    title: Cache Eviction
 - slug: selected-leetcode-problems
   title: Selected LeetCode Problems
   sections: []

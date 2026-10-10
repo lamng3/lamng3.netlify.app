@@ -927,6 +927,12 @@ public:
 
 Same skeleton as the plain sequence — the block counting to find $$L$$ and the slot is byte-for-byte the same math; the parity branch is the only new line.
 
+## From the Notebook {#notebook}
+
+Implementations from my [competitive programming notebook](https://github.com/lamng3/competitive-programming-notebook), tagged with their [USACO Guide](https://usaco.guide/) level where they have one.
+
+- **Modular arithmetic** (gold). [`ModFact.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/math/modular_arithmetic/ModFact.h): Factorials and powers modulo 10^9+7. [`ModInv.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/math/modular_arithmetic/ModInv.h): Modular inverse by binary exponentiation. [`3881.cpp`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/examples/modular_arithmetic/3881.cpp): A worked modular problem.
+
 ## Practice {#practice}
 
 **Inclusion-Exclusion**

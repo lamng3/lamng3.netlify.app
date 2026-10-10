@@ -568,6 +568,12 @@ public:
 
 Both faces of XOR hashing are the same move: **assign randomness to atoms, then combine.** Down a flat array the atoms are values and the combiner is XOR along a prefix — a set fingerprint you can slice in $$O(1)$$. Up a tree the atoms are a node's value and its children's hashes, and the same combiner folds a whole subtree into one number, so structural equality becomes integer equality. Swap XOR for `+` and the same machinery counts multiplicities instead of collapsing them. Pick the combiner to match what "equal" means — a set, a multiset, or a tree — and the fingerprint falls out.
 
+## From the Notebook {#notebook}
+
+Implementations from my [competitive programming notebook](https://github.com/lamng3/competitive-programming-notebook), tagged with their [USACO Guide](https://usaco.guide/) level where they have one.
+
+- **Rolling hash** (gold). [`rollinghash.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/strings/rolling_hash/rollinghash.h): Forward and backward rolling hash. [`RollingHash.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/strings/rolling_hash/RollingHash.py): The same hash in Python.
+
 ## Practice {#practice}
 
 **Rolling Hash**

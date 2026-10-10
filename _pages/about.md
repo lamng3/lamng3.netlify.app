@@ -76,10 +76,6 @@ description: >-
       <p class="title"><a href="https://github.com/lamng3/hermes">Hermes</a><span class="meta">: Natural language to SPARQL over ontologies, a Python library with swappable systems</span></p>
       <p class="links-inline"><a href="https://github.com/lamng3/hermes">Repository</a> · <a href="https://lamng3.github.io/hermes-docs/">Documentation</a></p>
     </li>
-    <li>
-      <p class="title"><a href="https://github.com/lamng3/competitive-programming-notebook">competitive-programming-notebook</a><span class="meta">: Competitive programming notebook in C++ and Python</span></p>
-      <p class="links-inline"><a href="https://github.com/lamng3/competitive-programming-notebook">Repository</a> · <a href="https://lamng3.github.io/cp-docs/">Documentation</a></p>
-    </li>
   </ul>
 </section>
 

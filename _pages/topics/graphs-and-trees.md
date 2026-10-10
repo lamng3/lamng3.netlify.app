@@ -552,6 +552,18 @@ int main() {
 
 One implementation note: `int x = sqrt(A[u])` can land one off from floating error, so re-check `x*x == A[u]` (and, to be safe on the boundary, you may test `x+1` too). Everything is 64-bit for the products — with $$n$$ up to $$2\cdot10^5$$, a single vertex's $$e_3$$ already overflows 32-bit.
 
+## From the Notebook {#notebook}
+
+Implementations from my [competitive programming notebook](https://github.com/lamng3/competitive-programming-notebook), tagged with their [USACO Guide](https://usaco.guide/) level where they have one.
+
+- **Disjoint set union** (gold). [`DSU.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/graphs/dsu/DSU.h): Parent and size, with path compression. [`DSU.py`](https://github.com/lamng3/competitive-programming-notebook/blob/main/python/graphs/dsu/DSU.py): The same structure in Python. [`323.cpp`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/examples/graphs/dsu/323.cpp): A worked DSU problem.
+- **Euler tour** (gold). [`EulerTour.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/trees/euler_tour/EulerTour.h): Entry and exit times on a tree. [`euler_tour/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/euler_tour): Solved Euler-tour problems.
+- **Binary lifting** (platinum). [`binary_lifting/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/binary_lifting): Binary lifting solutions.
+- **Small to large** (platinum). [`small_to_large_merging/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/small_to_large_merging): Small-to-large merging solutions.
+- **DSU rollback** (advanced). [`DSURollback.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/graphs/dsu/DSURollback.h): Disjoint set union that can undo unions. [`dsu_rollback/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/dsu_rollback): A solved rollback problem.
+- **Strongly connected components** (advanced). [`kosaraju/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/kosaraju): Kosaraju solutions.
+- **Eulerian path** (advanced). [`eulerian_path/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/eulerian_path): Eulerian-path solutions.
+
 ## Practice {#practice}
 
 **Topological Order, One Entry at a Time**

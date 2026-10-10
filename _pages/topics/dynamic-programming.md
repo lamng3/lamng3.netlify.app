@@ -657,6 +657,12 @@ int main() {
 - That balance is a **maximum subarray**: answer $$= \text{tot} + \max_v \text{Kadane}(v)$$.
 - Only occurrences carry weight, so a **prefix count of $$c$$** collapses per-value Kadane onto the occurrence lists, giving $$O(n)$$ across all values.
 
+## From the Notebook {#notebook}
+
+Implementations from my [competitive programming notebook](https://github.com/lamng3/competitive-programming-notebook), tagged with their [USACO Guide](https://usaco.guide/) level where they have one.
+
+- **Dynamic programming** (gold). [`3418.cpp`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/examples/dynamic_programming/3418.cpp): One DP writeup. [`usaco/dp/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/usaco/dp): DP solutions. [`dp_on_tree/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/dp_on_tree): Tree DP solutions. [`lis/`](https://github.com/lamng3/competitive-programming-notebook/blob/main/contests/leetcode/solve/lis): Longest increasing subsequence.
+
 ## Practice {#practice}
 
 **Digit DP**
