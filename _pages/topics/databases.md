@@ -502,21 +502,128 @@ Whenever you have many groups of variable size — matrix rows, or a graph's ver
 
 ## Filters and Sketches {#filters}
 
-A filter answers "is this key in the set?" approximately, in far less memory than the set itself. A **Bloom filter** sets $$k$$ hashed bits per key in one bit array. A lookup that finds any of its bits clear means _definitely absent_; all set means _probably present_. False positives happen, false negatives never do, and keys cannot be removed. A **cuckoo filter** stores short fingerprints in a cuckoo hash table instead, which keeps lookups to two buckets and adds deletes.
+Persistence keeps old versions, and CSR keeps data compact for scans. The next question a storage engine asks is cheaper still: _is this key here at all?_ If the answer lives on disk, asking it costs a read. A filter answers it from memory, using far less space than the set itself, by allowing one kind of mistake.
 
-A **count-min sketch** is the counting relative: $$d$$ rows of counters, each with its own hash. An update bumps one counter per row, and an estimate takes the minimum across rows. Collisions only ever add, so the estimate never undercounts.
+### Start from a hash set, then give up the keys
 
-Databases put filters in front of disk. A log-structured merge tree keeps one Bloom filter per sorted run, so a point lookup skips every run whose filter says the key is absent.
+A hash set answers membership exactly, but it stores every key. Suppose we only store a few bits per key and forget the keys themselves. What can we still promise?
+
+A **Bloom filter** is the simplest answer. Keep an array of $$m$$ bits, all zero, and $$k$$ hash functions. To add a key, set the $$k$$ bits it hashes to. To look one up, check those $$k$$ bits:
+
+- any bit is $$0$$: the key was **definitely never added**, since adding it would have set that bit;
+- all bits are $$1$$: the key was **probably added**, or other keys happened to set the same bits.
+
+So false negatives are impossible and false positives are the price. That asymmetry is exactly what a database wants in front of disk: a "no" skips the read for free, and a wrong "yes" only costs the read we would have done anyway. A log-structured merge tree keeps one Bloom filter per sorted run, so a point lookup opens only the runs whose filter says yes.
+
+### How wrong is "probably"?
+
+After $$n$$ insertions with $$k$$ hashes, a given bit is still $$0$$ with probability $$\left(1 - \tfrac{1}{m}\right)^{kn} \approx e^{-kn/m}$$. A false positive needs all $$k$$ probed bits set:
+
+$$
+p \approx \left(1 - e^{-kn/m}\right)^{k}.
+$$
+
+More hashes set more bits per key (bad) but demand more coincidences per lookup (good). The two balance at $$k = \tfrac{m}{n} \ln 2$$, where about half the bits are set. At that point roughly $$9.6$$ bits per key buys a $$1\%$$ false-positive rate, whatever the keys are.
+
+My notebook's [`bloomfilter.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/bloomfilter.h) uses two fixed hashes, a base-31 polynomial hash and DJB2. Getting to $$k$$ hashes does not need $$k$$ independent functions: [`hash.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/utils/hash.h) builds them from two, as $$g_i(x) = h_1(x) + i \cdot h_2(x)$$ (Kirsch and Mitzenmacher), without raising the asymptotic false-positive rate.
+
+### What a Bloom filter cannot do: delete
+
+Clearing a key's bits would also clear bits that other keys rely on, and those keys would start returning "definitely absent". That is a false negative, the one mistake we promised never to make. So the next question: can we keep a filter's memory footprint and still delete?
+
+### Cuckoo filter: store a fingerprint, not bits
+
+A **cuckoo filter** stores a short **fingerprint** of each key (8 bits in my notebook) in a hash table with buckets of $$4$$ slots. Each key has two candidate buckets, and its fingerprint sits in one of them. Lookup checks two buckets; delete removes one matching fingerprint. Deletion works because each key owns a slot of its own instead of sharing bits.
+
+The interesting part is relocation. When both buckets are full, insertion evicts a resident fingerprint and moves it to _its_ other bucket, which may evict another, and so on: cuckoo hashing. But we stored only the fingerprint, not the key. How does an evicted fingerprint find its other bucket without the key?
+
+The trick is to define the second bucket from the fingerprint alone:
+
+$$
+i_2 = i_1 \oplus \text{hash}(f).
+$$
+
+XOR is its own inverse, so from either bucket, the other is $$i \oplus \text{hash}(f)$$. Both directions use only $$f$$. This is why [`cuckoofilter.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/cuckoofilter.h) rounds the table size $$N$$ up to a power of two: reducing $$\bmod N$$ keeps the low bits, and XOR commutes with keeping low bits, so $$\big((i_1 \oplus h) \bmod N\big) \oplus (h \bmod N) = i_1$$ still holds after the reduction.
+
+```cpp
+size_t i1 = hash(x) % N;
+size_t i2 = (i1 ^ hash(to_string(f))) % N;
+```
+
+Two details in the notebook version are worth keeping. The kick loop is capped at `MAX_NUM_KICKS`, because a full enough table can cycle forever. And when the cap is hit, the swaps are undone in reverse, so a failed insert never loses a fingerprint that was already stored.
+
+Deletes come with one rule: only delete keys you inserted. Deleting a key that was never added can remove a different key that shares its fingerprint and bucket.
+
+### Counting instead of membership: count-min sketch
+
+The same idea, hashing into a small table and accepting one-sided error, also estimates **how often** a key appeared. A **count-min sketch** keeps $$d$$ rows of $$w$$ counters, each row with its own hash. An insert adds $$1$$ to one counter per row. An estimate reads those $$d$$ counters and takes the **minimum**.
+
+Why the minimum? Every counter a key touches holds its true count plus whatever collided into it, and collisions only ever add. So every row overestimates, and the least overestimated row is the best guess. With $$w = \lceil e / \varepsilon \rceil$$ and $$d = \lceil \ln(1/\delta) \rceil$$, the estimate exceeds the true count by more than $$\varepsilon N$$ (out of $$N$$ total insertions) with probability at most $$\delta$$.
+
+[`countminsketch.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/countminsketch.h) seeds each row's hash separately with SplitMix64. Two sketches built with the **same seeds** can be merged by adding their counter tables cell by cell, which is how sketches from different machines combine into one. With different seeds the cells mean different things, so `merge` refuses them.
 
 ## Skip List {#skip-list}
 
-A skip list is a sorted linked list with express lanes. Each node is promoted to the next level up with probability $$\tfrac{1}{2}$$, so the top lanes skip most of the list, and search, insert, and delete take $$O(\log n)$$ expected time with no rebalancing. That simplicity is why in-memory sorted tables use one: the memtables of LevelDB and RocksDB, and the sorted sets in Redis.
+Filters answer "is it here?". A memtable has to answer "what comes next in sorted order?", and keep answering while writes stream in. A balanced binary search tree does that, at the cost of rotations on every insert. Is there something simpler with the same $$O(\log n)$$?
+
+### Start from a sorted linked list
+
+A sorted linked list inserts in $$O(1)$$ once you know where, but finding where takes $$O(n)$$ because you can only walk one step at a time. Add a second, sparser list on top that contains every other node: now you walk the top lane until the next step would overshoot, drop down, and walk at most one more step. Each extra lane halves the work again, and with $$\log_2 n$$ lanes a search is logarithmic.
+
+Keeping "exactly every other node" under inserts and deletes is as hard as balancing a tree. The skip list's move is to stop insisting on it: when a node is inserted, **flip a coin** for each level, and promote it while the coin says heads. On average half the nodes reach level $$1$$, a quarter reach level $$2$$, and so on. No rebalancing ever happens, and search, insert, and delete take $$O(\log n)$$ expected time, with about $$2n$$ pointers in total.
+
+### The part that is easy to get wrong: the left neighbors
+
+Insert walks down from the top level exactly like search. At each level it remembers the last node it stood on before dropping, the node that will sit to the **left** of the new one at that level:
+
+```cpp
+for (int i = curr_mx_lvl; i >= 0; i--) {
+    while (curr->next[i] != nullptr && curr->next[i]->key < key) {
+        curr = curr->next[i];
+    }
+    left[i] = curr;
+}
+```
+
+Then the new node is spliced in after `left[i]` on every level it reached. My first instinct was to splice using only the final `curr`, and that is wrong above level $$0$$: the left neighbor at a high level is usually a different node, further back. A node is one object referenced from many levels, not one copy per level, so every level needs its own left pointer. If the coin flips the new node above the current top level, its left neighbor up there is the head.
+
+Delete uses the same `left` array, unlinking the target level by level and stopping at the first level where it does not appear. [`skiplist.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/data_structures/skiplist.h) caps the height at $$16$$ levels, enough for about $$2^{16}$$ keys at full speed.
+
+### Where it shows up
+
+That simplicity is why in-memory sorted tables reach for skip lists. LevelDB and RocksDB keep their memtables in one before flushing to sorted runs on disk (the runs that the Bloom filters above guard), and Redis implements sorted sets with one.
 
 ## Cache Eviction {#cache-eviction}
 
-A cache is full the moment it is useful, so the real design question is who leaves. **FIFO** evicts the oldest insert. **LRU** evicts the least recently used, with a hash map pointing into a doubly linked list so every operation is $$O(1)$$. **LFU** evicts the least frequently used. **2Q** keeps first-time keys on probation in a FIFO and promotes a key to the main LRU only when it is seen again, so one long scan cannot flush the hot set.
+A cache is full the moment it is useful, so the real design question is not what to store, but **who leaves** when something new arrives. Every policy is a guess about the future from the past. My notebook puts them behind one interface, [`eviction_cache.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/eviction_cache.h): `get` counts as an access, and `put` returns the page it evicted, if any, so policies can be compared on the same trace.
 
-A database buffer pool faces the same choice for pages, and the same question comes back in agent memory: with a bounded context, what is worth keeping?
+### FIFO: the oldest insert leaves
+
+The first guess is the simplest: whatever arrived first has had its chance. [`fifo.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/fifo.h) keeps a queue of arrivals and a hash map for lookups. Note that `get` does not touch the queue: in FIFO, using a page buys it nothing. That is exactly its weakness, since a page read on every request is evicted on schedule anyway.
+
+### LRU: the least recently used leaves
+
+So let use count. LRU evicts the page untouched for longest, betting that recent use predicts the next use. The question is how to make "touch" and "evict the oldest" both $$O(1)$$. A hash map finds a page in $$O(1)$$, and a doubly linked list ordered by recency moves any node to the front in $$O(1)$$ once you hold a pointer to it, so use both: the map stores pointers into the list. [`lru.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/lru.h) moves a page to the head on every `get` and `put`, and evicts from the tail, using sentinel head and tail nodes so eviction never has to special-case an empty end of the list.
+
+LRU has its own blind spot. One long scan, such as a query reading a whole table once, touches every page exactly once, and each of those pages becomes "most recent" in turn. The scan flushes the hot set, even though none of the scanned pages will be read again.
+
+### LFU: the least frequently used leaves
+
+Counting uses instead of timing the last one fixes the scan: a page read once cannot outrank a page read a thousand times. The cost is the opposite blind spot: a page that was hot an hour ago keeps its high count and lingers. An $$O(1)$$ LFU keeps a list of pages per frequency and a pointer to the smallest non-empty frequency. That design is the next one to write; [`lfu.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/lfu.h) is a stub for now.
+
+### 2Q: make a page earn its place
+
+2Q (Johnson and Shasha) keeps LRU's recency and adds a probation period, so that touching a page once is not enough to enter the hot set. It uses three queues, as in [`lru-2q.h`](https://github.com/lamng3/competitive-programming-notebook/blob/main/notebook/databases/eviction/lru-2q.h):
+
+- **A1in**, a FIFO for pages seen for the first time. Reading them again does not reorder them.
+- **A1out**, a ghost FIFO that stores **only the keys** of pages that aged out of A1in, no data.
+- **Am**, an LRU for hot pages.
+
+A new page enters A1in. If it ages out without anyone caring, its key passes through A1out and is forgotten. If it is requested again while its key is still in A1out, that second request is the evidence 2Q was waiting for, and the page enters Am. A scan now churns through A1in and A1out and never reaches Am, so the hot set survives it. The ghost queue is what makes this cheap: remembering that a page was seen costs one key, not a page.
+
+### The same question in agent memory
+
+A database buffer pool makes this choice for disk pages. An agent with a bounded context makes it for facts, tool results, and past turns: what to keep, what to drop, and what to remember only by name, like A1out, so it can be fetched again if it turns out to matter.
 
 ## From the Notebook {#notebook}
 
@@ -544,6 +651,15 @@ All take an edge list and need real traversal over the adjacency — topological
 - [LeetCode 743 — Network Delay Time](https://leetcode.com/problems/network-delay-time/)
 - [LeetCode 1192 — Critical Connections in a Network](https://leetcode.com/problems/critical-connections-in-a-network/)
 - [Codeforces 1092F — Tree with Maximum Cost](https://codeforces.com/problemset/problem/1092/F)
+
+**Skip List**
+
+- [LeetCode 1206 — Design Skiplist](https://leetcode.com/problems/design-skiplist/)
+
+**Cache Eviction**
+
+- [LeetCode 146 — LRU Cache](https://leetcode.com/problems/lru-cache/)
+- [LeetCode 460 — LFU Cache](https://leetcode.com/problems/lfu-cache/)
 
 ## Further reading {#further-reading}
 
