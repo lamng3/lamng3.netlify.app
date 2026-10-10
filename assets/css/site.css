@@ -184,79 +184,37 @@ p {
   font-style: italic;
 }
 
-/* project flow on the homepage: two lanes that meet in OntoDB */
-.flow {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr)
-    auto minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 0.6rem 0.35rem;
-  align-items: stretch;
-  margin: 1.75rem 0;
-  font-size: 0.92rem;
-  line-height: 1.3;
-}
-
-.flow .node {
-  display: block;
-  padding: 0.5rem 0.6rem;
+/* research stack on the homepage: one row per layer, top to bottom */
+.stack {
+  margin: 1.5rem 0;
   border: 1px solid var(--rule);
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
+  font-size: 0.95rem;
 }
 
-.flow a.node:hover {
-  color: var(--link-hover);
-  border-color: var(--link-hover);
+.stack .layer {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.55rem 0.9rem;
+  border-top: 1px solid var(--rule);
 }
 
-.flow .node small {
-  display: block;
-  margin-top: 0.15rem;
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: var(--muted);
+.stack .layer:first-child {
+  border-top: 0;
 }
 
-.flow .end {
-  border-style: dashed;
-  font-weight: 400;
-}
-
-.flow .db {
-  align-self: center;
+.stack .goal {
   background: var(--code-bg);
 }
 
-.flow .ans {
-  align-self: center;
-}
-
-.flow .arrow {
-  align-self: center;
-}
-
-.flow .arrow::before {
-  content: "\2192";
+.stack .name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--muted);
 }
-
-.flow .q { grid-area: 1 / 1; }
-.flow .a1 { grid-area: 1 / 2; }
-.flow .moira { grid-area: 1 / 3; }
-.flow .a2 { grid-area: 1 / 4; }
-.flow .hermes { grid-area: 1 / 5; }
-.flow .a3 { grid-area: 1 / 6; }
-.flow .ont { grid-area: 2 / 1; }
-.flow .b1 { grid-area: 2 / 2; }
-.flow .kroma { grid-area: 2 / 3; }
-.flow .b2 { grid-area: 2 / 4; }
-.flow .check { grid-area: 2 / 5; }
-.flow .b3 { grid-area: 2 / 6; }
-.flow .db { grid-area: 1 / 7 / 3 / 8; }
-.flow .a4 { grid-area: 1 / 8 / 3 / 9; }
-.flow .ans { grid-area: 1 / 9 / 3 / 10; }
 
 .post-list {
   list-style: disc;
@@ -422,29 +380,10 @@ footer p {
 }
 
 @media (max-width: 640px) {
-  .flow {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 0.35rem 0.75rem;
-    text-align: center;
+  .stack .layer {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
   }
-  .flow .arrow::before {
-    content: "\2193";
-  }
-  .flow .q { grid-area: 1 / 1; }
-  .flow .a1 { grid-area: 2 / 1; }
-  .flow .moira { grid-area: 3 / 1; }
-  .flow .a2 { grid-area: 4 / 1; }
-  .flow .hermes { grid-area: 5 / 1; }
-  .flow .a3 { grid-area: 6 / 1; }
-  .flow .ont { grid-area: 1 / 2; }
-  .flow .b1 { grid-area: 2 / 2; }
-  .flow .kroma { grid-area: 3 / 2; }
-  .flow .b2 { grid-area: 4 / 2; }
-  .flow .check { grid-area: 5 / 2; }
-  .flow .b3 { grid-area: 6 / 2; }
-  .flow .db { grid-area: 7 / 1 / 8 / 3; }
-  .flow .a4 { grid-area: 8 / 1 / 9 / 3; }
-  .flow .ans { grid-area: 9 / 1 / 10 / 3; }
 }
 
 @media (max-width: 480px) {

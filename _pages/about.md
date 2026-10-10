@@ -19,23 +19,14 @@ description: >-
 <section id="about">
   <p><strong>I play with semantic search and database internals.</strong></p>
   <p>I am a researcher working on AI for scientific discovery. I hold an M.S. in Computer Science from <a href="https://case.edu">Case Western Reserve University</a>, advised by <a href="https://yinghwu.github.io">Dr. Yinghui Wu</a>, where I design algorithms and build a semantic data layer for LLMs: getting the right context to a model, from the right source, at a bounded cost. I approach LLM reasoning through the lens of databases, making retrieval trustworthy, context-aware, and cache-aware.</p>
-  <p>In practice that means five connected projects: a query engine for ontologies (<a href="https://github.com/lamng3/OntoDB">OntoDB</a>), a natural language interface to it (<a href="https://github.com/lamng3/hermes">Hermes</a>), query-driven validation of the ontologies it serves (<a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>), retrieval-grounded ontology matching (<a href="https://arxiv.org/abs/2507.14032">KROMA</a>), and long-horizon, memory-augmented agents that work under a cost budget, steered by a harness of small decision models (<a href="https://github.com/lamng3/moira">MOIRA</a>).</p>
-  <figure class="flow" aria-label="How the projects connect: a question flows through MOIRA and Hermes into OntoDB, ontologies flow through KROMA and OntoCheck into OntoDB, and OntoDB returns the answer.">
-    <span class="node end q">Question<small>from a scientist</small></span>
-    <span class="arrow a1" aria-hidden="true"></span>
-    <a class="node moira" href="https://github.com/lamng3/moira">MOIRA<small>plans, remembers</small></a>
-    <span class="arrow a2" aria-hidden="true"></span>
-    <a class="node hermes" href="https://github.com/lamng3/hermes">Hermes<small>writes SPARQL</small></a>
-    <span class="arrow a3" aria-hidden="true"></span>
-    <span class="node end ont">Ontologies<small>many sources</small></span>
-    <span class="arrow b1" aria-hidden="true"></span>
-    <a class="node kroma" href="https://arxiv.org/abs/2507.14032">KROMA<small>aligns them</small></a>
-    <span class="arrow b2" aria-hidden="true"></span>
-    <a class="node check" href="https://github.com/cwru-sdle/OntoCheck">OntoCheck<small>checks coverage</small></a>
-    <span class="arrow b3" aria-hidden="true"></span>
-    <a class="node db" href="https://github.com/lamng3/OntoDB">OntoDB<small>stores, runs</small></a>
-    <span class="arrow a4" aria-hidden="true"></span>
-    <span class="node end ans">Answer<small>kept for reuse</small></span>
+  <p>In practice that means a few connected threads. Query engines, in <a href="https://github.com/lamng3/OntoDB">OntoDB</a>, a database system for ontologies with SPARQL, B+ tree indexes, and ARIES recovery. Natural language interfaces to databases (NLIDB), in <a href="https://github.com/lamng3/hermes">Hermes</a>, a library that turns questions into SPARQL with swappable systems. Query validation, in <a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>, which assesses an ontology by running queries against it. Retrieval-grounded matching, in <a href="https://arxiv.org/abs/2507.14032">KROMA</a>, which retrieves context for an LLM to align ontologies. And long-horizon, memory-augmented agents for scientific discovery in cost-bounded settings, in <a href="https://github.com/lamng3/moira">MOIRA</a>, steered by a harness of small decision models.</p>
+  <figure class="stack" aria-label="Research stack">
+    <div class="layer goal"><span class="name">Goal</span><span class="role">Scientific discovery</span></div>
+    <div class="layer"><span class="name">Agents</span><span class="role"><a href="https://github.com/lamng3/moira">MOIRA</a>: memory-augmented, cost-bounded agents</span></div>
+    <div class="layer"><span class="name">Interface</span><span class="role"><a href="https://github.com/lamng3/hermes">Hermes</a>: natural-language questions to SPARQL</span></div>
+    <div class="layer"><span class="name">Trust</span><span class="role"><a href="https://github.com/cwru-sdle/OntoCheck">OntoCheck</a>: query-driven ontology validation</span></div>
+    <div class="layer"><span class="name">Integration</span><span class="role"><a href="https://arxiv.org/abs/2507.14032">KROMA</a>: retrieval-grounded ontology matching</span></div>
+    <div class="layer"><span class="name">Engine</span><span class="role"><a href="https://github.com/lamng3/OntoDB">OntoDB</a>: RDF storage, SPARQL, indexes, recovery</span></div>
   </figure>
   <p>Before this I trained competitive programming, reaching the top 1.26% in <a href="https://leetcode.com/u/triplethread/">LeetCode contests</a> with 1000+ problems solved, and I still find data structures and algorithms a useful lens for thinking about agentic memory.</p>
   <p>Reaching me is O(log log log n), practically a constant. Please feel free to reach out at lamng3.work [at] gmail [dot] com if you'd like to talk about any of the above.</p>
