@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Binary Search on the Answer: Two Values That Fill Every Gap"
-description: Minimize the Maximum Adjacent Element Difference (LeetCode 3357) lets you replace every missing entry with one of two values you get to choose. Fix a target difference D and the choice stops being a search, because the best pair is forced, and the whole problem becomes a monotone yes-or-no check you can binary search.
+title: "Binary Search on the Answer: Search D, Not x"
+description: Minimize the Maximum Adjacent Element Difference (LeetCode 3357). My first instinct was to binary search on the pair (x, y), which has no monotonicity. The answer D does. Once D is fixed, the right question about where x and y should live makes them forced, and the check is one pass.
 date: 2026-10-09
 author: Lam Nguyen
 categories: [Data Structures]
@@ -10,90 +10,132 @@ toc:
   sidebar: right
 ---
 
-[LeetCode 3357 — Minimize the Maximum Adjacent Element Difference](https://leetcode.com/problems/minimize-the-maximum-adjacent-element-difference/) gives you an array where some entries are missing, written as $$-1$$. You pick **one pair** of positive integers $$(x, y)$$, and every $$-1$$ becomes either $$x$$ or $$y$$ (your choice per position). Minimize the largest absolute difference between adjacent elements.
+[LeetCode 3357 — Minimize the Maximum Adjacent Element Difference](https://leetcode.com/problems/minimize-the-maximum-adjacent-element-difference/). Some entries of `nums` are missing and written as $$-1$$. You pick one pair of positive integers $$(x, y)$$, once, and replace every $$-1$$ with either $$x$$ or $$y$$. Minimize the largest absolute difference between adjacent elements.
 
-For example, $$[1, 2, -1, 10, 8]$$ has answer $$4$$: choose $$(6, 7)$$, fill the gap with $$6$$, and you get $$[1, 2, 6, 10, 8]$$, whose adjacent differences are $$1, 4, 4, 2$$.
+For $$[1, 2, -1, 10, 8]$$ the answer is $$4$$: fill the gap with $$6$$ to get $$[1, 2, 6, 10, 8]$$, whose gaps are $$1, 4, 4, 2$$.
 
-The search space looks awful: a pair of values up to $$10^9$$, plus a choice at every gap. The way out is the standard one for "minimize the maximum" problems, and the interesting part is what it buys us once we use it.
+This post follows how I actually got there, wrong turns included, because the wrong turns are where the useful questions came from.
 
-## Fix the answer, then ask yes or no
+## First instinct: search on x
 
-Let $$\text{can}(D)$$ mean: _some pair $$(x, y)$$ keeps every adjacent difference $$\le D$$._
+Two unknowns, values up to $$10^9$$. My first thought was some kind of (parallel) binary search on $$x$$ and $$y$$. Say $$x < y$$, since $$x = y$$ is just the one-value case.
 
-If a pair works for $$D$$, the same pair works for $$D + 1$$. So $$\text{can}$$ is **monotone**: false up to some threshold, true from there on. We want the threshold, so we binary search on $$D$$. This is the same trick as splitting an array to minimize the largest sum or shipping packages in the fewest days: stop optimizing, and start checking.
+But what is monotone here? If I guess $$x$$ and it turns out badly, that tells me nothing about whether a bigger or smaller $$x$$ is better, because it depends on the $$y$$ I haven't picked yet. The array is unordered, so there is no direction to move in.
 
-That reduces the problem to answering one question quickly: given $$D$$, does a good pair exist?
+The second idea was greedy: for each $$x$$, find the best filling using only $$x$$, mark which cells would be better off with something else, and then pick $$y$$ for those. That is a greedy step over a huge value range, with no reason to believe the best filling for $$x$$ alone stays best once $$y$$ exists. I parked it.
 
-## The bounds
+Both ideas search over the **choices**. The question that unblocked me was to search over the **answer** instead:
 
-The binary search needs a range.
+> If some pair $$(x, y)$$ keeps every adjacent gap $$\le D$$, does it also keep every gap $$\le D + 1$$?
 
-- **Lower bound.** Two known neighbors never change, so every known-known gap is a floor. Let
-  $$
-  \text{lo} = \max_i |\,\text{nums}[i] - \text{nums}[i-1]\,| \quad \text{over pairs where both entries are known.}
-  $$
-- **Upper bound.** Only known values _next to a $$-1$$_ ever interact with $$x$$ and $$y$$. Let $$m$$ and $$M$$ be the smallest and largest of them. At $$D = M - m$$, the single value $$x = M$$ is within $$D$$ of every such neighbor, so everything is feasible. Take $$\text{hi} = \max(\text{lo}, M - m)$$.
-
-If there are no neighbors at all (no $$-1$$, or the array is all $$-1$$), nothing depends on $$x$$ or $$y$$, and the answer is just $$\text{lo}$$.
-
-## For a fixed $$D$$, the pair is forced
-
-Here is the observation that makes the check cheap. We do not need to search over $$(x, y)$$ at all.
-
-Say $$x \le y$$. The smallest neighbor $$m$$ has to be within $$D$$ of something we place, and $$x$$ is the lower of the two, so make $$x$$ the one that serves $$m$$. Every other neighbor is $$\ge m$$. A choice $$x' \le m + D$$ covers neighbors up to $$x' + D \le m + 2D$$. The choice
+Yes, trivially, with the same pair. So define
 
 $$
-x = m + D
+\text{can}(D) = \text{"some pair } (x, y) \text{ keeps every adjacent gap} \le D\text{"}.
 $$
 
-covers $$[m, m + 2D]$$, which contains everything any smaller $$x'$$ could cover among values $$\ge m$$. So $$x = m + D$$ **dominates**.
+It is false up to some threshold and true after it, and the threshold is the answer. Binary search on $$D$$. The hard part moves from the search to the check.
 
-Symmetrically, the largest neighbor $$M$$ is served by $$y$$, and the best choice is
+One slip I made here, worth avoiding. I first wrote $$\text{can}(D)$$ as "the max gap **equals** $$D$$". That is not monotone, and I had to patch it with an argument about nudging $$x$$ or $$y$$ by $$\pm 1$$, which does not hold, because moving $$x$$ can break some other gap. With $$\le$$, no argument is needed.
+
+## How low and how high can D be?
+
+Look at adjacent pairs where both values are known. Nothing I choose can change them, so the answer is at least the **largest** of those gaps:
 
 $$
-y = \max(M - D, 1).
+\text{lo} = \max |\text{nums}[i] - \text{nums}[i-1]| \quad \text{over known-known pairs}.
 $$
 
-The clamp to $$1$$ is safe: if $$M - D < 1$$, then $$x$$ alone already covers every neighbor.
+(My second slip: I first wrote a min here. A min tells you nothing, since every fixed gap has to fit under $$D$$.)
 
-Pushing $$x$$ up and $$y$$ down also pulls them _toward_ each other, which is what the split case below needs, so the dominance holds there too. For a given $$D$$, there is exactly one pair worth testing.
+For the top, $$10^9$$ works, but there is a tighter bound once we know what $$x$$ and $$y$$ actually touch. That is the next question.
 
-## Checking one run of $$-1$$s
+## What does a -1 actually see?
 
-Split the array into maximal runs of consecutive $$-1$$s. Inside a run, two adjacent fills that are equal differ by $$0$$, so only the **known values on each end of the run** matter. Call them $$a$$ (left) and $$b$$ (right), and write "$$v$$ covers $$k$$" for $$|v - k| \le D$$.
+Take a maximal run of $$-1$$s between two known values:
 
-| situation | feasible when |
-| --- | --- |
-| One value, $$x$$ or $$y$$, covers both $$a$$ and $$b$$ | always: fill the whole run with it |
-| $$x$$ covers one end and $$y$$ covers the other, run length $$1$$ | never: one cell cannot be both |
-| the same split, run length $$\ge 2$$ | iff $$\lvert x - y \rvert \le D$$: write $$x \dots x\; y \dots y$$ and pay one jump from $$x$$ to $$y$$ |
-| run touches an edge of the array (only one neighbor $$a$$) | iff $$x$$ or $$y$$ covers $$a$$ |
+$$
+a \;\; \underbrace{-1 \; -1 \; \cdots \; -1}_{\text{run}} \;\; b
+$$
 
-A run longer than two never needs more than one switch, so these rows are the whole story. $$\text{can}(D)$$ is true exactly when every run passes.
+Inside the run, two equal fills differ by $$0$$. So the inside of a run costs nothing, and only the known values **next to** a $$-1$$ ever interact with $$x$$ and $$y$$. Every other known value can be ignored by the check.
 
-## Two small cases
+There is one exception inside a run. If the run starts with $$x$$ (to suit $$a$$) and ends with $$y$$ (to suit $$b$$), somewhere it switches, and that one step costs $$|x - y|$$. So $$|x - y| \le D$$ matters only for runs that switch.
 
-**$$[1, 2, -1, 10, 8]$$.** Known gaps give $$\text{lo} = 2$$. The only neighbors of the $$-1$$ are $$2$$ and $$10$$, so $$m = 2$$, $$M = 10$$.
+Call the smallest and largest known values next to a $$-1$$ by $$m$$ and $$M$$. At $$D = M - m$$, the single value $$M$$ is within $$D$$ of every such neighbor, so $$\text{hi} = \max(\text{lo}, M - m)$$ is always feasible. If there are no such neighbors at all (no $$-1$$, or the whole array is $$-1$$), the answer is just $$\text{lo}$$.
 
-- $$D = 3$$: $$x = 5$$, $$y = 7$$. The run has length $$1$$, $$a = 2$$, $$b = 10$$. $$x$$ covers $$2$$ but not $$10$$, and $$y$$ covers $$10$$ but not $$2$$. That is a split on a single cell, so it fails.
-- $$D = 4$$: $$x = y = 6$$ covers both ends. It passes.
+## Where should x live?
+
+Now fix $$D$$. We still have to choose $$x$$ and $$y$$, and my first attempt branched.
+
+I anchored on the **first** known value next to a $$-1$$, call it $$K_0$$. Something has to be within $$D$$ of it, so $$x$$ is either $$K_0 + D$$ or $$K_0 - D$$ (going to the extreme of the window reaches furthest). Then I walked the other neighbors: any $$K$$ that $$x$$ already covers is fine, and the first one it misses decides $$y$$, again as $$K + D$$ or $$K - D$$. Two options for $$x$$, two for $$y$$: four candidates, which I was about to try with a bitmask.
+
+The question that removes the branching:
+
+> Why the **first** neighbor? Is there a neighbor where one of the two choices is obviously better?
+
+Anchor on the **smallest** neighbor $$m$$ instead. Every other neighbor $$K$$ satisfies $$K \ge m$$. Compare the two choices for the value that covers $$m$$:
+
+- $$x = m - D$$ covers values in $$[m - 2D,\; m]$$. Among neighbors (all $$\ge m$$), that is only $$m$$ itself.
+- $$x = m + D$$ covers values in $$[m,\; m + 2D]$$. That includes $$m$$, and every neighbor up to $$m + 2D$$.
+
+The second set contains the first. So $$x = m - D$$ is never better, and
+
+$$
+x = m + D.
+$$
+
+Mirror it with the largest neighbor $$M$$, whose best cover reaches down as far as possible:
+
+$$
+y = \max(M - D,\; 1).
+$$
+
+The clamp only fires when $$M - D < 1$$, and then $$x = m + D$$ already covers everything up to $$M$$, so it changes nothing. Pushing $$x$$ up and $$y$$ down also brings them closer together, which only helps the $$|x - y| \le D$$ condition.
+
+So for each $$D$$ there is exactly **one** pair worth checking. No masks.
+
+## What does one run need?
+
+With $$x$$ and $$y$$ pinned, walk the runs. Say "$$v$$ covers $$k$$" when $$|v - k| \le D$$. For a run between $$a$$ and $$b$$:
+
+- **Can one value do both ends?** If $$x$$ covers both $$a$$ and $$b$$, or $$y$$ does, fill the whole run with it. Done.
+- **If not, is the run long enough to switch?** With length $$1$$ there is one cell, and it cannot be both $$x$$ and $$y$$. Infeasible.
+- **Length $$\ge 2$$:** write $$x \dots x \; y \dots y$$ (or the reverse). It works when one end is covered by $$x$$, the other by $$y$$, and $$|x - y| \le D$$. A longer run never needs a second switch.
+- **A run touching the edge of the array** has only one neighbor $$a$$, so it needs $$x$$ or $$y$$ to cover $$a$$.
+
+$$\text{can}(D)$$ is true when every run passes.
+
+## Checking it on two small arrays
+
+**$$[1, 2, -1, 10, 8]$$.** The fixed gaps give $$\text{lo} = 2$$. The neighbors of the $$-1$$ are $$2$$ and $$10$$, so $$m = 2$$ and $$M = 10$$.
+
+- $$D = 3$$: $$x = 5$$, $$y = 7$$. $$x$$ covers $$2$$ but not $$10$$, $$y$$ covers $$10$$ but not $$2$$, and the run has one cell. Fails.
+- $$D = 4$$: $$x = y = 6$$, which covers both ends. Passes.
 
 The answer is $$4$$.
 
-**$$[1, -1, -1, 10]$$.** Here $$m = 1$$, $$M = 10$$, and the run has length $$2$$.
+**$$[1, -1, -1, 10]$$.** Now the run has two cells, $$m = 1$$, $$M = 10$$.
 
-- $$D = 2$$: $$x = 3$$, $$y = 8$$. $$x$$ covers $$1$$ and $$y$$ covers $$10$$, but $$|x - y| = 5 > 2$$, so the jump in the middle is too big.
-- $$D = 3$$: $$x = 4$$, $$y = 7$$. Both ends are covered and $$|x - y| = 3 \le 3$$.
+- $$D = 2$$: $$x = 3$$ covers $$1$$, $$y = 8$$ covers $$10$$, but $$|x - y| = 5 > 2$$. Fails.
+- $$D = 3$$: $$x = 4$$, $$y = 7$$, and $$|x - y| = 3$$. Passes, with $$[1, 4, 7, 10]$$.
 
-The answer is $$3$$, achieved by $$[1, 4, 7, 10]$$.
+The answer is $$3$$.
 
 ## Complexity
 
-Each check scans the array once, in $$O(n)$$, and the binary search runs over a range of size at most $$V = 10^9$$, so about $$\log_2 V \approx 30$$ checks.
+Each check is one pass, $$O(n)$$. The binary search runs over at most $$10^9$$ values, about $$30$$ steps.
 
 $$
-O(n \log V) \text{ time}, \qquad O(1) \text{ extra space.}
+O(n \log V) \text{ time}, \qquad O(1) \text{ extra space}.
 $$
+
+## What to ask next time
+
+The two questions that did the work here carry over to other "minimize the maximum" problems:
+
+1. **Is the answer monotone, even if the choices are not?** If a solution for $$D$$ is also a solution for $$D + 1$$, search on $$D$$ and turn the problem into a yes-or-no check.
+2. **Once the answer is fixed, is some choice dominated?** Anchor on an extreme (the smallest or largest thing that must be covered) and compare the options. Often one of them covers everything the other does, and the search over choices disappears.
 
 ## Implementation
 
@@ -204,7 +246,7 @@ public:
 ```
 </details>
 
-A couple of notes on the code. `x = mn + D` and `y = max(mx - D, 1)` are the forced pair, computed fresh inside every `can(D)`. The scan finds each run by remembering where it started in `L` and processing it when the next entry is not $$-1$$ (or the array ends). And `ans` starts at `right`, which is always feasible, so the loop only has to look for something smaller.
+A couple of notes on the code. `mn` and `mx` are the $$m$$ and $$M$$ from above, and `x`, `y` inside `can` are the forced pair for that $$D$$. A run is found by remembering where it started in `L` and processing it once the next entry is not $$-1$$. Everything stays `int`: $$D \le 10^9$$ and $$m \le 10^9$$, so $$m + D \le 2 \cdot 10^9$$, still under `INT_MAX`.
 
 ## Practice
 
