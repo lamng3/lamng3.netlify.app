@@ -2,12 +2,12 @@
 layout: default
 permalink: /blog/
 title: Blog
-description: Study notes on algorithms, data structures, and the systems built on them, organized by topic.
+description: Study notes on algorithms, data structures, and the systems built on them, and where they turn up again in agentic memory.
 ---
 
 <header>
   <h1>Blog</h1>
-  <p class="lede">Study notes on algorithms, data structures, and the systems built on them. Each topic is one page, and each technique on it starts from a problem: the first idea, why it breaks, and the observation that fixes it.</p>
+  <p class="lede">Study notes on algorithms, data structures, and the systems built on them, and where they turn up again in agentic memory.</p>
 </header>
 
 {% for area in site.data.topics %}

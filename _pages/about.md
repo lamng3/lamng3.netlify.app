@@ -30,6 +30,7 @@ description: >-
     <li><span><strong>Microsoft</strong> · Software Engineer, <a href="https://www.microsoft.com/en-us/security/business/security-101/what-is-agentic-ai-security">Agentic Security</a></span><time>2025</time></li>
     <li><span><strong>Microsoft</strong> · Software Engineer Intern, <a href="https://www.microsoft.com/en-us/security/business/ai-machine-learning/microsoft-security-copilot">Security Copilot</a></span><time>2024</time></li>
     <li><span><strong>Amazon</strong> · Software Engineer Intern, <a href="https://developer.amazon.com/en-US/alexa">Alexa Voice AI</a></span><time>2023</time></li>
+    <li><span><strong>Microsoft</strong> · Software Engineer Intern, Azure Data Pipelines</span><time>2023</time></li>
     <li><span><strong>Microsoft</strong> · Software Engineer Intern, Azure Data Governance</span><time>2022</time></li>
   </ul>
 </section>
