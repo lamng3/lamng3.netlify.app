@@ -2,36 +2,32 @@
 layout: default
 permalink: /blog/
 title: Blog
-description: Notes on algorithms, data structures, and math, from my competitive programming years.
+description: Algorithms, data structures, and math, grouped by technique, from my competitive programming years.
 ---
 
 <header>
   <h1>Blog</h1>
-  <p class="lede">Notes on algorithms, data structures, and math from my competitive programming years. They are the tools I still reach for when thinking about retrieval and databases.</p>
+  <p class="lede">Algorithms, data structures, and math from my competitive programming years, grouped by technique. Each topic is one page, with a table of contents to move between techniques.</p>
 </header>
 
-{% assign pinned = site.posts | where: "pinned", true %}
-{% if pinned.size > 0 %}
-  <h3>Pinned</h3>
+<section id="pinned">
+  <h2>Pinned</h2>
   <ul class="post-list">
-    {% for post in pinned %}
-      <li>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %d, %Y" }}</time>
-      </li>
-    {% endfor %}
+    <li><a href="{{ '/blog/selected-leetcode-problems/' | relative_url }}">Selected LeetCode Problems</a></li>
+    <li><a href="{{ '/blog/databases/#persistence' | relative_url }}">Persistence: Keeping Old Versions Around</a></li>
   </ul>
-{% endif %}
-{% assign unpinned = site.posts | where_exp: "post", "post.pinned != true" %}
-{% assign by_year = unpinned | group_by_exp: "post", "post.date | date: '%Y'" %}
-{% for year in by_year %}
-  <h3>{{ year.name }}</h3>
-  <ul class="post-list">
-    {% for post in year.items %}
-      <li>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %d" }}</time>
-      </li>
+</section>
+
+{% for area in site.data.topics %}
+  <section>
+    <h2>{{ area.area }}</h2>
+    {% for topic in area.topics %}
+      <h3><a href="{{ '/blog/' | append: topic.slug | append: '/' | relative_url }}">{{ topic.title }}</a></h3>
+      <ul class="post-list">
+        {% for section in topic.sections %}
+          <li><a href="{{ '/blog/' | append: topic.slug | append: '/#' | append: section.id | relative_url }}">{{ section.title }}</a></li>
+        {% endfor %}
+      </ul>
     {% endfor %}
-  </ul>
+  </section>
 {% endfor %}

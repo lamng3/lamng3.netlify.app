@@ -1,0 +1,87 @@
+- area: Data Structures
+  topics:
+    - slug: range-queries
+      title: "Range Queries"
+      sections:
+        - id: segment-tree
+          title: "Segment Tree"
+        - id: segment-tree-walk
+          title: "Segment Tree Walk"
+        - id: fenwick-tree
+          title: "Fenwick Tree with Coordinate Compression"
+    - slug: heaps
+      title: "Heaps"
+      sections:
+        - id: priority-queues
+          title: "Priority Queues and Lazy Deletion"
+        - id: k-way-merge
+          title: "K-Way Merge"
+    - slug: data-structure-design
+      title: "Data Structure Design"
+      sections:
+        - id: name-the-query
+          title: "Name the Query First"
+        - id: static-precompute
+          title: "Static Precompute"
+- area: Graphs
+  topics:
+    - slug: graphs-and-trees
+      title: "Graphs and Trees"
+      sections:
+        - id: topological-order
+          title: "Topological Order, One Entry at a Time"
+        - id: meeting-vertex
+          title: "Counting on Trees: The Meeting Vertex"
+- area: Math
+  topics:
+    - slug: counting
+      title: "Counting"
+      sections:
+        - id: inclusion-exclusion
+          title: "Inclusion-Exclusion"
+        - id: mobius-function
+          title: "Möbius Function"
+        - id: stars-and-bars
+          title: "Stars and Bars"
+        - id: degrees-of-freedom
+          title: "Degrees of Freedom"
+        - id: digit-counting
+          title: "Digit Counting"
+- area: Strings
+  topics:
+    - slug: hashing
+      title: "Hashing"
+      sections:
+        - id: rolling-hash
+          title: "Rolling Hash"
+        - id: xor-hashing
+          title: "XOR Hashing"
+- area: Dynamic Programming
+  topics:
+    - slug: dynamic-programming
+      title: "Dynamic Programming"
+      sections:
+        - id: digit-dp
+          title: "Digit DP"
+        - id: range-dp
+          title: "Range DP"
+        - id: reachability-dp
+          title: "Reachability DP"
+        - id: maximum-subarray
+          title: "Maximum Subarray from a Range Update"
+- area: Searching
+  topics:
+    - slug: binary-search
+      title: "Binary Search on the Answer"
+      sections:
+        - id: search-d-not-x
+          title: "Search D, Not x"
+- area: Databases
+  topics:
+    - slug: databases
+      title: "Databases"
+      sections:
+        - id: persistence
+          title: "Persistence"
+        - id: compressed-sparse-row
+          title: "Compressed Sparse Row"

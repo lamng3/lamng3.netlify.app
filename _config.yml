@@ -23,6 +23,7 @@ kramdown:
 
 include:
   - _pages
+  - _redirects
 
 exclude:
   - Gemfile

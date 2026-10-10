@@ -1,22 +1,25 @@
 ---
 layout: post
-title: "Binary Search on the Answer: Search D, Not x"
-description: Minimize the Maximum Adjacent Element Difference (LeetCode 3357). My first instinct was to binary search on the pair (x, y), which has no monotonicity. The answer D does. Once D is fixed, the right question about where x and y should live makes them forced, and the check is one pass.
-date: 2026-10-09
+title: "Binary Search on the Answer"
+description: "When a problem asks to minimize the maximum (or maximize the minimum), the answer is often monotone even when the choices are not. Fix the answer, turn the problem into a yes-or-no check, and binary search. Reachability DP in Dynamic Programming starts the same way."
+permalink: /blog/binary-search/
+last_updated: 2026-10-09
 author: Lam Nguyen
-categories: [Data Structures]
-tags: [Binary Search, Binary Search on the Answer, Greedy, Dominance, Monotonicity, Arrays, LeetCode, Competitive Programming]
 toc:
   sidebar: right
 ---
+
+When a problem asks to minimize the maximum (or maximize the minimum), the answer is often monotone even when the choices are not. Fix the answer, turn the problem into a yes-or-no check, and binary search. Reachability DP in Dynamic Programming starts the same way.
+
+## Search D, Not x {#search-d-not-x}
 
 [LeetCode 3357 — Minimize the Maximum Adjacent Element Difference](https://leetcode.com/problems/minimize-the-maximum-adjacent-element-difference/). Some entries of `nums` are missing and written as $$-1$$. You pick one pair of positive integers $$(x, y)$$, once, and replace every $$-1$$ with either $$x$$ or $$y$$. Minimize the largest absolute difference between adjacent elements.
 
 For $$[1, 2, -1, 10, 8]$$ the answer is $$4$$: fill the gap with $$6$$ to get $$[1, 2, 6, 10, 8]$$, whose gaps are $$1, 4, 4, 2$$.
 
-This post follows how I actually got there, wrong turns included, because the wrong turns are where the useful questions came from.
+This section follows how I actually got there, wrong turns included, because the wrong turns are where the useful questions came from.
 
-## First instinct: search on x
+### First instinct: search on x
 
 Two unknowns, values up to $$10^9$$. My first thought was some kind of (parallel) binary search on $$x$$ and $$y$$. Say $$x < y$$, since $$x = y$$ is just the one-value case.
 
@@ -38,7 +41,7 @@ It is false up to some threshold and true after it, and the threshold is the ans
 
 One slip I made here, worth avoiding. I first wrote $$\text{can}(D)$$ as "the max gap **equals** $$D$$". That is not monotone, and I had to patch it with an argument about nudging $$x$$ or $$y$$ by $$\pm 1$$, which does not hold, because moving $$x$$ can break some other gap. With $$\le$$, no argument is needed.
 
-## How low and how high can D be?
+### How low and how high can D be?
 
 Look at adjacent pairs where both values are known. Nothing I choose can change them, so the answer is at least the **largest** of those gaps:
 
@@ -50,7 +53,7 @@ $$
 
 For the top, $$10^9$$ works, but there is a tighter bound once we know what $$x$$ and $$y$$ actually touch. That is the next question.
 
-## What does a -1 actually see?
+### What does a -1 actually see?
 
 Take a maximal run of $$-1$$s between two known values:
 
@@ -64,7 +67,7 @@ There is one exception inside a run. If the run starts with $$x$$ (to suit $$a$$
 
 Call the smallest and largest known values next to a $$-1$$ by $$m$$ and $$M$$. At $$D = M - m$$, the single value $$M$$ is within $$D$$ of every such neighbor, so $$\text{hi} = \max(\text{lo}, M - m)$$ is always feasible. If there are no such neighbors at all (no $$-1$$, or the whole array is $$-1$$), the answer is just $$\text{lo}$$.
 
-## Where should x live?
+### Where should x live?
 
 Now fix $$D$$. We still have to choose $$x$$ and $$y$$, and my first attempt branched.
 
@@ -95,7 +98,7 @@ The clamp only fires when $$M - D < 1$$, and then $$x = m + D$$ already covers e
 
 So for each $$D$$ there is exactly **one** pair worth checking. No masks.
 
-## What does one run need?
+### What does one run need?
 
 With $$x$$ and $$y$$ pinned, walk the runs. Say "$$v$$ covers $$k$$" when $$|v - k| \le D$$. For a run between $$a$$ and $$b$$:
 
@@ -106,7 +109,7 @@ With $$x$$ and $$y$$ pinned, walk the runs. Say "$$v$$ covers $$k$$" when $$|v -
 
 $$\text{can}(D)$$ is true when every run passes.
 
-## Checking it on two small arrays
+### Checking it on two small arrays
 
 **$$[1, 2, -1, 10, 8]$$.** The fixed gaps give $$\text{lo} = 2$$. The neighbors of the $$-1$$ are $$2$$ and $$10$$, so $$m = 2$$ and $$M = 10$$.
 
@@ -122,7 +125,7 @@ The answer is $$4$$.
 
 The answer is $$3$$.
 
-## Complexity
+### Complexity
 
 Each check is one pass, $$O(n)$$. The binary search runs over at most $$10^9$$ values, about $$30$$ steps.
 
@@ -130,14 +133,14 @@ $$
 O(n \log V) \text{ time}, \qquad O(1) \text{ extra space}.
 $$
 
-## What to ask next time
+### What to ask next time
 
 The two questions that did the work here carry over to other "minimize the maximum" problems:
 
 1. **Is the answer monotone, even if the choices are not?** If a solution for $$D$$ is also a solution for $$D + 1$$, search on $$D$$ and turn the problem into a yes-or-no check.
 2. **Once the answer is fixed, is some choice dominated?** Anchor on an extreme (the smallest or largest thing that must be covered) and compare the options. Often one of them covers everything the other does, and the search over choices disappears.
 
-## Implementation
+### Implementation
 
 <details markdown="1">
 <summary>C++ implementation</summary>
@@ -248,7 +251,7 @@ public:
 
 A couple of notes on the code. `mn` and `mx` are the $$m$$ and $$M$$ from above, and `x`, `y` inside `can` are the forced pair for that $$D$$. A run is found by remembering where it started in `L` and processing it once the next entry is not $$-1$$. Everything stays `int`: $$D \le 10^9$$ and $$m \le 10^9$$, so $$m + D \le 2 \cdot 10^9$$, still under `INT_MAX`.
 
-## Practice
+### Practice
 
 - [LeetCode 3357 — Minimize the Maximum Adjacent Element Difference](https://leetcode.com/problems/minimize-the-maximum-adjacent-element-difference/)
 - [LeetCode 410 — Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/)

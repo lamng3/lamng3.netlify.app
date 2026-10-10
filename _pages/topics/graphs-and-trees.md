@@ -1,20 +1,23 @@
 ---
 layout: post
-title: "Streaming Substitution: Topological Order, One Entry at a Time"
-description: Apply Substitutions (LeetCode 3481) is a four-line recursion if every definition is handed to you at once. Treat the keys as a dependency graph and keep Kahn's algorithm as a live invariant instead, and you get a substitutor that accepts definitions in any order, resolves forward references the moment they become resolvable, and can tell you exactly what is still blocked and why.
-date: 2026-10-07
+title: "Graphs and Trees"
+description: "Dependency graphs and trees. Kahn's algorithm kept as a live invariant resolves definitions as they arrive, and on a tree, counting by the vertex where three paths meet turns a triple loop into one pass."
+permalink: /blog/graphs-and-trees/
+last_updated: 2026-10-07
 author: Lam Nguyen
-categories: [Data Structures]
-tags: [Topological Sort, Kahn's Algorithm, DAG, Graph, Incremental Algorithms, String Parsing, Invariants, LeetCode, Competitive Programming]
 toc:
   sidebar: right
 ---
+
+Dependency graphs and trees. Kahn's algorithm kept as a live invariant resolves definitions as they arrive, and on a tree, counting by the vertex where three paths meet turns a triple loop into one pass.
+
+## Topological Order, One Entry at a Time {#topological-order}
 
 [LeetCode 3481 — Apply Substitutions](https://leetcode.com/problems/apply-substitutions/) hands you a mapping of keys to values, where a value may itself mention other keys as `%KEY%`, plus a text full of placeholders. Expand everything.
 
 The constraints are deliberately tiny — at most 10 keys, values of at most 8 characters, and an explicit promise of no cyclic dependencies. So the problem as stated is a few lines. But the *shape* of it — values that reference other values, resolvable only in dependency order — is the shape of a build system, a CI config loader, a shell's variable expansion, and every template engine. That shape is worth building a component for rather than an answer.
 
-## The one-shot answer, and what it assumes
+### The one-shot answer, and what it assumes
 
 If every definition is in hand before you start, expand recursively and memoize:
 
@@ -40,7 +43,7 @@ Three assumptions are buried in it, though:
 
 Drop the first assumption and the problem genuinely changes. Suppose definitions arrive one at a time, in arbitrary order — `C` may reference `B` before `B` exists — and you must answer questions in between. You no longer want a function. You want a **data structure** that holds a partially-resolved world and repairs itself on every insertion.
 
-## The dependency graph
+### The dependency graph
 
 Let $$K$$ be the set of keys. Write $$\text{raw}(k)$$ for the literal value of $$k$$ and
 
@@ -70,7 +73,7 @@ $$
 \operatorname{indeg}(k) = 0 \iff k \text{ is resolvable right now.}
 $$
 
-## Kahn's algorithm as a live invariant
+### Kahn's algorithm as a live invariant
 
 Textbook [Kahn's algorithm](https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm) is a batch procedure: compute every indegree, seed a queue with the zeros, then pop and decrement until the queue empties. Here the graph isn't known up front — it *grows*. The move is to stop thinking of Kahn's as a procedure you run and start thinking of its state as an **invariant you maintain**.
 
@@ -99,7 +102,7 @@ A dependency that is **already resolved contributes nothing**: no edge, no indeg
 
 And if nothing is pending, $$k$$ is resolvable immediately — so resolve it, which may unblock others.
 
-## The cascade
+### The cascade
 
 `resolve` is Kahn's main loop, seeded with a single node instead of every source:
 
@@ -132,7 +135,7 @@ Here is the trace on Example 2 with the definitions arriving in the most hostile
 
 The second insertion does the real work: `B` has no dependencies, so it resolves at once; that drops `indeg[C]` to zero, so `C` resolves in the same cascade and picks up `mp[B]` — even though `C` was defined before `B` existed. `substitute("%A%_%B%_%C%")` then returns `bce_ace_abcace`.
 
-## Keeping the placeholder
+### Keeping the placeholder
 
 The substitution pass makes one choice worth calling out. When it meets a key that isn't resolved, it writes the placeholder back out unchanged:
 
@@ -151,7 +154,7 @@ bool ready(const string& text) {
 
 Ask first and block until `ready`, or substitute optimistically now and re-run later. Had the unresolved case thrown, or expanded to the empty string, neither strategy would be available — the output would stop being re-feedable, and a missing definition would become indistinguishable from an empty one.
 
-## The check: what is stuck, and why
+### The check: what is stuck, and why
 
 Since `indeg[k] > 0` means "waiting on something," the blocked set is a one-liner:
 
@@ -202,7 +205,7 @@ bool find_cycle(const string& u, map<string,int>& color,
 
 Note the asymmetry: `resolve` pushes forward along `Adj` (dependency → dependent) because progress flows that way, while cycle detection walks backward along `D(k)` (dependent → dependency) because that is the direction a *reason* flows. Same relation, two orientations, each used where it reads naturally.
 
-## Where it breaks
+### Where it breaks
 
 Being honest about the edges of a structure is part of designing it. Four real limits:
 
@@ -217,11 +220,11 @@ That last one is worth internalizing: the structure is linear in the **output** 
 
 Fixing the first two means versioning the edges — stamp each adjacency entry with the generation of the key that created it and ignore entries from a stale generation — then re-running the cascade in *invalidate* mode before re-running it in resolve mode. That is a genuinely different structure, and it is where incremental build systems actually live.
 
-One more design note, on representation. `Adj` here is a `map<string, vector<string>>` — a node-keyed adjacency list with a `map` lookup per edge traversal. That is the right call *because* the structure is streaming: nodes appear mid-run, keys are strings rather than dense indices, and `Adj.erase(u)` reclaims a node's edges once they are spent. If the key set were known up front and dense, the same graph would be far better laid out as [Compressed Sparse Row]({% post_url 2026-09-08-compressed-sparse-row %}) — one contiguous array of neighbors plus one offset per node, which is both smaller and cache-friendly. But CSR needs the whole edge list before it can compute offsets, which is exactly the assumption a streaming structure gives up. The flexibility has a price, and it is worth knowing which one you are paying.
+One more design note, on representation. `Adj` here is a `map<string, vector<string>>` — a node-keyed adjacency list with a `map` lookup per edge traversal. That is the right call *because* the structure is streaming: nodes appear mid-run, keys are strings rather than dense indices, and `Adj.erase(u)` reclaims a node's edges once they are spent. If the key set were known up front and dense, the same graph would be far better laid out as [Compressed Sparse Row](/blog/databases/#compressed-sparse-row) — one contiguous array of neighbors plus one offset per node, which is both smaller and cache-friendly. But CSR needs the whole edge list before it can compute offsets, which is exactly the assumption a streaming structure gives up. The flexibility has a price, and it is worth knowing which one you are paying.
 
 > **The pattern worth naming.** Converting a batch graph algorithm into an incrementally maintained one is a move that generalizes well beyond substitution. The recipe: identify the algorithm's working state (here, `indeg` plus the queue), promote it to an invariant of the data structure, then show that each mutation restores the invariant in time proportional to the damage done rather than to the whole graph. Incremental topological order is the classic instance — it is what `make` and every modern build system compute when a file changes, what a spreadsheet does when you edit a cell that other formulas reference, and what a dataflow framework does to schedule operators.
 
-## Implementation
+### Implementation
 
 The full structure. `get_keys` collects the dependencies of a value by toggling on `%`; `fill_value` does one substitution pass, keeping unresolved placeholders intact; `add` maintains I1 and I2; `resolve` runs the cascade.
 
@@ -352,11 +355,11 @@ public:
 
 Against the judge, `applySubstitutions` just feeds the pairs in and asks for the text — the streaming machinery is invisible, and the no-cycle guarantee means `stuck()` is always empty. The structure earns its keep the moment definitions stop arriving all at once.
 
-## The takeaway
+### The takeaway
 
 The problem says "apply substitutions." The structure underneath says **topological order**, and once you see that, the interesting question stops being "what is the answer" and becomes "what state do I keep between insertions." Three choices did the work here: edges oriented dependency → dependent so progress flows forward; indegree counting only *pending* dependencies so it stays meaningful mid-stream; and unresolved placeholders preserved verbatim so partial output stays re-feedable. None of them are needed to pass the judge. All of them are what separates an answer from a component.
 
-## Practice
+### Practice
 
 - [LeetCode 3481 — Apply Substitutions](https://leetcode.com/problems/apply-substitutions/)
 - [LeetCode 207 — Course Schedule](https://leetcode.com/problems/course-schedule/)
@@ -364,3 +367,217 @@ The problem says "apply substitutions." The structure underneath says **topologi
 - [LeetCode 269 — Alien Dictionary](https://leetcode.com/problems/alien-dictionary/)
 - [LeetCode 1136 — Parallel Courses](https://leetcode.com/problems/parallel-courses/)
 - [LeetCode 1096 — Brace Expansion II](https://leetcode.com/problems/brace-expansion-ii/)
+
+## Counting on Trees: The Meeting Vertex {#meeting-vertex}
+
+[Codeforces 2241E](https://codeforces.com/contest/2241/problem/E) gives a tree on $$n$$ vertices with a value $$a_x$$ on each vertex. Write $$p(x, y)$$ for the product of the values along the simple path from $$x$$ to $$y$$. Count the unordered triplets $$\{u, v, w\}$$ for which
+
+$$
+p(u, v)\cdot p(v, w)\cdot p(w, u)
+$$
+
+is a perfect square. The product ranges over paths, so it looks like it depends on the whole triangle; it does not. It depends on one vertex.
+
+### The three paths share exactly one vertex
+
+Fix a triplet $$\{u, v, w\}$$ and look at how many of the three paths $$P(u,v)$$, $$P(v,w)$$, $$P(w,u)$$ each vertex lies on.
+
+> **Lemma.** There is exactly one vertex $$c$$ that lies on all three paths, and every other vertex lies on $$0$$ or $$2$$ of them.
+
+**A vertex on all three exists.** If one of the triplet, say $$w$$, already lies on $$P(u,v)$$, take $$c = w$$: both $$P(w,u)$$ and $$P(w,v)$$ pass through $$w$$, and $$w \in P(u,v)$$ by assumption. Otherwise walk from $$w$$ toward $$P(u,v)$$; since the graph is a tree there is a unique first vertex $$c$$ where the walk meets that path. Every route from $$w$$ into $$P(u,v)$$ goes through $$c$$, so $$P(w,u)$$ and $$P(w,v)$$ both contain $$c$$, and $$c \in P(u,v)$$ by construction.
+
+**It is unique.** Suppose $$x$$ lies on all three paths. From $$x \in P(w,u)$$ and $$x \in P(u,v)$$, the route from $$w$$ to $$x$$ enters $$P(u,v)$$ at $$x$$. But the first entry point from $$w$$ into $$P(u,v)$$ is $$c$$, so $$x = c$$.
+
+**Everyone else is on $$0$$ or $$2$$.** Take $$x \ne c$$ and delete it; the tree breaks into components. If $$u, v, w$$ all land in one component, no pairwise path uses $$x$$, so $$x$$ is on $$0$$ paths. If they split across exactly two components, exactly two of the three pairs are separated by $$x$$, so $$x$$ is on $$2$$. If they split across three components, $$x$$ would separate all three pairs and hence lie on all three paths — making $$x$$ the unique common vertex, contradicting $$x \ne c$$. $$\blacksquare$$
+
+That vertex $$c$$ is the Steiner point of the triplet.
+
+### An LCA restatement: two of the three pairwise LCAs coincide
+
+The $$O(n)$$ solution never computes an LCA — it deletes $$c$$ and counts components — but the meeting vertex has a clean rooted-tree description worth keeping in your pocket.
+
+Root the tree anywhere. The highest vertex on a path $$P(x, y)$$ is $$\operatorname{lca}(x, y)$$, so the three pairwise LCAs are the topmost points of the three paths. Let $$L = \operatorname{lca}(u, v, w)$$ be the shallowest common ancestor of all three. Two cases:
+
+- The three vertices descend into three different child-subtrees of $$L$$ (or one of them _is_ $$L$$). Then every pairwise path climbs all the way to $$L$$, so $$\operatorname{lca}(u,v) = \operatorname{lca}(v,w) = \operatorname{lca}(w,u) = L$$, and the meeting vertex is $$c = L$$.
+- Otherwise two of them, say $$u$$ and $$v$$, share a child-subtree of $$L$$ while $$w$$ does not. Then $$\operatorname{lca}(u, v)$$ sits strictly below $$L$$ and equals the meeting vertex $$c$$, while $$\operatorname{lca}(v, w) = \operatorname{lca}(w, u) = L$$.
+
+Either way, **at least two of the three pairwise LCAs are equal, and the deepest of them is the meeting vertex $$c$$.** This is the same $$c$$ as before, seen from the root instead of by deletion.
+
+### Why only $$a_c$$ matters
+
+In the product $$p(u,v)\,p(v,w)\,p(w,u)$$, each vertex $$x$$ contributes $$a_x$$ raised to the number of paths it lies on. Writing $$e_x$$ for that exponent, the lemma says $$e_x \in \{0, 2\}$$ for every $$x \ne c$$ and $$e_c = 3$$:
+
+$$
+p(u,v)\,p(v,w)\,p(w,u) = a_c^{3} \prod_{x \ne c} a_x^{e_x}.
+$$
+
+Every exponent on the right is even except $$e_c = 3$$, and $$a_c^3 = a_c^2 \cdot a_c$$, so the whole thing is $$a_c$$ times a perfect square. It is a perfect square **iff $$a_c$$ is a perfect square**. The triangle of paths was a distraction; the condition lives entirely at the meeting vertex.
+
+### Counting triplets by their meeting vertex
+
+Every triplet has exactly one meeting vertex, so we can bucket triplets by it without any double counting:
+
+$$
+\text{answer} = \sum_{\substack{x \,:\, a_x \text{ is a perfect square}}} \bigl(\text{triplets whose meeting vertex is } x\bigr).
+$$
+
+Delete $$x$$ and let the resulting components have sizes $$s_1, s_2, \dots, s_d$$. A triplet meets at $$x$$ in one of two ways:
+
+- **$$x$$ is one of the three chosen vertices.** The other two must sit in _different_ components (otherwise the path between them avoids $$x$$). Count: $$\sum_{i<j} s_i s_j$$.
+- **$$x$$ is not chosen.** All three vertices must sit in _different_ components, so that $$x$$ separates every pair. Count: $$\sum_{i<j<\ell} s_i s_j s_\ell$$.
+
+Both sums are **elementary symmetric polynomials** of the component sizes: $$e_2 = \sum_{i<j} s_i s_j$$ and $$e_3 = \sum_{i<j<\ell} s_i s_j s_\ell$$. The contribution of $$x$$ is $$e_2 + e_3$$.
+
+### Elementary symmetric sums, computed online
+
+Evaluating $$e_2$$ and $$e_3$$ term by term is $$O(d^2)$$ and $$O(d^3)$$. A single left-to-right scan gets every $$e_k$$ at once in $$O(d)$$.
+
+Keep $$p_k$$ equal to $$e_k$$ of the prefix seen so far. When a new size $$s$$ arrives, a $$k$$-subset of the extended prefix either omits $$s$$ (already counted in $$e_k$$) or includes $$s$$ alongside a $$(k-1)$$-subset of what came before:
+
+$$
+e_k \mathrel{+}= s \cdot e_{k-1}.
+$$
+
+Apply this from the largest $$k$$ downward so each update reads the _old_ lower-order values:
+
+```cpp
+ll p1 = 0; // e1 = sum s_i
+ll p2 = 0; // e2 = sum_{i<j} s_i s_j
+ll p3 = 0; // e3 = sum_{i<j<k} s_i s_j s_k
+
+for (ll s : branches) {
+    p3 += s * p2;  // (k-1)=2 subsets before, plus s
+    p2 += s * p1;  // (k-1)=1 subsets before, plus s
+    p1 += s;       // s joins the pool
+}
+```
+
+The generating-function view makes the invariant obvious: the scan multiplies in one factor at a time of
+
+$$
+\prod_{i=1}^{d} (1 + s_i\, t) = \sum_{k \ge 0} e_k\, t^k,
+$$
+
+and each line is in-place polynomial multiplication by $$(1 + s\,t)$$, updating coefficients top-down so the low coefficients used on the right are still the previous ones. For an arbitrary cap $$K$$ it generalizes to a knapsack-style loop:
+
+```cpp
+vector<ll> dp(K + 1, 0);
+dp[0] = 1;
+for (ll s : branches)
+    for (int k = K; k >= 1; k--)
+        dp[k] += dp[k - 1] * s;   // dp[k] = e_k
+```
+
+That is $$O(dK)$$, and the top-down inner loop is the standard trick that stops a single element from being used twice. Here $$K = 3$$ suffices, so the three-line version is enough.
+
+### Component sizes in one rooting
+
+The last piece is the component sizes after deleting $$x$$. Root the tree anywhere and compute subtree sizes $$\text{sub}[\cdot]$$ with one DFS. Deleting $$x$$ produces one component per child (the child's subtree, size $$\text{sub}[\text{child}]$$) plus, unless $$x$$ is the root, the everything-else component of size $$n - \text{sub}[x]$$. Feed those sizes into the scan.
+
+Every step — the DFS, and one linear scan of each vertex's incident branches — is linear, so the whole solution is $$O(n)$$.
+
+<details markdown="1">
+<summary>C++ implementation</summary>
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+using pii = pair<int, int>;
+
+#define REP(i, n) for (int i = 0; i < (n); i++)
+#define FOR(i, a, b) for (int i = (a); i <= (b); i++)
+#define FORD(i, a, b) for (int i = (a); i >= (b); i--)
+#define RFOR(i, n) for (int i = (n) - 1; i >= 0; i--)
+
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)((x).size())
+
+#define fi first
+#define se second
+#define pb push_back
+
+const int INF = 1e9+7;
+const int MOD = 1e9+7;
+
+const int MAXN = 2e5+5;
+
+int A[MAXN];
+vi Adj[MAXN];
+int sub[MAXN];
+int parent[MAXN];
+
+int dfs(int u, int p) {
+    sub[u] = 1;
+    parent[u] = p;
+    for (int v : Adj[u]) {
+        if (v == p) continue;
+        sub[u] += dfs(v, u);
+    }
+    return sub[u];
+}
+
+void solve() {
+    int n; cin >> n;
+
+    REP(i,n) cin >> A[i];
+
+    REP(i,n) Adj[i].clear();
+    REP(i,n-1) {
+        int u, v; cin >> u >> v;
+        u--; v--;
+        Adj[u].pb(v);
+        Adj[v].pb(u);
+    }
+
+    dfs(0,-1);
+
+    ll ans = 0;
+    REP(u,n) {
+        int x = sqrt(A[u]);
+        if (x * x != A[u]) continue;
+        // component sizes when u is removed from the tree
+        vector<ll> branches;
+        for (int v : Adj[u]) {
+            if (v == parent[u]) continue;
+            branches.pb(sub[v]);
+        }
+        if (u != 0) branches.pb(n - sub[u]);
+        // p2 = pairs (u chosen); p3 = triples (u not chosen)
+        ll pref = 0, p2 = 0, p3 = 0;
+        for (auto& b : branches) {
+            p3 += b * p2;
+            p2 += b * pref;
+            pref += b;
+        }
+        ans += p2 + p3;
+    }
+    cout << ans << '\n';
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int tt = 1;
+    cin >> tt;
+    while (tt--) solve();
+    return 0;
+}
+```
+
+</details>
+
+One implementation note: `int x = sqrt(A[u])` can land one off from floating error, so re-check `x*x == A[u]` (and, to be safe on the boundary, you may test `x+1` too). Everything is 64-bit for the products — with $$n$$ up to $$2\cdot10^5$$, a single vertex's $$e_3$$ already overflows 32-bit.
+
+### Docs worth reading
+
+- [Codeforces 2241E editorial](https://codeforces.com/blog/entry/154698) — the meeting-vertex proof in full.
+
+### Practice
+
+- [Codeforces 2241E](https://codeforces.com/contest/2241/problem/E)
+- [Codeforces 161D — Distance in Tree](https://codeforces.com/problemset/problem/161/D)
+- [LeetCode 3067 — Count Pairs of Connectable Servers in a Weighted Tree Network](https://leetcode.com/problems/count-pairs-of-connectable-servers-in-a-weighted-tree-network/)

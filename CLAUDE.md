@@ -5,25 +5,32 @@ Lam Nguyen's site, hosted on Netlify. A one-page profile plus a blog. There is n
 ## Pages
 
 - `_pages/about.md` is the homepage (`permalink: /`).
-- `_pages/blog.md` is a reverse-chronological list of post titles and dates. No category chips and no month sidebar.
-- Posts use `layout: post`. The layout shows the title and the date.
+- `_pages/blog.md` is the blog index: a Pinned list, then topics grouped by area (Data Structures, Graphs, Math, Strings, Dynamic Programming, Searching, Databases). It reads `_data/topics.yml`.
+- `_pages/leetcode.md` is Selected LeetCode Problems. Each row's topic links into a topic page.
+- Topic pages use `layout: post`. With no `date`, the layout shows "Updated" and `last_updated`.
 
-## Blog posts (`_posts/`)
+## Topic pages (`_pages/topics/`)
 
-Write for readers who like math: derivation-first, clearly motivated, and readable.
+The blog is grouped by technique, like cp-algorithms. One page per topic, at `/blog/<slug>/`. There are no dated posts.
+
+Write for readers who like math: derivation-first, clearly motivated, and readable. Follow the thought process: the first instinct, why it fails, and the question that unblocks it.
 
 ```yaml
 ---
 layout: post
-title: "Some Title"
-description: One or two sentences summarizing the post.
-date: YYYY-MM-DD
+title: "Topic Name"
+description: "One or two sentences about the topic."
+permalink: /blog/<slug>/
+last_updated: YYYY-MM-DD
 author: Lam Nguyen
-categories: [Data Structures]
-tags: [Heap, LeetCode]
+toc:
+  sidebar: right
 ---
 ```
 
-- Do not put `: ` (colon followed by a space) in an unquoted YAML value. Quote the value or reword it. An unquoted colon makes the post title blank and the page 404.
-- `date:` is the creation date. It drives the filename and the blog order. Do not change it when editing a published post.
-- Keep new posts in the existing categories: Segment Trees, Dynamic Programming, Combinatorics, Data Structures, Hashing, Number Theory, Trees & Graphs, Problem Sets.
+- Each technique is one `## Title {#id}` section. Its subsections are `###`, so the table of contents lists techniques and their parts.
+- The `{#id}` is a public link target. Do not rename it. `_redirects` and `_pages/leetcode.md` point at these ids.
+- To add a technique: add a section to the topic page, bump `last_updated`, and add `{id, title}` under that topic in `_data/topics.yml`. A new topic needs a new page and a new entry in `_data/topics.yml`.
+- Link between techniques with `/blog/<slug>/#<id>`, or `#<id>` within the same page.
+- Quote `title` and `description`. A `: ` inside an unquoted YAML value breaks the page.
+- `_redirects` maps the old dated post URLs (`/blog/2026/<slug>/`) to their sections. Keep it.
