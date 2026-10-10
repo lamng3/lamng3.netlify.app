@@ -469,6 +469,36 @@ footer p {
   padding: 0;
 }
 
+/* topic list: the table of contents' look, collapsible */
+.topic-nav summary {
+  cursor: pointer;
+}
+
+.topic-nav[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.post-toc li.toc-area {
+  margin-top: 0.6rem;
+  color: var(--muted);
+}
+
+details.topic {
+  margin: 0 0 0.5rem;
+}
+
+details.topic summary {
+  cursor: pointer;
+}
+
+details.topic .post-list {
+  margin: 0.5rem 0 1rem;
+}
+
+p.topic {
+  margin: 0 0 0.5rem;
+}
+
 /* an anchor jump shouldn't land the heading flush against the top */
 article.post h2[id],
 article.post h3[id] {
@@ -489,5 +519,17 @@ article.post h3[id] {
     padding: 0 0 0 1rem;
     border: 0;
     border-left: 1px solid var(--rule);
+  }
+  .post-toc.post-toc--left {
+    position: fixed;
+    top: 2.5rem;
+    right: calc(50% + 360px + 2rem);
+    width: 184px;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    margin: 0;
+    padding: 0 1rem 0 0;
+    border: 0;
+    border-right: 1px solid var(--rule);
   }
 }

@@ -12,6 +12,33 @@ layout: default
       {%- endif -%}
     </p>
   </header>
+  {% if page.url contains '/blog/' %}
+    <details class="post-toc post-toc--left topic-nav">
+      <summary class="toc-title">Topics</summary>
+      <ol>
+        {% for area in site.data.topics %}
+          <li class="toc-top toc-area">{{ area.area }}</li>
+          {% for topic in area.topics %}
+            {% assign topic_url = '/blog/' | append: topic.slug | append: '/' %}
+            <li class="toc-sub">
+              <a
+                href="{{ topic_url | relative_url }}"
+                {% if page.url == topic_url %}
+                  class="is-current" aria-current="page"
+                {% endif %}
+                >{{ topic.title }}</a
+              >
+            </li>
+          {% endfor %}
+        {% endfor %}
+      </ol>
+    </details>
+    <script>
+      if (window.matchMedia('(min-width: 1200px)').matches) {
+        document.querySelector('.topic-nav').open = true;
+      }
+    </script>
+  {% endif %}
   {% if page.toc %}
     <nav
       class="post-toc post-toc--{{ page.toc.sidebar | default: 'right' }}"

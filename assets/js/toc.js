@@ -4,7 +4,7 @@
    rendered along with the rest of the page. Without JS the <nav> stays
    hidden, which is why the markup ships empty. */
 (function () {
-  var nav = document.querySelector('.post-toc');
+  var nav = document.querySelector('.post-toc:not(.topic-nav)');
   var article = document.querySelector('article.post');
   if (!nav || !article) return;
 

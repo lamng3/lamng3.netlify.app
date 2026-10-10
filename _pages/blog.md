@@ -2,32 +2,31 @@
 layout: default
 permalink: /blog/
 title: Blog
-description: Algorithms, data structures, and math, grouped by technique, from my competitive programming years.
+description: Study notes on algorithms, data structures, and the systems built on them, organized by topic.
 ---
 
 <header>
   <h1>Blog</h1>
-  <p class="lede">Algorithms, data structures, and math from my competitive programming years, grouped by technique. Each topic is one page, with a table of contents to move between techniques.</p>
+  <p class="lede">Study notes on algorithms, data structures, and the systems built on them. Each topic is one page, and each technique on it starts from a problem: the first idea, why it breaks, and the observation that fixes it.</p>
 </header>
-
-<section id="pinned">
-  <h2>Pinned</h2>
-  <ul class="post-list">
-    <li><a href="{{ '/blog/selected-leetcode-problems/' | relative_url }}">Selected LeetCode Problems</a></li>
-    <li><a href="{{ '/blog/databases/#persistence' | relative_url }}">Persistence: Keeping Old Versions Around</a></li>
-  </ul>
-</section>
 
 {% for area in site.data.topics %}
   <section>
     <h2>{{ area.area }}</h2>
     {% for topic in area.topics %}
-      <h3><a href="{{ '/blog/' | append: topic.slug | append: '/' | relative_url }}">{{ topic.title }}</a></h3>
-      <ul class="post-list">
-        {% for section in topic.sections %}
-          <li><a href="{{ '/blog/' | append: topic.slug | append: '/#' | append: section.id | relative_url }}">{{ section.title }}</a></li>
-        {% endfor %}
-      </ul>
+      {% assign topic_url = '/blog/' | append: topic.slug | append: '/' | relative_url %}
+      {% if topic.sections.size > 0 %}
+        <details class="topic">
+          <summary><a href="{{ topic_url }}">{{ topic.title }}</a></summary>
+          <ul class="post-list">
+            {% for section in topic.sections %}
+              <li><a href="{{ topic_url | append: '#' | append: section.id }}">{{ section.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </details>
+      {% else %}
+        <p class="topic"><a href="{{ topic_url }}">{{ topic.title }}</a></p>
+      {% endif %}
     {% endfor %}
   </section>
 {% endfor %}
